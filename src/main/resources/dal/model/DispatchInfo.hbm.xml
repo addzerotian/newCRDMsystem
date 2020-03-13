@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!--   This mapping demonstrates content-based discrimination for the  table-per-hierarchy mapping strategy, using a formula  discriminator.-->
+
+<hibernate-mapping package="dal.model">
+
+    <class name="dal.model.DispatchInfo" table="dispatchinfo">
+
+        <id name="did" column="DID">
+            <generator class="native"/>
+        </id>
+        <property name="sid" column="SID"/>
+        <property name="cid" column="CID"/>
+        <property name="startTime" column="START_TIME"/>
+        <property name="dispatchTime" column="DISPATCH_TIME"/>
+        <property name="endTime" column="END_TIME"/>
+        <property name="waitMinutes" column="WAIT_MINUTES"/>
+        <property name="status" column="STATUS"/>
+        <property name="star" column="STAR"/>
+        <property name="customerComment" column="CUSTOMER_COMMENT"/>
+        <property name="checkTime" column="CHECK_TIME"/>
+        <property name="checkPhoto" column="CHECK_PHOTO"/>
+        <property name="checkLocation" column="CHECK_LOCATION"/>
+    </class>
+
+</hibernate-mapping>
+

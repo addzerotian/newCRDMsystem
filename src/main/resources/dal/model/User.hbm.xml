@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!--   This mapping demonstrates content-based discrimination for the  table-per-hierarchy mapping strategy, using a formula  discriminator.-->
+
+<hibernate-mapping package="dal.model">
+
+    <class name="dal.model.User" table="user">
+
+        <id name="uid" column="UID"/>
+        <property name="password" column="PASSWORD"/>
+        <property name="name" column="NAME"/>
+        <property name="birth" column="BIRTH"/>
+        <property name="telephone" column="TELEPHONE"/>
+        <property name="email" column="EMAIL"/>
+        <property name="avatar" column="AVATAR"/>
+        <joined-subclass name="dal.model.Admin" table="admin">
+            <key column="UID"/>
+            <property name="aid" column="AID"/>
+            <property name="authority" column="AUTHORITY"/>
+        </joined-subclass>
+        <joined-subclass name="dal.model.Customer" table="customer">
+            <key column="UID"/>
+            <property name="cid" column="CID"/>
+            <property name="totalRequestTimes" column="TOTAL_REQUEST_TIMES"/>
+        </joined-subclass>
+        <joined-subclass name="dal.model.Staff" table="staff">
+            <key column="UID"/>
+            <property name="sid" column="SID"/>
+            <property name="dutyTotalTimes" column="DUTY_TOTAL_TIMES"/>
+            <property name="dutyTotalHours" column="DUTY_TOTAL_HOURS"/>
+            <property name="gradeTotal" column="GRADE_TOTAL"/>
+            <property name="dutyMonthTimes" column="DUTY_MONTH_TIMES"/>
+            <property name="dutyMonthHours" column="DUTY_MONTH_HOURS"/>
+            <property name="gradeMonth" column="GRADE_MONTH"/>
+            <property name="absenceTotal" column="ABSENCE_TOTAL"/>
+            <property name="absenceMonth" column="ABSENCE_MONTH"/>
+        </joined-subclass>
+    </class>
+
+</hibernate-mapping>
+
