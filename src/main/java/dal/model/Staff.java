@@ -11,8 +11,8 @@ public class Staff extends User {
     private int absenceTotal;
     private int absenceMonth;
 
-    public Staff(String uid, String password, String sid) {
-        super(uid, password);
+    public Staff(String sid, String password) {
+        super(password);
         this.sid = sid;
     }
 

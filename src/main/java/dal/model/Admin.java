@@ -4,8 +4,8 @@ public class Admin extends User {
     private String aid;
     private int authority;
 
-    public Admin(String uid, String password, String aid) {
-        super(uid, password);
+    public Admin(String aid, String password) {
+        super(password);
         this.aid = aid;
     }
 

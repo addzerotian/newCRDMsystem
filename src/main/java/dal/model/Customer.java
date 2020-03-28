@@ -4,9 +4,10 @@ public class Customer extends User {
     private String cid;
     private int totalRequestTimes;
 
-    public Customer(String uid, String password, String cid) {
-        super(uid, password);
+    public Customer(String cid, String password) {
+        super(password);
         this.cid = cid;
+        totalRequestTimes = 0;
     }
 
     public Customer() {

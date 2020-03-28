@@ -33,7 +33,7 @@ public class ModelDaoImpl implements ModelDao {
     }
 
     @Override
-    public User getUser(String uid) {
+    public User getUser(long uid) {
         Session session = hiberSession.createSession();
         CriteriaQuery<User> userQuery = session.getCriteriaBuilder().createQuery(User.class);
         Root<User> userRoot = userQuery.from(User.class);
@@ -47,21 +47,6 @@ public class ModelDaoImpl implements ModelDao {
             session.close();
         }
         return user;
-    }
-
-    @Override
-    public void addUser(User user) {
-        Session session = hiberSession.createSession();
-        Transaction transaction = session.beginTransaction();
-        try {
-            session.save(user);
-            transaction.commit();
-        } catch (HibernateException e) {
-            if (transaction != null) transaction.rollback();
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
     }
 
     @Override

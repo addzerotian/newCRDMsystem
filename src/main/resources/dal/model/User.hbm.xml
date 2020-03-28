@@ -9,7 +9,9 @@
 
     <class name="dal.model.User" table="user">
 
-        <id name="uid" column="UID"/>
+        <id name="uid" column="UID">
+            <generator class="identity"/>
+        </id>
         <property name="password" column="PASSWORD"/>
         <property name="name" column="NAME"/>
         <property name="birth" column="BIRTH"/>

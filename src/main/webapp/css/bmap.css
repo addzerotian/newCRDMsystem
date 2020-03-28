@@ -1,0 +1,13 @@
+#map_canvas {
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+#map_canvas img {
+     max-width: none;
+ }
+
+#map_canvas label {
+    max-width: none;
+}

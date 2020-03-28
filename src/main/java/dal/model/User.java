@@ -3,7 +3,7 @@ package dal.model;
 import java.util.Date;
 
 public class User {
-    private String uid;
+    private long uid;
     private String password;
     private String name;
     private Date birth;
@@ -11,20 +11,11 @@ public class User {
     private String email;
     private byte[] avatar;
 
-    public User(String uid, String password) {
-        this.uid = uid;
+    public User(String password) {
         this.password = password;
     }
 
     public User() {
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
     }
 
     public String getPassword() {
@@ -73,5 +64,13 @@ public class User {
 
     public void setAvatar(byte[] avatar) {
         this.avatar = avatar;
+    }
+
+    public long getUid() {
+        return uid;
+    }
+
+    public void setUid(long uid) {
+        this.uid = uid;
     }
 }

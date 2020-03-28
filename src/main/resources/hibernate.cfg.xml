@@ -5,7 +5,7 @@
 <hibernate-configuration>
   <session-factory>
     <property name="connection.url">
-      jdbc:mysql://47.113.83.167:3306/crdmsystem?useUnicode=true&amp;characterEncoding=UTF-8
+      jdbc:mysql://localhost:3306/crdmsystem?useUnicode=true&amp;characterEncoding=UTF-8
     </property>
     <property name="connection.driver_class">
       com.mysql.jdbc.Driver

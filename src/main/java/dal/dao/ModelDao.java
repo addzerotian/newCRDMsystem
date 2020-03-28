@@ -7,8 +7,7 @@ public interface ModelDao {
 
     //User表数据库操作
     List<User> getAllUsers();
-    User getUser(String uid);
-    void addUser(User user);
+    User getUser(long uid);
     void updateUser(User user);
     void deleteUser(User user);
 

@@ -9,12 +9,6 @@ public class HiberSessionTest {
 
     @Test
     public void test1() {
-        ModelDao modelDao = new ModelDaoImpl();
-        Admin admin = new Admin("user20200312180801", "123456", "admin0000001");
-        admin.setAuthority(2);
-        admin.setName("田佳琳");
-
-        admin = modelDao.getAdmin("admin0000001");
         //设置生日
         //Calendar calendar = Calendar.getInstance();
         //calendar.set(1998, 1, 26);
