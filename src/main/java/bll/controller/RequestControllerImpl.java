@@ -21,14 +21,17 @@ public class RequestControllerImpl implements RequestController {
     public void requestFlush(HttpServletResponse response) {
         if(requestList.getLength() != requestNumber) {
             requestNumber = requestList.getLength();
-            Request customerRequest = requestList.getRequest(0);
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json; charset=utf-8");
             PrintWriter send = null;
             JSONObject jsonObject = new JSONObject();
+            jsonObject.append("request", requestList.getRequest(0).getMapRequest());
+            for(int i = 1; i < requestNumber; i++) {
+                Request customerRequest = requestList.getRequest(i);
+                jsonObject.accumulate("request", customerRequest.getMapRequest());
+            }
+            jsonObject.append("requestNumber", requestNumber);
             jsonObject.append("status", 0);
-            jsonObject.append("longitude", customerRequest.getLongitude());
-            jsonObject.append("latitude", customerRequest.getLatitude());
             try {
                 send = response.getWriter();
                 send.append(jsonObject.toString());

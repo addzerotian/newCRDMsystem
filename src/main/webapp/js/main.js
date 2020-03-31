@@ -14,3 +14,14 @@ function test() {
     map.enableScrollWheelZoom(true);
 }
 
+function showInfo(request) {
+    $("#info_table>tbody>tr:nth-child(1)>th:nth-child(2)").text(request["cid"]);
+    $("#info_table>tbody>tr:nth-child(2)>th:nth-child(2)").text(request["startTime"]);
+    $("#info_table>tbody>tr:nth-child(3)>th:nth-child(2)").text(request["status"]);
+    $("#info_table>tbody>tr:nth-child(4)>th:nth-child(2)").text(request["location"]);
+    if($("#request_info>button").length == 0) {
+        var button1 = "<button class=\"btn btn-default\">确认</button>";
+        var button2 = "<button class=\"btn btn-default\">取消</button>";
+        $("#request_info").append(button1, button2);
+    }
+}

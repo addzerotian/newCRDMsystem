@@ -2,7 +2,10 @@ package dal.model;
 
 import dal.dao.ModelDao;
 import dal.dao.ModelDaoImpl;
+import org.json.JSONObject;
 import org.junit.Test;
+
+import java.util.HashMap;
 
 
 public class HiberSessionTest {
@@ -35,5 +38,17 @@ public class HiberSessionTest {
         //for(Course course: courseList) {
         //    System.out.println(course.getId() + " " + course.getName());
         //}
+    }
+
+    @Test
+    public void test2() {
+        Request customerRequest = new Request();
+        customerRequest.setLongitude((float) 10.5);
+        customerRequest.setLatitude((float)20.2);
+        JSONObject jsonObject = new JSONObject();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("longitude", customerRequest.getLongitude());
+        map.put("latitude", customerRequest.getLatitude());
+        jsonObject.append("request", map);
     }
 }

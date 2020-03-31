@@ -10,8 +10,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%!
     Admin thisAdmin = null;
-    RequestList requestList = RequestList.getInstance();
-    int requestNumber = requestList.getLength();
 %>
 <html>
 <head>
@@ -92,6 +90,34 @@
             <div id="map_canvas"></div>
         </div>
         <div class="col-md-4 column">
+            <div id="request_info">
+                <table class="table table-bordered" id="info_table">
+                    <thead>
+                    <tr>
+                        <th>属性</th>
+                        <th>值</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th>客户ID</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th>请求时间</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th>请求状态</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th>请求地点</th>
+                        <th></th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -119,9 +145,12 @@
                     map = new BMapGL.Map("map_canvas");
                     var new_point;
                     var marker;
-                    new_point = new BMapGL.Point(result["longitude"], result["latitude"]);
-                    marker = new BMapGL.Marker(new_point);
-                    map.addOverlay(marker);
+                    for (var i = 0; i < result["requestNumber"]; i++) {
+                        new_point = new BMapGL.Point(result["request"][i]["longitude"], result["request"][i]["latitude"]);
+                        marker = new BMapGL.Marker(new_point);
+                        marker.addEventListener("click", showInfo.bind(this, result["request"][i]));
+                        map.addOverlay(marker);
+                    }
                     map.centerAndZoom(new_point, 15);
                     map.enableScrollWheelZoom(true);
                 }

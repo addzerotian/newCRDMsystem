@@ -12,6 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class WxControllerImpl implements WxController {
     private static DaoService daoService;
@@ -74,12 +78,31 @@ public class WxControllerImpl implements WxController {
 
     @Override
     public void sendRequest(HttpServletRequest request) {
+        //从请求数据中获取相应信息
         float latitude = Float.parseFloat(request.getParameter("latitude"));
         float longitude = Float.parseFloat(request.getParameter("longitude"));
-        System.out.println("Latitude: " + latitude + " Longitude: " + longitude);
+        String status = request.getParameter("status");
+        String location = request.getParameter("location");
+        String startTimeStr = request.getParameter("start");
+        String cid = request.getParameter("cid");
+
+        //将时间字符串转换为Date
+        Date startTime = null;
+        DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        try {
+            startTime = format.parse(startTimeStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        //生成新Request，添加到Request队列
         Request customerRequest = new Request();
         customerRequest.setLatitude(latitude);
         customerRequest.setLongitude(longitude);
+        customerRequest.setStatus(status);
+        customerRequest.setLocation(location);
+        customerRequest.setStartTime(startTime);
+        customerRequest.setCid(cid);
         RequestList.getInstance().appendRequest(customerRequest);
     }
 }
