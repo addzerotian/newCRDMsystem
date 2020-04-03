@@ -49,15 +49,23 @@
                         <li>
                             <a href="requests.jsp">客户请求</a>
                         </li>
+                        <li class="dropdown active">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">管理员操作<strong class="caret"></strong></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="#">功能开发中</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="#">功能开发中</a>
+                                </li>
+                            </ul>
+                        </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">其他操作<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                                 <li>
                                     <a href="staff_management.jsp">客服管理</a>
-                                </li>
-                                <li class="divider" ></li>
-                                <li>
-                                    <a href="#">管理员操作</a>
                                 </li>
                             </ul>
                         </li>
@@ -79,6 +87,11 @@
                 </div>
 
             </nav>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <p class="text-center">功能开发中...</p>
         </div>
     </div>
 </div>

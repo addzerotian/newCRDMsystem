@@ -63,7 +63,7 @@
                         </li>
                         <li class="divider" ></li>
                         <li>
-                            <a href="#">管理员操作</a>
+                            <a href="admin_management.jsp">管理员操作</a>
                         </li>
                     </ul>
                 </li>

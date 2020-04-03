@@ -61,7 +61,7 @@
                                 </li>
                                 <li class="divider" ></li>
                                 <li>
-                                    <a href="#">管理员操作</a>
+                                    <a href="admin_management.jsp">管理员操作</a>
                                 </li>
                             </ul>
                         </li>
@@ -87,7 +87,8 @@
     </div>
     <div class="row clearfix">
         <div class="col-md-8 column">
-            <div id="map_canvas"></div>
+            <button type="button" class="btn btn-block" data-toggle="collapse" data-target="#map_canvas">折叠地图</button>
+            <div class="collapse in" id="map_canvas"></div>
         </div>
         <div class="col-md-4 column">
             <div id="request_info">

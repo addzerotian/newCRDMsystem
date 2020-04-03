@@ -1,5 +1,7 @@
 package dal.model;
 
+import java.util.HashMap;
+
 public class Staff extends User {
     private String sid;
     private int dutyTotalTimes;
@@ -89,5 +91,20 @@ public class Staff extends User {
 
     public void setAbsenceMonth(int absenceMonth) {
         this.absenceMonth = absenceMonth;
+    }
+
+    public HashMap<String, Object> getMapStaff() {
+        HashMap<String, Object> map = this.getMapUser();
+        map.put("sid", sid);
+        map.put("dutyTotalTimes", dutyTotalTimes);
+        map.put("dutyTotalHours", dutyTotalHours);
+        map.put("gradeTotal", gradeTotal);
+        map.put("dutyMonthTimes", dutyMonthTimes);
+        map.put("dutyMonthHours", dutyMonthHours);
+        map.put("gradeMonth", gradeMonth);
+        map.put("absenceTotal", absenceTotal);
+        map.put("absenceMonth", absenceMonth);
+
+        return map;
     }
 }

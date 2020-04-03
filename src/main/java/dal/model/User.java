@@ -1,6 +1,7 @@
 package dal.model;
 
 import java.util.Date;
+import java.util.HashMap;
 
 public class User {
     private long uid;
@@ -72,5 +73,20 @@ public class User {
 
     public void setUid(long uid) {
         this.uid = uid;
+    }
+
+    public HashMap<String, Object> getMapUser() {
+        HashMap<String, Object> map = new HashMap<>();
+
+        map.put("uid", uid);
+        map.put("sex", "男");
+        map.put("password", password);
+        map.put("name", name);
+        map.put("birth", birth);
+        map.put("telephone", telephone);
+        map.put("email", email);
+        map.put("avatar", avatar);
+
+        return map;
     }
 }

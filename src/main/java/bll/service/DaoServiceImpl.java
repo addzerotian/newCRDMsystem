@@ -4,6 +4,7 @@ import dal.dao.ModelDao;
 import dal.dao.ModelDaoImpl;
 import dal.model.Admin;
 import dal.model.Customer;
+import dal.model.Staff;
 
 public class DaoServiceImpl implements DaoService {
     private static ModelDao modelDao;
@@ -50,5 +51,17 @@ public class DaoServiceImpl implements DaoService {
         }
 
         return admin;
+    }
+
+    @Override
+    public Staff searchStaff(String sid) {
+        Staff staff;
+        try {
+            staff = modelDao.getStaff(sid);
+        } catch (Exception e) {
+            return null;
+        }
+
+        return staff;
     }
 }
