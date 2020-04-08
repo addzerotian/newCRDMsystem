@@ -21,6 +21,8 @@ public class ModelDaoImpl implements ModelDao {
     public List<User> getAllUsers() {
         Session session = hiberSession.createSession();
         CriteriaQuery<User> userQuery = session.getCriteriaBuilder().createQuery(User.class);
+        Root<User> root = userQuery.from(User.class);
+        userQuery.select(root);
         List<User> users = null;
         try {
             users = session.createQuery(userQuery).getResultList();
@@ -83,6 +85,8 @@ public class ModelDaoImpl implements ModelDao {
     public List<Admin> getAllAdmins() {
         Session session = hiberSession.createSession();
         CriteriaQuery<Admin> adminQuery = session.getCriteriaBuilder().createQuery(Admin.class);
+        Root<Admin> root = adminQuery.from(Admin.class);
+        adminQuery.select(root);
         List<Admin> admins = null;
         try {
             admins = session.createQuery(adminQuery).getResultList();
@@ -160,6 +164,8 @@ public class ModelDaoImpl implements ModelDao {
     public List<Customer> getAllCustomers() {
         Session session = hiberSession.createSession();
         CriteriaQuery<Customer> customerQuery = session.getCriteriaBuilder().createQuery(Customer.class);
+        Root<Customer> root = customerQuery.from(Customer.class);
+        customerQuery.select(root);
         List<Customer> customers = null;
         try {
             customers = session.createQuery(customerQuery).getResultList();
@@ -237,6 +243,8 @@ public class ModelDaoImpl implements ModelDao {
     public List<Staff> getAllStaffs() {
         Session session = hiberSession.createSession();
         CriteriaQuery<Staff> staffQuery = session.getCriteriaBuilder().createQuery(Staff.class);
+        Root<Staff> root = staffQuery.from(Staff.class);
+        staffQuery.select(root);
         List<Staff> staffs = null;
         try {
             staffs = session.createQuery(staffQuery).getResultList();
@@ -314,6 +322,8 @@ public class ModelDaoImpl implements ModelDao {
     public List<DispatchInfo> getAllDispatchInfos() {
         Session session = hiberSession.createSession();
         CriteriaQuery<DispatchInfo> dispatchQuery = session.getCriteriaBuilder().createQuery(DispatchInfo.class);
+        Root<DispatchInfo> root = dispatchQuery.from(DispatchInfo.class);
+        dispatchQuery.select(root);
         List<DispatchInfo> dispatches = null;
         try {
             dispatches = session.createQuery(dispatchQuery).getResultList();

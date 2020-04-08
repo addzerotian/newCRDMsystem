@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 
 public class HiberSessionTest {
@@ -42,13 +43,7 @@ public class HiberSessionTest {
 
     @Test
     public void test2() {
-        Request customerRequest = new Request();
-        customerRequest.setLongitude((float) 10.5);
-        customerRequest.setLatitude((float)20.2);
-        JSONObject jsonObject = new JSONObject();
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("longitude", customerRequest.getLongitude());
-        map.put("latitude", customerRequest.getLatitude());
-        jsonObject.append("request", map);
+        System.out.println(Pattern.matches("application/json; charset=(UTF|utf)-8", "application/json; charset=UTF-8"));
+        System.out.println(Pattern.matches("application/json; charset=(UTF|utf)-8", "application/json; charset=utf-8"));
     }
 }

@@ -18,7 +18,13 @@ public class Staff extends User {
         this.sid = sid;
     }
 
+    public Staff(String sid) {
+        super();
+        this.sid = sid;
+    }
+
     public Staff() {
+
     }
 
     public String getSid() {

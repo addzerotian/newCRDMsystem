@@ -11,4 +11,5 @@ public interface DaoService {
     Customer searchCustomer(String cid);
     Admin searchAdmin(String aid);
     Staff searchStaff(String sid);
+    int modifyStaff(Staff staff);
 }

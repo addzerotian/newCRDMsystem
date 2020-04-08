@@ -83,7 +83,7 @@
                                 </li>
                                 <li class="divider" ></li>
                                 <li>
-                                    <a onclick="logout()" href="index.jsp">注销</a>
+                                    <a onclick="logout()">注销</a>
                                 </li>
                             </ul>
                         </li>
@@ -99,13 +99,13 @@
             <div class="collapse in" id="map_canvas"></div>
         </div>
         <div class="col-md-4 column">
-            <div class="panel panel-info">
-                <div class="panel-heading">
+            <div class="panel panel-info" id="staff_info">
+                <div class="panel-heading" id="staff_info_heading">
                     <h5 class="panel-title text-center">
                         客服信息
                     </h5>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body" id="staff_info_body">
                 </div>
                 <table class="table table-bordered table-condensed" id="staff_table">
                     <thead>
@@ -169,7 +169,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <div class="panel-footer">
+                <div class="panel-footer" id="staff_info_footer">
                 </div>
             </div>
         </div>
@@ -228,6 +228,48 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="modify_staff" aria-labelledby="modal_label_3" aria-hidden="true" tabindex="-1" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="modal_label_3">修改客服信息</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label for="modify_sid" class="col-sm-2 control-label">账号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="modify_sid" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="modify_sname" class="col-sm-2 control-label">姓名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="modify_sname">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="modify_telephone" class="col-sm-2 control-label">电话</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="modify_telephone">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="modify_sex" class="col-sm-2 control-label">性别</label>
+                                    <div id="modify_sex">
+                                        <label class="radio-inline"><input type="radio" name="radio_sex" id="modify_sex_male" value="male">男</label>
+                                        <label class="radio-inline"><input type="radio" name="radio_sex" id="modify_sex_female" value="female">女</label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" onclick="modifyStaff()">提交</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -243,6 +285,19 @@
     var point = new BMapGL.Point(106.475, 29.571);
     map.centerAndZoom(point, 15);
     map.enableScrollWheelZoom(true);
+    $("#modify_staff").on("show.bs.modal", function () {
+        $("#modify_sid").val($("#staff_table>tbody>tr:nth-child(1)>th:nth-child(2)").text());
+    });
+    $("#add_staff").on("hidden.bs.modal", function () {
+        $("#add_staff form input[type=text]").val("");
+    });
+    $("#search_staff").on("hidden.bs.modal", function () {
+        $("#search_staff form input[type=text]").val("");
+    });
+    $("#modify_staff").on("hidden.bs.modal", function () {
+        $("#modify_staff form input[type=text]").val("");
+        $("#modify_staff form input[type=radio]").removeAttr("checked");
+    });
 </script>
 </body>
 </html>

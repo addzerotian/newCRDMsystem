@@ -4,8 +4,9 @@
 <%@ page import="java.io.BufferedReader" %>
 <%@ page import="java.io.InputStreamReader" %>
 <%@ page import="org.json.JSONObject" %>
-<%@ page import="java.io.PrintWriter" %>
-<%@ page import="java.io.IOException" %><%--
+<%@ page import="dal.model.Staff" %>
+<%@ page import="java.util.regex.Pattern" %>
+<%@ page import="java.nio.charset.StandardCharsets" %><%--
   Created by IntelliJ IDEA.
   User: addzero
   Date: 2020/4/3
@@ -25,20 +26,29 @@
 <%
     thisAdmin = (Admin) session.getAttribute("admin");
     if(thisAdmin == null) { %>
-<script>window.alert("无效的管理员信息!")</script>
+
 <%  } else {
-    BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
-    String strRequest = "";
-    String line = null;
-    while((line = br.readLine()) != null) {
-        strRequest += line;
-    }
-    JSONObject jsonRequest = new JSONObject(strRequest);
-    if ("addStaff".equals(jsonRequest.getString("request-type"))) {
-        staffController.addStaff(response, jsonRequest.getString("sid"));
-    } else if("searchStaff".equals(jsonRequest.getString("request-type"))) {
-        staffController.searchStaff(response, jsonRequest.getString("sid"));
-    }
+        if(Pattern.matches("application/json; charset=(UTF|utf)-8", request.getContentType())) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream(), StandardCharsets.UTF_8));
+            String strRequest = "";
+            String line = null;
+            while((line = br.readLine()) != null) {
+                strRequest += line;
+            }
+            JSONObject jsonRequest = new JSONObject(strRequest);
+            if ("addStaff".equals(jsonRequest.getString("request-type"))) {
+                staffController.addStaff(response, jsonRequest.getString("sid"));
+            } else if("searchStaff".equals(jsonRequest.getString("request-type"))) {
+                staffController.searchStaff(response, jsonRequest.getString("sid"));
+            } else if("modifyStaff".equals(jsonRequest.getString("request-type"))) {
+                Staff staff = new Staff(jsonRequest.getString("sid"));
+                staff.setName(jsonRequest.getString("sname"));
+                staff.setTelephone(jsonRequest.getString("telephone"));
+                staff.setGender(jsonRequest.getString("sex"));
+                System.out.println("staff-request: " + staff.getName());
+                staffController.modifyStaff(response, staff);
+            }
+        }
 } %>
 </body>
 </html>

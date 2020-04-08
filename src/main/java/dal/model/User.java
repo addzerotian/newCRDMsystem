@@ -11,12 +11,14 @@ public class User {
     private String telephone;
     private String email;
     private byte[] avatar;
+    private String gender;
 
     public User(String password) {
         this.password = password;
     }
 
     public User() {
+        password = "123456";
     }
 
     public String getPassword() {
@@ -75,11 +77,19 @@ public class User {
         this.uid = uid;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     public HashMap<String, Object> getMapUser() {
         HashMap<String, Object> map = new HashMap<>();
 
         map.put("uid", uid);
-        map.put("sex", "男");
+        map.put("sex", gender);
         map.put("password", password);
         map.put("name", name);
         map.put("birth", birth);

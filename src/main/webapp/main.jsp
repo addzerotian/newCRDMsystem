@@ -1,6 +1,7 @@
 <%@ page import="bll.controller.AdminController" %>
 <%@ page import="bll.controller.AdminControllerImpl" %>
-<%@ page import="dal.model.Admin" %><%--
+<%@ page import="dal.model.Admin" %>
+<%@ page import="dal.model.ActiveAdminList" %><%--
   Created by IntelliJ IDEA.
   User: addzero
   Date: 2020/3/14
@@ -31,6 +32,7 @@
         thisAdmin = adminController.adminLogin(request.getParameter("aid"), request.getParameter("password"));
         if(thisAdmin != null) {
             session.setAttribute("admin", thisAdmin);
+            ActiveAdminList.getInstance().appendActiveAdmin(thisAdmin);
         } else { %>
 <script>alertLoginNoUser()</script>
 <%      }
@@ -77,7 +79,7 @@
                         </li>
                         <li class="divider" ></li>
                         <li>
-                            <a onclick="logout()" href="index.jsp">注销</a>
+                            <a onclick="logout()">注销</a>
                         </li>
                     </ul>
                 </li>

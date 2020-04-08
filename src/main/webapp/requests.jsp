@@ -75,7 +75,7 @@
                                 </li>
                                 <li class="divider" ></li>
                                 <li>
-                                    <a onclick="logout()" href="index.jsp">注销</a>
+                                    <a onclick="logout()">注销</a>
                                 </li>
                             </ul>
                         </li>
@@ -135,29 +135,6 @@
     map.centerAndZoom(point, 15);
     map.enableScrollWheelZoom(true);
     setInterval(flashMap, 1000);
-    function flashMap() {
-        $.ajax({
-            type: "post",
-            url: "requestList.jsp",
-            contentType: "application/json",
-            data: JSON.stringify({"request-type": "flushMap"}),
-            success: function (result) {
-                if(result["status"] == 0) {
-                    map = new BMapGL.Map("map_canvas");
-                    var new_point;
-                    var marker;
-                    for (var i = 0; i < result["requestNumber"]; i++) {
-                        new_point = new BMapGL.Point(result["request"][i]["longitude"], result["request"][i]["latitude"]);
-                        marker = new BMapGL.Marker(new_point);
-                        marker.addEventListener("click", showInfo.bind(this, result["request"][i]));
-                        map.addOverlay(marker);
-                    }
-                    map.centerAndZoom(new_point, 15);
-                    map.enableScrollWheelZoom(true);
-                }
-            }
-        })
-    }
 </script>
 </body>
 </html>

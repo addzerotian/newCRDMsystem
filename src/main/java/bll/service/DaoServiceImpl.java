@@ -64,4 +64,15 @@ public class DaoServiceImpl implements DaoService {
 
         return staff;
     }
+
+    @Override
+    public int modifyStaff(Staff staff) {
+        try {
+            modelDao.updateStaff(staff);
+        } catch (Exception e) {
+            return -1;
+        }
+
+        return 0;
+    }
 }

@@ -24,17 +24,19 @@
 <%
     thisAdmin = (Admin) session.getAttribute("admin");
     if(thisAdmin == null) { %>
-<script>window.alert("无效的管理员信息!")</script>
-<%  } else {
-        BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
-        String strRequest = "";
-        String line = null;
-        while((line = br.readLine()) != null) {
-            strRequest += line;
-        }
-        JSONObject jsonRequest = new JSONObject(strRequest);
-        if ("flushMap".equals(jsonRequest.getString("request-type"))) {
-            requestController.requestFlush(response);
+
+<%  }else {
+        if("application/json".equals(request.getContentType())) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+            String strRequest = "";
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                strRequest += line;
+            }
+            JSONObject jsonRequest = new JSONObject(strRequest);
+            if ("flushMap".equals(jsonRequest.getString("request-type"))) {
+                requestController.requestFlush(response);
+            }
         }
     } %>
 </body>

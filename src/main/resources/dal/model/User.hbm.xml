@@ -18,6 +18,7 @@
         <property name="telephone" column="TELEPHONE"/>
         <property name="email" column="EMAIL"/>
         <property name="avatar" column="AVATAR"/>
+        <property name="gender" column="GENDER"/>
         <joined-subclass name="dal.model.Admin" table="admin">
             <key column="UID"/>
             <property name="aid" column="AID"/>
