@@ -75,7 +75,7 @@
                                 </li>
                                 <li class="divider" ></li>
                                 <li>
-                                    <a onclick="logout()">注销</a>
+                                    <a onclick="logout()" href="#">注销</a>
                                 </li>
                             </ul>
                         </li>
@@ -85,7 +85,7 @@
             </nav>
         </div>
     </div>
-    <div class="row clearfix">
+    <div class="row clearfix" id="content">
         <div class="col-md-8 column">
             <button type="button" class="btn btn-block" data-toggle="collapse" data-target="#map_canvas">折叠地图</button>
             <div class="collapse in" id="map_canvas"></div>

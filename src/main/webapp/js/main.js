@@ -1,5 +1,10 @@
 function alertLoginNoUser() {
     window.alert("用户账号名/密码错误！");
+    window.location.href = "index.jsp";
+}
+
+function alertUserLoggedin() {
+    window.alert("用户已登录！如需登录其它账号，请注销。");
 }
 
 function logout() {

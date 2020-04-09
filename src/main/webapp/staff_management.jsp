@@ -83,7 +83,7 @@
                                 </li>
                                 <li class="divider" ></li>
                                 <li>
-                                    <a onclick="logout()">注销</a>
+                                    <a onclick="logout()" href="#">注销</a>
                                 </li>
                             </ul>
                         </li>

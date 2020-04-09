@@ -15,7 +15,7 @@
     if(session.getAttribute("admin") != null) session.removeAttribute("admin");
 %>
 <div class="container" >
-    <div class="row clearfix">
+    <div class="row clearfix" id="content">
         <div class="col-md-12 column">
             <h1 class="text-center">客户响应及派工管理系统</h1>
             <form role="form" action="main.jsp" method="post">

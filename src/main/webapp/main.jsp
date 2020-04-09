@@ -36,7 +36,9 @@
         } else { %>
 <script>alertLoginNoUser()</script>
 <%      }
-}
+    } else { %>
+<script>alertUserLoggedin()</script>
+<%  }
     if(thisAdmin != null) { %>
 <div class="container">
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -79,14 +81,14 @@
                         </li>
                         <li class="divider" ></li>
                         <li>
-                            <a onclick="logout()">注销</a>
+                            <a onclick="logout()" href="#">注销</a>
                         </li>
                     </ul>
                 </li>
             </ul>
         </div>
     </nav>
-    <div class="row clearfix">
+    <div class="row clearfix" id="content">
         <div class="col-md-12 column">
             <h3>
                 管理员：<% out.print(thisAdmin.getName()); %>，你好！
