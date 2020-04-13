@@ -16,6 +16,7 @@
     <title>客户响应及派工管理系统-客服管理</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
     <link href="css/bmap.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
@@ -23,7 +24,11 @@
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://api.map.baidu.com/api?v=1.0&&type=webgl&ak=Lm1k2R6SybtdXGL0bFhbdQM8rG6DQDvs"></script>
+    <script src="https://cdn.staticfile.org/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdn.staticfile.org/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script src="js/alertBox.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/staff_management.js"></script>
 </head>
 <body>
 <%
@@ -79,7 +84,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">账号管理<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="admin_management.jsp">账号信息</a>
+                                    <a href="myinfo.jsp">账号信息</a>
                                 </li>
                                 <li class="divider" ></li>
                                 <li>
@@ -133,6 +138,10 @@
                     </tr>
                     <tr>
                         <th class="text-center">电话</th>
+                        <th class="text-center"></th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">邮箱</th>
                         <th class="text-center"></th>
                     </tr>
                     <tr>
@@ -196,6 +205,37 @@
                                         <input type="text" class="form-control" id="add_sname">
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="add_sex" class="col-sm-2 control-label">性别</label>
+                                    <div id="add_sex">
+                                        <label class="radio-inline"><input type="radio" name="radio_sex" id="add_sex_male" value="male">男</label>
+                                        <label class="radio-inline"><input type="radio" name="radio_sex" id="add_sex_female" value="female">女</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="add_email" class="col-sm-2 control-label">邮箱</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="add_email">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="add_telephone" class="col-sm-2 control-label">电话</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="add_telephone">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="add_birth" class="col-sm-2 control-label">生日</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" placeholder="选择日期" id="add_birth">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="add_avatar" class="col-sm-2 control-label">头像</label>
+                                    <div class="col-sm-10">
+                                        <input type="file" class="form-control" id="add_avatar">
+                                    </div>
+                                </div>
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -255,10 +295,28 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label for="modify_email" class="col-sm-2 control-label">邮箱</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="modify_email">
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label for="modify_sex" class="col-sm-2 control-label">性别</label>
                                     <div id="modify_sex">
                                         <label class="radio-inline"><input type="radio" name="radio_sex" id="modify_sex_male" value="male">男</label>
                                         <label class="radio-inline"><input type="radio" name="radio_sex" id="modify_sex_female" value="female">女</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="modify_birth" class="col-sm-2 control-label">生日</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" placeholder="选择日期" id="modify_birth">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="modify_avatar" class="col-sm-2 control-label">头像</label>
+                                    <div class="col-sm-10">
+                                        <input type="file" class="form-control" id="modify_avatar">
                                     </div>
                                 </div>
                             </form>
@@ -280,24 +338,7 @@
 </footer>
 <%  } %>
 <script>
-    var map = new BMapGL.Map("map_canvas");
-    //地图中心设置为重庆大学
-    var point = new BMapGL.Point(106.475, 29.571);
-    map.centerAndZoom(point, 15);
-    map.enableScrollWheelZoom(true);
-    $("#modify_staff").on("show.bs.modal", function () {
-        $("#modify_sid").val($("#staff_table>tbody>tr:nth-child(1)>th:nth-child(2)").text());
-    });
-    $("#add_staff").on("hidden.bs.modal", function () {
-        $("#add_staff form input[type=text]").val("");
-    });
-    $("#search_staff").on("hidden.bs.modal", function () {
-        $("#search_staff form input[type=text]").val("");
-    });
-    $("#modify_staff").on("hidden.bs.modal", function () {
-        $("#modify_staff form input[type=text]").val("");
-        $("#modify_staff form input[type=radio]").removeAttr("checked");
-    });
+
 </script>
 </body>
 </html>

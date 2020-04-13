@@ -1,10 +1,17 @@
 package dal.model;
 
+import bll.service.DateService;
+import bll.service.DateServiceImpl;
 import dal.dao.ModelDao;
 import dal.dao.ModelDaoImpl;
 import org.json.JSONObject;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
@@ -23,13 +30,13 @@ public class HiberSessionTest {
         //int size = fileInputStream.available();
         //byte[] photo = new byte[size];
         //System.out.println(fileInputStream.read(photo));
-        //admin.setAvatar(photo);
+        //admin.setAvatarURL(photo);
         //userDao.updateUser(admin);
 
         //读取头像
         //FileOutputStream fileOutputStream = new FileOutputStream("D:\\addzero\\Documents\\JavaProjects\\newCRDMsystem\\src\\main\\resources\\new.jpg");
         //admin = (Admin) userDao.getUser("user20200312180801");
-        //fileOutputStream.write(admin.getAvatar());
+        //fileOutputStream.write(admin.getAvatarURL());
         //fileOutputStream.close();
 
         //查询方法
@@ -43,7 +50,6 @@ public class HiberSessionTest {
 
     @Test
     public void test2() {
-        System.out.println(Pattern.matches("application/json; charset=(UTF|utf)-8", "application/json; charset=UTF-8"));
-        System.out.println(Pattern.matches("application/json; charset=(UTF|utf)-8", "application/json; charset=utf-8"));
+
     }
 }

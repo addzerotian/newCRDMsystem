@@ -10,7 +10,7 @@ public class User {
     private Date birth;
     private String telephone;
     private String email;
-    private byte[] avatar;
+    private String avatarURL;
     private String gender;
 
     public User(String password) {
@@ -61,12 +61,12 @@ public class User {
         this.email = email;
     }
 
-    public byte[] getAvatar() {
-        return avatar;
+    public String getAvatarURL() {
+        return avatarURL;
     }
 
-    public void setAvatar(byte[] avatar) {
-        this.avatar = avatar;
+    public void setAvatarURL(String avatarURL) {
+        this.avatarURL = avatarURL;
     }
 
     public long getUid() {
@@ -83,20 +83,5 @@ public class User {
 
     public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public HashMap<String, Object> getMapUser() {
-        HashMap<String, Object> map = new HashMap<>();
-
-        map.put("uid", uid);
-        map.put("sex", gender);
-        map.put("password", password);
-        map.put("name", name);
-        map.put("birth", birth);
-        map.put("telephone", telephone);
-        map.put("email", email);
-        map.put("avatar", avatar);
-
-        return map;
     }
 }

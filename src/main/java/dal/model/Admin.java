@@ -48,13 +48,4 @@ public class Admin extends User {
     public int hashCode() {
         return Objects.hash(aid);
     }
-
-    public HashMap<String, Object> getMapAdmin() {
-        HashMap<String, Object> map = this.getMapUser();
-
-        map.put("aid", aid);
-        map.put("authority", authority);
-
-        return map;
-    }
 }

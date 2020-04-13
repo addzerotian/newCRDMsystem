@@ -23,6 +23,7 @@
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="js/alertBox.js"></script>
     <script src="js/main.js"></script>
 </head>
 <body>
@@ -77,7 +78,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">账号管理<strong class="caret"></strong></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="admin_management.jsp">账号信息</a>
+                            <a href="myinfo.jsp">账号信息</a>
                         </li>
                         <li class="divider" ></li>
                         <li>

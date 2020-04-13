@@ -21,6 +21,9 @@
     <script src="js/main.js"></script>
 </head>
 <body>
+<%
+    System.out.println(request.getServletContext().getRealPath(""));
+%>
 <div class="container">
     <div class="row clearfix">
         <div class="col-md-12 column">
@@ -89,13 +92,5 @@
     </div>
 </footer>
 
-<script>
-    var map = new BMapGL.Map("map_canvas");
-    //地图中心设置为重庆大学
-    var point = new BMapGL.Point(106.475, 29.571);
-    map.centerAndZoom(point, 15);
-    map.enableScrollWheelZoom(true);
-    setInterval(test, 5000);
-</script>
 </body>
 </html>

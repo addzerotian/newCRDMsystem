@@ -14,3 +14,8 @@
 #content {
     padding-top: 20%;
 }
+
+.avatar {
+    width: 64px;
+    height: 64px;
+}

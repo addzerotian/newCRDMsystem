@@ -17,7 +17,7 @@
         <property name="birth" column="BIRTH"/>
         <property name="telephone" column="TELEPHONE"/>
         <property name="email" column="EMAIL"/>
-        <property name="avatar" column="AVATAR"/>
+        <property name="avatarURL" column="AVATARURL"/>
         <property name="gender" column="GENDER"/>
         <joined-subclass name="dal.model.Admin" table="admin">
             <key column="UID"/>

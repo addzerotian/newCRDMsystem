@@ -6,7 +6,10 @@
 <%@ page import="org.json.JSONObject" %>
 <%@ page import="dal.model.Staff" %>
 <%@ page import="java.util.regex.Pattern" %>
-<%@ page import="java.nio.charset.StandardCharsets" %><%--
+<%@ page import="java.nio.charset.StandardCharsets" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="bll.service.FileRequestService" %>
+<%@ page import="bll.service.FileRequestServiceImpl" %><%--
   Created by IntelliJ IDEA.
   User: addzero
   Date: 2020/4/3
@@ -17,6 +20,7 @@
 <%!
     Admin thisAdmin = null;
     StaffController staffController = new StaffControllerImpl();
+    FileRequestService fileRequestService = new FileRequestServiceImpl();
 %>
 <html>
 <head>
@@ -30,24 +34,19 @@
 <%  } else {
         if(Pattern.matches("application/json; charset=(UTF|utf)-8", request.getContentType())) {
             BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream(), StandardCharsets.UTF_8));
-            String strRequest = "";
-            String line = null;
-            while((line = br.readLine()) != null) {
-                strRequest += line;
+            StringBuilder strRequest = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                strRequest.append(line);
             }
-            JSONObject jsonRequest = new JSONObject(strRequest);
-            if ("addStaff".equals(jsonRequest.getString("request-type"))) {
-                staffController.addStaff(response, jsonRequest.getString("sid"));
-            } else if("searchStaff".equals(jsonRequest.getString("request-type"))) {
+            JSONObject jsonRequest = new JSONObject(strRequest.toString());
+            if ("searchStaff".equals(jsonRequest.getString("request-type"))) {
                 staffController.searchStaff(response, jsonRequest.getString("sid"));
-            } else if("modifyStaff".equals(jsonRequest.getString("request-type"))) {
-                Staff staff = new Staff(jsonRequest.getString("sid"));
-                staff.setName(jsonRequest.getString("sname"));
-                staff.setTelephone(jsonRequest.getString("telephone"));
-                staff.setGender(jsonRequest.getString("sex"));
-                System.out.println("staff-request: " + staff.getName());
-                staffController.modifyStaff(response, staff);
             }
+        } else if (Pattern.matches("multipart/form-data.*", request.getContentType())) {
+            Map<String, Object> map = fileRequestService.parseRequest(request);
+            if ("addStaff".equals(map.get("request-type"))) staffController.addStaff(response, map);
+            else if ("modifyStaff".equals(map.get("request-type"))) staffController.modifyStaff(response, map);
         }
 } %>
 </body>

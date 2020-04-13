@@ -2,10 +2,9 @@ package bll.controller;
 
 import bll.service.DaoService;
 import bll.service.DaoServiceImpl;
-import dal.model.Customer;
-import dal.model.Request;
-import dal.model.RequestList;
-import dal.model.User;
+import bll.service.DateService;
+import bll.service.DateServiceImpl;
+import dal.model.*;
 import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,9 +18,11 @@ import java.util.Date;
 
 public class WxControllerImpl implements WxController {
     private static DaoService daoService;
+    private static DateService dateService;
 
     public WxControllerImpl() {
         daoService = new DaoServiceImpl();
+        dateService = new DateServiceImpl();
     }
 
     @Override
@@ -87,13 +88,7 @@ public class WxControllerImpl implements WxController {
         String cid = request.getParameter("cid");
 
         //将时间字符串转换为Date
-        Date startTime = null;
-        DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        try {
-            startTime = format.parse(startTimeStr);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Date startTime = dateService.getDateFromString(startTimeStr, StandardDateFormat.WX_DF);
 
         //生成新Request，添加到Request队列
         Request customerRequest = new Request();

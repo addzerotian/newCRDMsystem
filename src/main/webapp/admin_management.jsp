@@ -5,7 +5,7 @@
   Time: 17:48
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%!
     Admin thisAdmin = null;
 %>
@@ -14,12 +14,17 @@
     <title>客户响应及派工管理系统-管理员操作</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdn.staticfile.org/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdn.staticfile.org/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script src="js/alertBox.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/admin_management.js"></script>
 </head>
 <body>
 <%
@@ -28,7 +33,7 @@
 <script>window.alert("无效的管理员信息!")</script>
 <%  } else { %>
 <div class="container">
-    <div class="row clearfix">
+    <div class="row clearfix" id="navbar">
         <div class="col-md-12 column">
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
                 <div class="navbar-header">
@@ -53,11 +58,11 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">管理员操作<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="#">功能开发中</a>
+                                    <a href="#add_admin" data-toggle="modal">新增管理员</a>
                                 </li>
                                 <li class="divider"></li>
                                 <li>
-                                    <a href="#">功能开发中</a>
+                                    <a href="#search_admin" data-toggle="modal">查询管理员</a>
                                 </li>
                             </ul>
                         </li>
@@ -75,7 +80,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">账号管理<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                                 <li class="active">
-                                    <a href="admin_management.jsp">账号信息</a>
+                                    <a href="myinfo.jsp">账号信息</a>
                                 </li>
                                 <li class="divider" ></li>
                                 <li>
@@ -101,18 +106,18 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>属性</th>
-                                <th>值</th>
+                                <th class="text-center">属性</th>
+                                <th class="text-center">值</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <th>管理员总数</th>
-                                <th></th>
+                                <th class="text-center">管理员总数</th>
+                                <th class="text-center"></th>
                             </tr>
                             <tr>
-                                <th>当前在线管理员总数</th>
-                                <th></th>
+                                <th class="text-center">当前在线管理员总数</th>
+                                <th class="text-center"></th>
                             </tr>
                         </tbody>
                     </table>
@@ -148,24 +153,55 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label for="add_sex" class="col-sm-2 control-label">性别</label>
+                                    <div id="add_sex">
+                                        <label class="radio-inline"><input type="radio" name="radio_sex" id="add_sex_male" value="male">男</label>
+                                        <label class="radio-inline"><input type="radio" name="radio_sex" id="add_sex_female" value="female">女</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="add_email" class="col-sm-2 control-label">邮箱</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="add_email">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="add_telephone" class="col-sm-2 control-label">电话</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="add_telephone">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="add_birth" class="col-sm-2 control-label">生日</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" placeholder="选择日期" id="add_birth">
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label for="add_authority" class="col-sm-2 control-label">权限</label>
                                     <div class="col-sm-6">
                                         <input type="text" class="form-control" id="add_authority" readonly value="<%=thisAdmin.getAuthority() + 1%>">
                                     </div>
                                     <div class="col-sm-4">
-                                        <button type="button" class="btn btn-default" onclick="plusAuthority()">
+                                        <button type="button" class="btn btn-default" onclick="plusAuthority($('#add_authority'))">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </button>
-                                        <button type="button" class="btn btn-default" onclick="minusAuthority(<%=thisAdmin.getAuthority()%>)">
+                                        <button type="button" class="btn btn-default" onclick="minusAuthority($('#add_authority'), <%=thisAdmin.getAuthority()%>)">
                                             <span class="glyphicon glyphicon-minus"></span>
                                         </button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="add_avatar" class="col-sm-2 control-label">头像</label>
+                                    <div class="col-sm-10">
+                                        <input type="file" class="form-control" id="add_avatar">
                                     </div>
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-primary" onclick="addAdmin()">提交</button>
+                            <button type="button" class="btn btn-primary" onclick="submitByAdmin(addAdmin, <%=thisAdmin.getAuthority()%>)">提交</button>
                         </div>
                     </div>
                 </div>
@@ -188,7 +224,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-primary" onclick="searchAdmin()">查询</button>
+                            <button type="button" class="btn btn-primary" onclick="submitByAdmin(searchAdmin, <%=thisAdmin.getAuthority()%>)">查询</button>
                         </div>
                     </div>
                 </div>
@@ -214,16 +250,28 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label for="modify_sex" class="col-sm-2 control-label">性别</label>
+                                    <div id="modify_sex">
+                                        <label class="radio-inline"><input type="radio" name="radio_sex" id="modify_sex_male" value="male">男</label>
+                                        <label class="radio-inline"><input type="radio" name="radio_sex" id="modify_sex_female" value="female">女</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="modify_email" class="col-sm-2 control-label">邮箱</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="modify_email">
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label for="modify_telephone" class="col-sm-2 control-label">电话</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="modify_telephone">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="modify_sex" class="col-sm-2 control-label">性别</label>
-                                    <div id="modify_sex">
-                                        <label class="radio-inline"><input type="radio" name="radio_sex" id="modify_sex_male" value="male">男</label>
-                                        <label class="radio-inline"><input type="radio" name="radio_sex" id="modify_sex_female" value="female">女</label>
+                                    <label for="modify_birth" class="col-sm-2 control-label">生日</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" placeholder="选择日期" id="modify_birth">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -232,19 +280,25 @@
                                         <input type="text" class="form-control" id="modify_authority" readonly>
                                     </div>
                                     <div class="col-sm-4">
-                                        <button type="button" class="btn btn-default" onclick="plusAuthority()">
+                                        <button type="button" class="btn btn-default" onclick="plusAuthority($('#modify_authority'))">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </button>
-                                        <button type="button" class="btn btn-default" onclick="minusAuthority(<%=thisAdmin.getAuthority()%>)">
+                                        <button type="button" class="btn btn-default" onclick="minusAuthority($('#modify_authority'), <%=thisAdmin.getAuthority()%>)">
                                             <span class="glyphicon glyphicon-minus"></span>
                                         </button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="modify_avatar" class="col-sm-2 control-label">头像</label>
+                                    <div class="col-sm-10">
+                                        <input type="file" class="form-control" id="modify_avatar">
                                     </div>
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-primary" onclick="modifyAdmin()">提交</button>
+                            <button type="button" class="btn btn-primary" onclick="submitByAdmin(modifyAdmin, <%=thisAdmin.getAuthority()%>)">提交</button>
                         </div>
                     </div>
                 </div>
@@ -256,6 +310,7 @@
                             <h4 class="modal-title" id="modal_label_4">管理员信息</h4>
                         </div>
                         <div class="modal-body">
+                            <img class="avatar" id="admin_avatar" alt="">
                             <table class="table table-bordered table-condensed" id="admin_table">
                                 <thead>
                                 <tr>
@@ -288,12 +343,16 @@
                                     <th class="text-center">权限等级</th>
                                     <th class="text-center"></th>
                                 </tr>
+                                <tr>
+                                    <th class="text-center">邮箱</th>
+                                    <th class="text-center"></th>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#modify_admin">修改</button>
+                            <button type="button" class="btn btn-primary">修改</button>
                         </div>
                     </div>
                 </div>
@@ -309,26 +368,8 @@
 <%  } %>
 </body>
 <script>
-    $(function () {
-        getSystemAdminsInfo();
-    });
-
-    $("#modify_admin").on("show.bs.modal", function () {
-        $("#modify_aid").val($("#admin_table>tbody>tr:nth-child(1)>th:nth-child(2)").text());
-        $("#modify_authority").val($("#admin_table>tbody>tr:nth-child(6)>th:nth-child(2)").text());
-    });
-
-    $("#add_admin").on("hidden.bs.modal", function () {
-        $("#add_admin form input[type=text]").val("");
-    });
-
-    $("#search_admin").on("hidden.bs.modal", function () {
-        $("#search_admin form input[type=text]").val("");
-    });
-
-    $("#modify_admin").on("hidden.bs.modal", function () {
-        $("#modify_admin form input[type=text]").val("");
-        $("#modify_admin form input[type=radio]").removeAttr("checked");
+    $("#add_admin").on("show.bs.modal", function () {
+        $("#add_authority").val(<%=thisAdmin.getAuthority() + 1%>);
     });
 </script>
 </html>
