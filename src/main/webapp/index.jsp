@@ -18,7 +18,7 @@
     <div class="row clearfix" id="content">
         <div class="col-md-12 column">
             <h1 class="text-center">客户响应及派工管理系统</h1>
-            <form role="form" action="main.jsp" method="post">
+            <form role="form" action="MainPage" method="post">
                 <div class="form-group">
                     <label for="aid" class="control-label">账号</label>
                     <input type="text" class="form-control" id="aid" name="aid" placeholder="请输入管理员账号" />

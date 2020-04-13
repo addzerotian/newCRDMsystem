@@ -47,16 +47,13 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="main.jsp">管理系统</a>
+                    <a class="navbar-brand" href="MainPage">管理系统</a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="main.jsp">主页</a>
-                        </li>
-                        <li>
-                            <a href="requests.jsp">客户请求</a>
+                            <a href="MainPage">主页</a>
                         </li>
                         <li class="dropdown active">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">客服管理<strong class="caret"></strong></a>
@@ -74,7 +71,11 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">其他操作<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="admin_management.jsp">管理员操作</a>
+                                    <a href="RequestManage">客户请求</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="AdminManage">管理员操作</a>
                                 </li>
                             </ul>
                         </li>
@@ -84,7 +85,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">账号管理<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="myinfo.jsp">账号信息</a>
+                                    <a href="MyInfo">账号信息</a>
                                 </li>
                                 <li class="divider" ></li>
                                 <li>

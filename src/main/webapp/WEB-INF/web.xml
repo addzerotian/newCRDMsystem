@@ -3,5 +3,75 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
+  <display-name>newCRDMsystem</display-name>
+
+  <!--servlet declaration-->
+  <servlet>
+    <servlet-name>test</servlet-name>
+    <jsp-file>/test.jsp</jsp-file>
+  </servlet>
+  <servlet>
+    <servlet-name>main</servlet-name>
+    <jsp-file>/main.jsp</jsp-file>
+  </servlet>
+  <servlet>
+    <servlet-name>requests</servlet-name>
+    <jsp-file>/requests.jsp</jsp-file>
+  </servlet>
+  <servlet>
+    <servlet-name>staff_management</servlet-name>
+    <jsp-file>/staff_management.jsp</jsp-file>
+  </servlet>
+  <servlet>
+    <servlet-name>admin_management</servlet-name>
+    <jsp-file>/admin_management.jsp</jsp-file>
+  </servlet>
+  <servlet>
+    <servlet-name>myinfo</servlet-name>
+    <jsp-file>/myinfo.jsp</jsp-file>
+  </servlet>
+  
+  <!--servlet mapping-->
+  <servlet-mapping>
+    <servlet-name>test</servlet-name>
+    <url-pattern>/test</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>main</servlet-name>
+    <url-pattern>/MainPage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>requests</servlet-name>
+    <url-pattern>/RequestManage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>staff_management</servlet-name>
+    <url-pattern>/StaffManage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>admin_management</servlet-name>
+    <url-pattern>/AdminManage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>myinfo</servlet-name>
+    <url-pattern>/MyInfo</url-pattern>
+  </servlet-mapping>
+
+  <!--security constraint -->
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>requestJsp</web-resource-name>
+      <url-pattern>/admin_requests.jsp</url-pattern>
+      <url-pattern>/staff_requests.jsp</url-pattern>
+      <url-pattern>/requestList.jsp</url-pattern>
+      <url-pattern>/wx.jsp</url-pattern>
+      <http-method>GET</http-method>
+      <http-method>PUT</http-method>
+      <http-method>HEAD</http-method>
+      <http-method>TRACE</http-method>
+      <http-method>DELETE</http-method>
+      <http-method>OPTIONS</http-method>
+    </web-resource-collection>
+    <auth-constraint/>
+  </security-constraint>
 </web-app>
