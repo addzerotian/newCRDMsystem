@@ -1,5 +1,6 @@
 package bll.service;
 
+import dal.model.MultiEnvStandardFormat;
 import org.apache.tomcat.util.http.fileupload.FileItem;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
@@ -74,10 +75,10 @@ public class FileRequestServiceImpl implements FileRequestService {
         {
             dir.mkdirs();
         }
-        dir = new File(path + "\\" + URL);
+        dir = new File(path + MultiEnvStandardFormat.getInstance().getFileSeparator() + URL);
         if(!dir.exists()) {
             try {
-                FileOutputStream fout = new FileOutputStream(path + "\\" + URL);
+                FileOutputStream fout = new FileOutputStream(path + MultiEnvStandardFormat.getInstance().getFileSeparator() + URL);
                 fout.write(image);
                 fout.close();
             } catch (IOException e) {

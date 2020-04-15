@@ -79,10 +79,16 @@
         </div>
     </div>
     <div class="row clearfix">
-        <div class="col-md-8 column">
-            <div id="map_canvas"></div>
-        </div>
-        <div class="col-md-4 column">
+        <div class="col-md-12 column">
+            <form class="form-horizontal" role="form" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="modify_avatar" class="col-sm-2 control-label">头像</label>
+                    <div class="col-sm-10">
+                        <input type="file" class="form-control" id="modify_avatar">
+                    </div>
+                </div>
+            </form>
+            <button type="button" class="btn btn-primary" onclick="test()">提交</button>
         </div>
     </div>
 </div>

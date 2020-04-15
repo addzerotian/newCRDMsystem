@@ -12,6 +12,7 @@
 </head>
 <body>
 <%
+    response.addCookie(new Cookie("JSESSIONID", session.getId()));
     if(session.getAttribute("admin") != null) session.removeAttribute("admin");
 %>
 <div class="container" >

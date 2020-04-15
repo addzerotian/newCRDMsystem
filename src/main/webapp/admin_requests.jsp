@@ -24,7 +24,7 @@
 %>
 <html>
 <head>
-    <title>Staff Request</title>
+    <title>Admin Request</title>
 </head>
 <body>
 <%
@@ -60,6 +60,11 @@
         if("addAdmin".equals(map.get("request-type"))) adminController.addAdmin(map, response);
         else if("modifyAdmin".equals(map.get("request-type"))) adminController.modifyAdmin(response, map);
         else if("updateInfo".equals(map.get("request-type"))) adminController.updateInfo(response, session, map);
+        else if("test".equals(map.get("request-type"))){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.append("status", 0);
+            fileRequestService.setResponse(response, jsonObject);
+        }
     }
 } %>
 </body>

@@ -2,6 +2,7 @@ package bll.controller;
 
 import bll.service.*;
 import dal.model.Admin;
+import dal.model.MultiEnvStandardFormat;
 import dal.model.Staff;
 import dal.model.StandardDateFormat;
 import org.json.JSONObject;
@@ -24,6 +25,7 @@ public class StaffControllerImpl implements StaffController {
         fileRequestService = new FileRequestServiceImpl();
         dateService = new DateServiceImpl();
         mapModel = new MapModelImpl();
+        MultiEnvStandardFormat.getInstance().changeToWindowsFileSeparator();
     }
 
     @Override
@@ -53,7 +55,7 @@ public class StaffControllerImpl implements StaffController {
             avatar = (byte[]) mapRequest.get("avatar");
             //使用文件md5值作为文件名
             avatarURL = fileRequestService.calcMD5OfFile(avatar);
-            String realPath = mapRequest.get("web-path") + "img\\userAvatar";
+            String realPath = mapRequest.get("web-path") + "img" + MultiEnvStandardFormat.getInstance().getFileSeparator() + "userAvatar";
             fileRequestService.parseImageBySpecifiedURL(avatar, realPath, avatarURL);
         }
 
@@ -136,7 +138,7 @@ public class StaffControllerImpl implements StaffController {
                 avatar = (byte[]) mapRequest.get("avatar");
                 //使用文件md5值作为文件名
                 avatarURL = fileRequestService.calcMD5OfFile(avatar);
-                String realPath = mapRequest.get("web-path") + "img\\userAvatar";
+                String realPath = mapRequest.get("web-path") + "img" + MultiEnvStandardFormat.getInstance().getFileSeparator() + "userAvatar";
                 fileRequestService.parseImageBySpecifiedURL(avatar, realPath, avatarURL);
                 oldStaff.setAvatarURL(avatarURL);
             }

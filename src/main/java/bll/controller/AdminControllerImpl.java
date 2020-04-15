@@ -3,6 +3,7 @@ package bll.controller;
 import bll.service.*;
 import dal.model.ActiveAdminList;
 import dal.model.Admin;
+import dal.model.MultiEnvStandardFormat;
 import dal.model.StandardDateFormat;
 import org.json.JSONObject;
 
@@ -25,6 +26,7 @@ public class AdminControllerImpl implements AdminController {
         fileRequestService = new FileRequestServiceImpl();
         dateService = new DateServiceImpl();
         mapModel = new MapModelImpl();
+        MultiEnvStandardFormat.getInstance().changeToWindowsFileSeparator();
     }
 
     @Override
@@ -81,7 +83,7 @@ public class AdminControllerImpl implements AdminController {
             avatar = (byte[]) mapRequest.get("avatar");
             //使用文件md5值作为文件名
             avatarURL = fileRequestService.calcMD5OfFile(avatar);
-            String realPath = mapRequest.get("web-path") + "img\\userAvatar";
+            String realPath = mapRequest.get("web-path") + "img" + MultiEnvStandardFormat.getInstance().getFileSeparator() + "userAvatar";
             fileRequestService.parseImageBySpecifiedURL(avatar, realPath, avatarURL);
         }
 
@@ -169,7 +171,7 @@ public class AdminControllerImpl implements AdminController {
                 avatar = (byte[]) mapRequest.get("avatar");
                 //使用文件md5值作为文件名
                 avatarURL = fileRequestService.calcMD5OfFile(avatar);
-                String realPath = mapRequest.get("web-path") + "img\\userAvatar";
+                String realPath = mapRequest.get("web-path") + "img" + MultiEnvStandardFormat.getInstance().getFileSeparator() + "userAvatar";
                 fileRequestService.parseImageBySpecifiedURL(avatar, realPath, avatarURL);
                 oldAdmin.setAvatarURL(avatarURL);
             }
@@ -265,7 +267,7 @@ public class AdminControllerImpl implements AdminController {
                         avatar = (byte[]) mapRequest.get("avatar");
                         //使用文件md5值作为文件名
                         avatarURL = fileRequestService.calcMD5OfFile(avatar);
-                        String realPath = mapRequest.get("web-path") + "img\\userAvatar";
+                        String realPath = mapRequest.get("web-path") + "img" + MultiEnvStandardFormat.getInstance().getFileSeparator() + "userAvatar";
                         fileRequestService.parseImageBySpecifiedURL(avatar, realPath, avatarURL);
                         oldAdmin.setAvatarURL(avatarURL);
                     }

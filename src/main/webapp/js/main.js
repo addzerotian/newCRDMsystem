@@ -90,3 +90,34 @@ function modifiable(adminAuth, modifiedAuth) {
         button.attr("data-target", "#modify_admin");
     }
 }
+
+function test() {
+    var avatar = $("#modify_avatar")[0].files[0];
+    var data = new FormData();
+
+    if(!avatar) avatar = "";
+
+    //将验证后的数据加入将要发送的FormData
+    data.append("request-type", "test");
+    data.append("img", avatar);
+
+    $.ajax({
+        type: "post",
+        url: "admin_requests.jsp",
+        contentType: false,
+        processData: false,
+        async: false,
+        data: data,
+        success: function (result) {
+            if(parseInt(result["status"].toString()) === 0) {
+                alertSuccess("修改信息成功！");
+                flushInfo();
+            } else {
+                alertWarning("修改信息失败！");
+            }
+        },
+        error: function (status, error) {
+
+        }
+    });
+}

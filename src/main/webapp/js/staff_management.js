@@ -85,14 +85,13 @@ function addStaff() {
         success: function (result) {
             if(parseInt(result["status"].toString()) === 0) {
                 alertSuccess("添加成功！");
+                //隐藏模态框
+                $("#add_staff").modal("hide");
             } else {
                 alertWarning("添加失败！");
             }
         }
     });
-
-    //隐藏模态框
-    $("#add_staff").modal("hide");
 }
 
 function searchStaff() {
@@ -131,7 +130,8 @@ function searchStaff() {
                 $("#staff_table>tbody>tr:nth-child(12)>th:nth-child(2)").text(result["staff"][0]["dutyMonthHours"]);
                 $("#staff_table>tbody>tr:nth-child(13)>th:nth-child(2)").text(result["staff"][0]["gradeMonth"]);
                 $("#staff_table>tbody>tr:nth-child(14)>th:nth-child(2)").text(result["staff"][0]["absenceMonth"]);
-                $("#staff_info_body").append("<img class=\"avatar\" id=\"staff_avatar\" alt=\"\">");
+
+                if($("#staff_avatar").length === 0) $("#staff_info_body").append("<img class=\"avatar\" id=\"staff_avatar\" alt=\"\">");
                 $("#staff_avatar").attr("src", avatarURL);
                 if($("#staff_info_footer>button").length === 0) {
                     var button1 = "<button class=\"btn btn-primary\">修改信息</button>";
@@ -148,7 +148,7 @@ function searchStaff() {
                 map.enableScrollWheelZoom(true);
                 map.addOverlay(marker);
             }else {
-                window.alert("无此客服！");
+                alertWarning("无此客服！");
             }
         }
     });
@@ -213,13 +213,12 @@ function modifyStaff() {
         success: function (result) {
             if(parseInt(result["status"].toString()) === 0) {
                 alertSuccess("修改信息成功！");
+                //隐藏模态框
+                $("#modify_staff").modal("hide");
                 searchStaff();
             } else {
                 alertWarning("修改信息失败！");
             }
         }
     });
-
-    //隐藏模态框
-    $("#modify_staff").modal("hide");
 }

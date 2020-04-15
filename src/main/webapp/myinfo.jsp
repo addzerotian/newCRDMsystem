@@ -30,6 +30,7 @@
 </head>
 <body>
 <%
+    response.addCookie(new Cookie("JSESSIONID", session.getId()));
     thisAdmin = (Admin) session.getAttribute("admin");
     if(thisAdmin == null) { %>
 <script>window.alert("无效的管理员信息!")</script>
@@ -157,7 +158,7 @@
                             <h4 class="modal-title" id="modal_label_1">修改信息</h4>
                         </div>
                         <div class="modal-body">
-                            <form class="form-horizontal" role="form">
+                            <form class="form-horizontal" role="form" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label for="modify_aid" class="col-sm-2 control-label">账号</label>
                                     <div class="col-sm-10">

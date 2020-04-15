@@ -28,6 +28,7 @@
 </head>
 <body>
 <%
+    response.addCookie(new Cookie("JSESSIONID", session.getId()));
     thisAdmin = (Admin) session.getAttribute("admin");
     if(thisAdmin == null) { %>
 <script>window.alert("无效的管理员信息!")</script>

@@ -28,6 +28,7 @@
 </head>
 <body>
 <%
+    response.addCookie(new Cookie("JSESSIONID", session.getId()));
     thisAdmin = (Admin) session.getAttribute("admin");
     if(thisAdmin == null) { %>
 <script>window.alert("无效的管理员信息!")</script>
@@ -87,10 +88,6 @@
         </div>
     </div>
     <div class="row clearfix" id="content">
-        <div class="col-md-8 column">
-            <button type="button" class="btn btn-block" data-toggle="collapse" data-target="#map_canvas">折叠地图</button>
-            <div class="collapse in" id="map_canvas"></div>
-        </div>
         <div class="col-md-4 column">
             <div id="request_info">
                 <table class="table table-bordered" id="info_table">
@@ -120,6 +117,10 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+        <div class="col-md-8 column">
+            <button type="button" class="btn btn-block" data-toggle="collapse" data-target="#map_canvas">折叠地图</button>
+            <div class="collapse in" id="map_canvas"></div>
         </div>
     </div>
 </div>

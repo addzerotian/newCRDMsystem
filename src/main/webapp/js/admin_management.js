@@ -143,14 +143,13 @@ function addAdmin(requestAdminAuth) {
         success: function (result) {
             if(parseInt(result["status"].toString()) === 0) {
                 alertSuccess("添加成功！");
+                //隐藏模态框
+                $("#add_admin").modal("hide");
             } else {
                 alertWarning("添加失败！");
             }
         }
     });
-
-    //隐藏模态框
-    $("#add_admin").modal("hide");
 }
 
 function modifyAdmin(requestAdminAuth) {
@@ -196,15 +195,14 @@ function modifyAdmin(requestAdminAuth) {
         success: function (result) {
             if(parseInt(result["status"].toString()) === 0) {
                 alertSuccess("修改信息成功！");
+                //隐藏模态框
+                $("#modify_admin").modal("hide");
                 searchAdmin();
             } else {
                 alertWarning("修改信息失败！");
             }
         }
     });
-
-    //隐藏模态框
-    $("#modify_admin").modal("hide");
 }
 
 function submitByAdmin(action, adminAuth) {

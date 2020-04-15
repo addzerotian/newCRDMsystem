@@ -28,6 +28,7 @@
 </head>
 <body>
 <%
+    response.addCookie(new Cookie("JSESSIONID", session.getId()));
     thisAdmin = (Admin) session.getAttribute("admin");
     if(thisAdmin == null) {
         thisAdmin = adminController.adminLogin(request.getParameter("aid"), request.getParameter("password"));

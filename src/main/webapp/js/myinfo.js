@@ -118,13 +118,12 @@ function updateInfo() {
         success: function (result) {
             if(parseInt(result["status"].toString()) === 0) {
                 alertSuccess("修改信息成功！");
+                //隐藏模态框
+                $("#modify_info").modal("hide");
                 flushInfo();
             } else {
                 alertWarning("修改信息失败！");
             }
         }
     });
-
-    //隐藏模态框
-    $("#modify_info").modal("hide");
 }
