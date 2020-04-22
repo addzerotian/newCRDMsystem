@@ -1,7 +1,6 @@
 package bll.controller;
 
 import bll.service.*;
-import dal.model.Admin;
 import dal.model.MultiEnvStandardFormat;
 import dal.model.Staff;
 import dal.model.StandardDateFormat;
@@ -25,7 +24,6 @@ public class StaffControllerImpl implements StaffController {
         fileRequestService = new FileRequestServiceImpl();
         dateService = new DateServiceImpl();
         mapModel = new MapModelImpl();
-        MultiEnvStandardFormat.getInstance().changeToWindowsFileSeparator();
     }
 
     @Override

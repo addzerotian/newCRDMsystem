@@ -1,19 +1,7 @@
 package dal.model;
 
-import bll.service.DateService;
-import bll.service.DateServiceImpl;
-import dal.dao.ModelDao;
-import dal.dao.ModelDaoImpl;
 import org.json.JSONObject;
 import org.junit.Test;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.regex.Pattern;
 
 
 public class HiberSessionTest {
@@ -50,6 +38,16 @@ public class HiberSessionTest {
 
     @Test
     public void test2() {
+        String result = "{\"status\":0,\"result\":[{\"x\":114.2307519546763,\"y\":29.57908428837437}]}";
 
+        try {
+            JSONObject jsonObject = new JSONObject(result);
+            JSONObject res = (JSONObject) jsonObject.getJSONArray("result").get(0);
+            System.out.println(res.get("x"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //System.out.println(map.get("longitude") + ", " + map.get("latitude"));
     }
 }

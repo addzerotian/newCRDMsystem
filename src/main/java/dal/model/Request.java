@@ -2,31 +2,37 @@ package dal.model;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Request {
-    private float longitude;
-    private float latitude;
-    private String cid;
+    private String rid;
+    private double longitude;
+    private double latitude;
+    private Customer customer;
     private Date startTime;
-    private String status;
+    private int status;
     private String location;
 
     public Request() {
     }
 
-    public float getLongitude() {
+    public Request(String rid) {
+        this.rid = rid;
+    }
+
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
@@ -38,14 +44,6 @@ public class Request {
         this.startTime = startTime;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public String getLocation() {
         return location;
     }
@@ -54,23 +52,40 @@ public class Request {
         this.location = location;
     }
 
-    public String getCid() {
-        return cid;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCid(String cid) {
-        this.cid = cid;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
-    public HashMap<String, Object> getMapRequest() {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("longitude", longitude);
-        map.put("latitude", latitude);
-        map.put("startTime", startTime);
-        map.put("status", status);
-        map.put("location", location);
-        map.put("cid", cid);
+    public String getRid() {
+        return rid;
+    }
 
-        return map;
+    public void setRid(String rid) {
+        this.rid = rid;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Request request = (Request) o;
+        return Objects.equals(rid, request.rid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(rid);
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

@@ -1,9 +1,6 @@
 package bll.service;
 
-import dal.model.Admin;
-import dal.model.Staff;
-import dal.model.StandardDateFormat;
-import dal.model.User;
+import dal.model.*;
 
 import java.util.HashMap;
 
@@ -58,6 +55,21 @@ public class MapModelImpl implements MapModel {
         map.put("gradeMonth", staff.getGradeMonth());
         map.put("absenceTotal", staff.getAbsenceTotal());
         map.put("absenceMonth", staff.getAbsenceMonth());
+
+        return map;
+    }
+
+    @Override
+    public HashMap<String, Object> getMapRequest(Request request) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("longitude", request.getLongitude());
+        map.put("latitude", request.getLatitude());
+        map.put("rid", request.getRid());
+        map.put("startTime", dateService.getStringFromDate(request.getStartTime(), StandardDateFormat.WX_DF));
+        map.put("status", request.getStatus());
+        map.put("location", request.getLocation());
+        map.put("cid", request.getCustomer().getCid());
+        map.put("name", request.getCustomer().getName());
 
         return map;
     }

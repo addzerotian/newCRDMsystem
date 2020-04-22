@@ -7,7 +7,8 @@ public class MultiEnvStandardFormat {
     private String fileSeparator;
 
     public MultiEnvStandardFormat() {
-        fileSeparator = FILE_SEPARATOR_LINUX;
+        //部署前检查部署环境，选择正确的文件分隔符
+        changeToWindowsFileSeparator();
     }
 
     public static MultiEnvStandardFormat getInstance() { return instance; }

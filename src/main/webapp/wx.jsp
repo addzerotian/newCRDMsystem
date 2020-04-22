@@ -16,17 +16,25 @@
 <%
     if("login".equals(request.getParameter("request-type")))
     {
-        String uid = request.getParameter("uid");
-        String password = request.getParameter("password");
-        wxController.customerLogin(response, uid, password);
+        wxController.customerLogin(response, request.getParameter("code"));
     }
     else if("register".equals(request.getParameter("request-type"))) {
-        String uid = request.getParameter("uid");
-        String password = request.getParameter("password");
-        wxController.customerRegister(response, uid, password);
+        wxController.customerRegister(response, request);
     }
     else if("request".equals(request.getParameter("request-type"))) {
-        wxController.sendRequest(request);
+        wxController.sendRequest(response, request);
+    }
+    else if("get-info".equals(request.getParameter("request-type"))) {
+        wxController.customerInfo(response, request.getParameter("cid"));
+    }
+    else if("update-info".equals(request.getParameter("request-type"))) {
+        wxController.updateInfo(response, request);
+    }
+    else if("get-request-info".equals(request.getParameter("request-type"))) {
+        wxController.getRequestInfo(response, request.getParameter("rid"));
+    }
+    else if("get-customer-requests".equals(request.getParameter("request-type"))) {
+        wxController.getCustomerRequests(response, request.getParameter("cid"));
     }
 %>
 </body>

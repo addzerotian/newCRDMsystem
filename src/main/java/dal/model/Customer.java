@@ -10,6 +10,12 @@ public class Customer extends User {
         totalRequestTimes = 0;
     }
 
+    public Customer(String cid) {
+        super();
+        this.cid = cid;
+        totalRequestTimes = 0;
+    }
+
     public Customer() {
     }
 

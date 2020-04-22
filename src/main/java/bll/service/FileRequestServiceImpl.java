@@ -93,6 +93,11 @@ public class FileRequestServiceImpl implements FileRequestService {
     }
 
     @Override
+    public String calMD5OfRequest(String key) {
+        return DigestUtils.md5Hex(key);
+    }
+
+    @Override
     public void setResponse(HttpServletResponse response, JSONObject jsonObject) {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");

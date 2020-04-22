@@ -10,5 +10,6 @@ public interface FileRequestService {
     Map<String, Object> parseRequest(HttpServletRequest request);
     void parseImageBySpecifiedURL(byte[] image, String path, String URL);
     String calcMD5OfFile(byte[] file);
+    String calMD5OfRequest(String key);
     void setResponse(HttpServletResponse response, JSONObject jsonObject);
 }
