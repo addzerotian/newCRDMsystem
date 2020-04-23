@@ -25,6 +25,7 @@
     <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=Lm1k2R6SybtdXGL0bFhbdQM8rG6DQDvs"></script>
     <script src="js/alertBox.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/requests.js"></script>
 </head>
 <body>
 <%
@@ -99,20 +100,24 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <th>客户ID</th>
-                        <th></th>
+                        <th class="text-center">请求ID</th>
+                        <th class="text-center"></th>
                     </tr>
                     <tr>
-                        <th>请求时间</th>
-                        <th></th>
+                        <th class="text-center">客户</th>
+                        <th class="text-center"></th>
                     </tr>
                     <tr>
-                        <th>请求状态</th>
-                        <th></th>
+                        <th class="text-center">请求时间</th>
+                        <th class="text-center"></th>
                     </tr>
                     <tr>
-                        <th>请求地点</th>
-                        <th></th>
+                        <th class="text-center">请求状态</th>
+                        <th class="text-center"></th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">请求地点</th>
+                        <th class="text-center"></th>
                     </tr>
                     </tbody>
                 </table>
@@ -132,7 +137,7 @@
                             <h4 class="modal-title" id="modal_label_1">请求处理</h4>
                         </div>
                         <div class="modal-body">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" id="request-table">
                                 <thead>
                                 <tr>
                                     <th class="text-center">属性</th>
@@ -175,13 +180,5 @@
     </div>
 </footer>
 <%  } %>
-<script>
-    var map = new BMap.Map("map_canvas");
-    //地图中心设置为重庆大学
-    var point = new BMap.Point(106.475, 29.571);
-    map.centerAndZoom(point, 15);
-    map.enableScrollWheelZoom(true);
-    setInterval(flashMap, 1000);
-</script>
 </body>
 </html>

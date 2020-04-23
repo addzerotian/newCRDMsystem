@@ -12,4 +12,5 @@ public interface FileRequestService {
     String calcMD5OfFile(byte[] file);
     String calMD5OfRequest(String key);
     void setResponse(HttpServletResponse response, JSONObject jsonObject);
+    Map<String, Object> calcSimuLocationOfStaff(Map<String, Object> mapStaff, double longitude, double latitude);
 }

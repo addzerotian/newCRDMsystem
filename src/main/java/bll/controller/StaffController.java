@@ -9,4 +9,5 @@ public interface StaffController {
     void addStaff(HttpServletResponse response, Map<String, Object> mapRequest);
     void searchStaff(HttpServletResponse response, String sid);
     void modifyStaff(HttpServletResponse response, Map<String, Object> mapRequest);
+    void simuAroundStaffs(HttpServletResponse response, double longitude, double latitude);
 }

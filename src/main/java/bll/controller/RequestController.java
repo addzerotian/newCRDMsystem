@@ -5,5 +5,5 @@ import dal.model.RequestList;
 import javax.servlet.http.HttpServletResponse;
 
 public interface RequestController {
-    void requestFlush(HttpServletResponse response);
+    void requestFlush(HttpServletResponse response, int trigger);
 }

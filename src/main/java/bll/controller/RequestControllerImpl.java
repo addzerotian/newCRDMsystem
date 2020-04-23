@@ -24,10 +24,26 @@ public class RequestControllerImpl implements RequestController {
     }
 
     @Override
-    public void requestFlush(HttpServletResponse response) {
+    public void requestFlush(HttpServletResponse response, int trigger) {
         JSONObject jsonResponse = new JSONObject();
 
-        if(requestList.isListChanged()) {
+        if(trigger == 0) {
+            if(requestList.isListChanged()) {
+                int requestNumber = requestList.getWaitingRequests();
+
+                jsonResponse.append("request", mapModel.getMapRequest(requestList.getRequest(0)));
+                for(int i = 1; i < requestNumber; i++) {
+                    Request customerRequest = requestList.getRequest(i);
+                    jsonResponse.accumulate("request", mapModel.getMapRequest(customerRequest));
+                }
+                jsonResponse.append("requestNumber", requestNumber);
+                jsonResponse.append("status", 0);
+                requestList.setListChanged(false);
+            }
+            else {
+                jsonResponse.append("status", -1);
+            }
+        } else if (trigger == 1) {
             int requestNumber = requestList.getWaitingRequests();
 
             jsonResponse.append("request", mapModel.getMapRequest(requestList.getRequest(0)));
@@ -37,11 +53,9 @@ public class RequestControllerImpl implements RequestController {
             }
             jsonResponse.append("requestNumber", requestNumber);
             jsonResponse.append("status", 0);
-            requestList.setListChanged(false);
         }
-        else {
-            jsonResponse.append("status", -1);
-        }
+
+
 
         fileRequestService.setResponse(response, jsonResponse);
     }

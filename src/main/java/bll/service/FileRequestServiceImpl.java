@@ -113,4 +113,19 @@ public class FileRequestServiceImpl implements FileRequestService {
             send.close();
         }
     }
+
+    @Override
+    public Map<String, Object> calcSimuLocationOfStaff(Map<String, Object> mapStaff, double longitude, double latitude) {
+        //计算以定点为矩形中心，半径1km的经纬度范围
+        final double deltaLatPerKM = 1.0 / 111.0;
+        final double deltaLngPerKM = 1.0 / (111.0 * Math.cos(Math.toRadians(latitude)));
+
+        double staffLng = Math.random() * deltaLngPerKM * Math.pow(-1, (int)(Math.random() * 2)) + longitude;
+        double staffLat = Math.random() * deltaLatPerKM * Math.pow(-1, (int)(Math.random() * 2)) + latitude;
+        mapStaff.put("longitude", staffLng);
+        mapStaff.put("latitude", staffLat);
+        System.out.println(staffLng + ", " + staffLat);
+
+        return mapStaff;
+    }
 }

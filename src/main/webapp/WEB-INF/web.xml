@@ -30,6 +30,10 @@
     <servlet-name>myinfo</servlet-name>
     <jsp-file>/myinfo.jsp</jsp-file>
   </servlet>
+  <servlet>
+    <servlet-name>dispatch</servlet-name>
+    <jsp-file>/dispatch.jsp</jsp-file>
+  </servlet>
   
   <!--servlet mapping-->
   <servlet-mapping>
@@ -55,6 +59,10 @@
   <servlet-mapping>
     <servlet-name>myinfo</servlet-name>
     <url-pattern>/MyInfo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>dispatch</servlet-name>
+    <url-pattern>/Dispatch</url-pattern>
   </servlet-mapping>
 
   <!--security constraint -->

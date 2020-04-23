@@ -1,6 +1,7 @@
 package bll.controller;
 
 import bll.service.*;
+import dal.model.Customer;
 import dal.model.MultiEnvStandardFormat;
 import dal.model.Staff;
 import dal.model.StandardDateFormat;
@@ -9,6 +10,7 @@ import org.json.JSONObject;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -151,6 +153,29 @@ public class StaffControllerImpl implements StaffController {
         } else {
             jsonResponse.append("status", -1);
         }
+
+        fileRequestService.setResponse(response, jsonResponse);
+    }
+
+    @Override
+    public void simuAroundStaffs(HttpServletResponse response, double longitude, double latitude) {
+        JSONObject jsonResponse = new JSONObject();
+        ArrayList<String> sids = new ArrayList<>();
+        sids.add("addzero1");
+        sids.add("addzero2");
+
+        System.out.println(longitude + ", " + latitude);
+        Staff staff = daoService.searchStaff("addzero");
+        jsonResponse.append("staffs", fileRequestService.calcSimuLocationOfStaff(mapModel.getMapStaff(staff), longitude, latitude));
+        for (String sid : sids) {
+            staff = daoService.searchStaff(sid);
+            jsonResponse.accumulate("staffs", fileRequestService.calcSimuLocationOfStaff(mapModel.getMapStaff(staff), longitude, latitude));
+        }
+
+        jsonResponse.append("status", 0);
+        jsonResponse.append("longitude", longitude);
+        jsonResponse.append("latitude", latitude);
+        jsonResponse.append("staffNum", sids.size() + 1);
 
         fileRequestService.setResponse(response, jsonResponse);
     }

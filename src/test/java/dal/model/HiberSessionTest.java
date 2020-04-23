@@ -38,16 +38,16 @@ public class HiberSessionTest {
 
     @Test
     public void test2() {
-        String result = "{\"status\":0,\"result\":[{\"x\":114.2307519546763,\"y\":29.57908428837437}]}";
+        double latitude = 29.850848576175064;
+        double longitude = 106.0628333345878;
+        final double deltaLatPerKM = 1.0 / 111.0;
+        System.out.println(Math.cos(Math.toRadians(latitude)));
+        final double deltaLngPerKM = 1.0 / (111.0 * Math.cos(latitude));
 
-        try {
-            JSONObject jsonObject = new JSONObject(result);
-            JSONObject res = (JSONObject) jsonObject.getJSONArray("result").get(0);
-            System.out.println(res.get("x"));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        double staffLng = Math.random() * deltaLngPerKM * Math.pow(-1, (int)(Math.random() * 2)) + longitude;
+        double staffLat = Math.random() * deltaLatPerKM * Math.pow(-1, (int)(Math.random() * 2)) + latitude;
+        System.out.println(staffLng);
+        System.out.println(staffLat);
         //System.out.println(map.get("longitude") + ", " + map.get("latitude"));
     }
 }

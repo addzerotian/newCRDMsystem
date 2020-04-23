@@ -35,7 +35,7 @@
             }
             JSONObject jsonRequest = new JSONObject(strRequest);
             if ("flushMap".equals(jsonRequest.getString("request-type"))) {
-                requestController.requestFlush(response);
+                requestController.requestFlush(response, jsonRequest.getInt("trigger"));
             }
         }
     } %>

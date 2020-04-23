@@ -1,4 +1,6 @@
-<%@ page import="dal.model.Admin" %><%--
+<%@ page import="dal.model.Admin" %>
+<%@ page import="dal.model.Request" %>
+<%@ page import="dal.model.RequestList" %><%--
   Created by IntelliJ IDEA.
   User: addzero
   Date: 2020/4/22
@@ -23,6 +25,7 @@
     <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=Lm1k2R6SybtdXGL0bFhbdQM8rG6DQDvs"></script>
     <script src="js/alertBox.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/dispatch.js"></script>
 </head>
 <body>
 <%
@@ -30,7 +33,15 @@
     thisAdmin = (Admin) session.getAttribute("admin");
     if(thisAdmin == null) { %>
 <script>window.alert("无效的管理员信息!")</script>
-<%  } else { %>
+<%  } else {
+        String rid = request.getParameter("rid");
+        if(rid == null) {
+%>
+<script>window.alert("错误的请求单号!")</script>
+<%      } else {
+            Request customerRequest = RequestList.getInstance().getRequest(rid);
+
+%>
 <div class="container">
     <div class="row clearfix">
         <div class="col-md-12 column">
@@ -88,12 +99,103 @@
             </nav>
         </div>
     </div>
+    <div class="row clearfix" id="content">
+        <div class="col-md-4 column">
+            <div class="panel panel-info" id="staff_info">
+                <div class="panel-heading" id="staff_info_heading">
+                    <h5 class="panel-title text-center">
+                        客服信息
+                    </h5>
+                </div>
+                <div class="panel-body" id="staff_info_body">
+                </div>
+                <table class="table table-bordered table-condensed" id="staff_table">
+                    <thead>
+                    <tr>
+                        <th class="text-center">属性</th>
+                        <th class="text-center">值</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th class="text-center">客服ID</th>
+                        <th class="text-center"></th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">姓名</th>
+                        <th class="text-center"></th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">生日</th>
+                        <th class="text-center"></th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">性别</th>
+                        <th class="text-center"></th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">电话</th>
+                        <th class="text-center"></th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">邮箱</th>
+                        <th class="text-center"></th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">出勤次数(总)</th>
+                        <th class="text-center"></th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">出勤时长(总)</th>
+                        <th class="text-center"></th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">出勤评价(总)</th>
+                        <th class="text-center"></th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">缺勤次数(总)</th>
+                        <th class="text-center"></th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">出勤次数(月)</th>
+                        <th class="text-center"></th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">出勤时长(月)</th>
+                        <th class="text-center"></th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">出勤评价(月)</th>
+                        <th class="text-center"></th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">缺勤次数(月)</th>
+                        <th class="text-center"></th>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="panel-footer" id="staff_info_footer">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 column">
+            <button type="button" class="btn btn-block" data-toggle="collapse" data-target="#map_canvas">折叠地图</button>
+            <div class="collapse in" id="map_canvas"></div>
+        </div>
+    </div>
 </div>
 <footer class="docs-footer">
     <div class="container">
         备案号：<a href="http://beian.miit.gov.cn" target="_blank">渝ICP备20002126号-1</a>
     </div>
 </footer>
-<%  } %>
+<script>
+    $(function () {
+        getStaffsAroundCustomer(<%=customerRequest.getLongitude()%>, <%=customerRequest.getLatitude()%>);
+    });
+</script>
+<%      }
+    }%>
 </body>
 </html>
