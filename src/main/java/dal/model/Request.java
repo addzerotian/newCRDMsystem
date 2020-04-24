@@ -6,6 +6,7 @@ import java.util.Objects;
 
 public class Request {
     private String rid;
+    private String dispatchID;
     private double longitude;
     private double latitude;
     private Customer customer;
@@ -87,5 +88,13 @@ public class Request {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getDispatchID() {
+        return dispatchID;
+    }
+
+    public void setDispatchID(String dispatchID) {
+        this.dispatchID = dispatchID;
     }
 }
