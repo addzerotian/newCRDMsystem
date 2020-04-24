@@ -14,7 +14,7 @@ public class DispatchInfo {
     private float star;
     private String customerComment;
     private Date checkTime;
-    private byte[] checkPhoto;
+    private String checkPhoto;
     private String checkLocation;
 
     public DispatchInfo(String did, String sid, String cid, Date startTime, Date dispatchTime) {
@@ -23,6 +23,12 @@ public class DispatchInfo {
         this.cid = cid;
         this.startTime = startTime;
         this.dispatchTime = dispatchTime;
+        this.waitMinutes = (float) 0.0;
+        this.star = (float) 0.0;
+        this.checkLocation = "";
+        this.checkPhoto = "";
+        this.customerComment = "";
+        this.status = "pending";
     }
 
     public DispatchInfo() {
@@ -116,11 +122,11 @@ public class DispatchInfo {
         this.checkTime = checkTime;
     }
 
-    public byte[] getCheckPhoto() {
+    public String getCheckPhoto() {
         return checkPhoto;
     }
 
-    public void setCheckPhoto(byte[] checkPhoto) {
+    public void setCheckPhoto(String checkPhoto) {
         this.checkPhoto = checkPhoto;
     }
 
