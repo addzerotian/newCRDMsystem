@@ -70,6 +70,29 @@ public class MapModelImpl implements MapModel {
         map.put("location", request.getLocation());
         map.put("cid", request.getCustomer().getCid());
         map.put("name", request.getCustomer().getName());
+        map.put("dispatch", request.getDispatchID());
+
+        return map;
+    }
+
+    @Override
+    public HashMap<String, Object> getMapDispatchInfo(DispatchInfo dispatchInfo) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("did", dispatchInfo.getDid());
+        map.put("sid", dispatchInfo.getSid());
+        map.put("cid", dispatchInfo.getCid());
+        map.put("startTime", dateService.getStringFromDate(dispatchInfo.getStartTime(), StandardDateFormat.WX_DF));
+        map.put("dispatchTime", dateService.getStringFromDate(dispatchInfo.getDispatchTime(), StandardDateFormat.WX_DF));
+        if(dispatchInfo.getEndTime() != null) map.put("endTime", dateService.getStringFromDate(dispatchInfo.getEndTime(), StandardDateFormat.WX_DF));
+        else map.put("endTime", "");
+        if(dispatchInfo.getCheckTime() != null) map.put("checkTime", dateService.getStringFromDate(dispatchInfo.getCheckTime(), StandardDateFormat.WX_DF));
+        else map.put("checkTime", "");
+        map.put("waitMinutes", dispatchInfo.getWaitMinutes());
+        map.put("status", dispatchInfo.getStatus());
+        map.put("star", dispatchInfo.getStar());
+        map.put("comment", dispatchInfo.getCustomerComment());
+        map.put("checkPhoto", dispatchInfo.getCheckPhoto());
+        map.put("checkLocation", dispatchInfo.getCheckLocation());
 
         return map;
     }
