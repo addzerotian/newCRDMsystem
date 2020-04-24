@@ -43,6 +43,9 @@ public class RequestList {
                 this.removeRequest(request);
                 waitingRequests--;
             }
+            else if(request.getStatus() == 1) { //1对应状态：该请求已派工
+                waitingRequests--;
+            }
             else if(this.getRequest(request).getStatus() != request.getStatus())
                 this.getRequest(request).setStatus(request.getStatus());
         }
