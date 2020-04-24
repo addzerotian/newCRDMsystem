@@ -4,6 +4,7 @@ import dal.dao.ModelDao;
 import dal.dao.ModelDaoImpl;
 import dal.model.Admin;
 import dal.model.Customer;
+import dal.model.DispatchInfo;
 import dal.model.Staff;
 
 public class DaoServiceImpl implements DaoService {
@@ -63,6 +64,18 @@ public class DaoServiceImpl implements DaoService {
         }
 
         return staff;
+    }
+
+    @Override
+    public DispatchInfo searchDispatchInfo(String did) {
+        DispatchInfo dispatchInfo;
+        try {
+            dispatchInfo = modelDao.getDispatchInfo(did);
+        } catch (Exception e) {
+            return null;
+        }
+
+        return dispatchInfo;
     }
 
     @Override
