@@ -31,13 +31,18 @@ public class RequestControllerImpl implements RequestController {
             if(requestList.isListChanged()) {
                 int requestNumber = requestList.getWaitingRequests();
 
-                jsonResponse.append("request", mapModel.getMapRequest(requestList.getRequest(0)));
-                for(int i = 1; i < requestNumber; i++) {
-                    Request customerRequest = requestList.getRequest(i);
-                    jsonResponse.accumulate("request", mapModel.getMapRequest(customerRequest));
+                if(requestNumber > 0) {
+                    jsonResponse.append("request", mapModel.getMapRequest(requestList.getRequest(0)));
+                    for(int i = 1; i < requestNumber; i++) {
+                        Request customerRequest = requestList.getRequest(i);
+                        jsonResponse.accumulate("request", mapModel.getMapRequest(customerRequest));
+                    }
+                    jsonResponse.append("requestNumber", requestNumber);
+                    jsonResponse.append("status", 0);
+                } else {
+                    jsonResponse.append("status", 1);
                 }
-                jsonResponse.append("requestNumber", requestNumber);
-                jsonResponse.append("status", 0);
+
                 requestList.setListChanged(false);
             }
             else {
@@ -46,13 +51,18 @@ public class RequestControllerImpl implements RequestController {
         } else if (trigger == 1) {
             int requestNumber = requestList.getWaitingRequests();
 
-            jsonResponse.append("request", mapModel.getMapRequest(requestList.getRequest(0)));
-            for(int i = 1; i < requestNumber; i++) {
-                Request customerRequest = requestList.getRequest(i);
-                jsonResponse.accumulate("request", mapModel.getMapRequest(customerRequest));
+            if(requestNumber > 0) {
+                jsonResponse.append("request", mapModel.getMapRequest(requestList.getRequest(0)));
+                for(int i = 1; i < requestNumber; i++) {
+                    Request customerRequest = requestList.getRequest(i);
+                    jsonResponse.accumulate("request", mapModel.getMapRequest(customerRequest));
+                }
+                jsonResponse.append("requestNumber", requestNumber);
+                jsonResponse.append("status", 0);
+            } else {
+                jsonResponse.append("status", -1);
             }
-            jsonResponse.append("requestNumber", requestNumber);
-            jsonResponse.append("status", 0);
+
         }
 
 
