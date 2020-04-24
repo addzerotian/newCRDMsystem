@@ -124,7 +124,7 @@ public class FileRequestServiceImpl implements FileRequestService {
         double staffLat = Math.random() * deltaLatPerKM * Math.pow(-1, (int)(Math.random() * 2)) + latitude;
         mapStaff.put("longitude", staffLng);
         mapStaff.put("latitude", staffLat);
-        System.out.println(staffLng + ", " + staffLat);
+        //System.out.println(staffLng + ", " + staffLat);
 
         return mapStaff;
     }
