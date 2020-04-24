@@ -7,7 +7,6 @@ $(function () {
 })
 
 function getStaffsAroundCustomer(cusLng, cusLat) {
-    console.log(cusLng + ", " + cusLat);
     var point = new BMap.Point(cusLng, cusLat);
     var marker = new BMap.Marker(point);
 
@@ -77,5 +76,35 @@ function showStaffInfo(staff) {
         var button1 = "<button class=\"btn btn-primary\">派工</button>";
         $("#staff_info_footer").append(button1);
         $("#staff_info_footer button").attr("style", "margin-left: 70%");
+        $("#staff_info_footer button").click(dispatch);
     }
+}
+
+function dispatch() {
+    confirmWarning("是否确认派工？", doDispatch);
+}
+
+function doDispatch() {
+    confirmBoxHide();
+    //获取客服id和请求id
+    var urlList = window.document.location.href.toString().split("?");
+    var sid = $("#staff_table>tbody>tr:nth-child(1)>th:nth-child(2)").text();
+    var rid = urlList[1].split("=")[1];
+
+    //向服务器发送派工数据，包括请求id和派工的客服id
+    $.ajax({
+        type: "post",
+        url: "dispatch_request.jsp",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({"request-type": "dispatch", "rid": rid, "sid": sid}),
+        success: function (result) {
+            if(parseInt(result.status) === 0) {
+                confirmSuccess("派工成功,返回请求处理页面", function () {
+                    window.location.href = "RequestManage";
+                });
+            } else {
+                alertWarning("派工失败");
+            }
+        }
+    })
 }
