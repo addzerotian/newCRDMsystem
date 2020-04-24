@@ -36,6 +36,9 @@
     else if("get-customer-requests".equals(request.getParameter("request-type"))) {
         wxController.getCustomerRequests(response, request.getParameter("cid"));
     }
+    else if("get-dispatch-info".equals(request.getParameter("request-type"))) {
+        wxController.getDispatchInfo(response, request.getParameter("did"));
+    }
 %>
 </body>
 </html>
