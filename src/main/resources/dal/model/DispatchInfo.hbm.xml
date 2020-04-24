@@ -9,9 +9,7 @@
 
     <class name="dal.model.DispatchInfo" table="dispatchinfo">
 
-        <id name="did" column="DID">
-            <generator class="native"/>
-        </id>
+        <id name="did" column="DID" />
         <property name="sid" column="SID"/>
         <property name="cid" column="CID"/>
         <property name="startTime" column="START_TIME"/>
