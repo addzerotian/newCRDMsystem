@@ -11,4 +11,5 @@ public interface WxController {
     void updateInfo(HttpServletResponse response, HttpServletRequest request);
     void getRequestInfo(HttpServletResponse response, String rid);
     void getCustomerRequests(HttpServletResponse response, String cid);
+    void getDispatchInfo(HttpServletResponse response, String did);
 }

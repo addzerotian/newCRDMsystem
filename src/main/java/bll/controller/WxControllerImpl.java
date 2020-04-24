@@ -288,7 +288,7 @@ public class WxControllerImpl implements WxController {
         JSONObject jsonResponse = new JSONObject();
 
         if(RequestList.getInstance().getLength() < 1) {
-            jsonResponse.append("status", -1);
+            jsonResponse.append("status", 0);
         } else {
             for(int i = 0; i < RequestList.getInstance().getLength(); i++) {
                 if(cid.equals(RequestList.getInstance().getRequest(i).getCustomer().getCid())) {
@@ -310,6 +310,22 @@ public class WxControllerImpl implements WxController {
         }
 
 
+
+        fileRequestService.setResponse(response, jsonResponse);
+    }
+
+    @Override
+    public void getDispatchInfo(HttpServletResponse response, String did) {
+        JSONObject jsonResponse = new JSONObject();
+
+        DispatchInfo dispatchInfo = daoService.searchDispatchInfo(did);
+
+        if(dispatchInfo == null) {
+            jsonResponse.append("status", 0);
+        } else {
+            jsonResponse.append("dispatch", mapModel.getMapDispatchInfo(dispatchInfo));
+            jsonResponse.append("status", 1);
+        }
 
         fileRequestService.setResponse(response, jsonResponse);
     }
