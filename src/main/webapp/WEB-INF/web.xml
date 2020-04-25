@@ -73,6 +73,7 @@
       <url-pattern>/staff_requests.jsp</url-pattern>
       <url-pattern>/requestList.jsp</url-pattern>
       <url-pattern>/wx.jsp</url-pattern>
+      <url-pattern>/dispatch_request.jsp</url-pattern>
       <http-method>GET</http-method>
       <http-method>PUT</http-method>
       <http-method>HEAD</http-method>
