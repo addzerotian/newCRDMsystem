@@ -11,7 +11,7 @@ public class DispatchInfo {
     private Date endTime;
     private float waitMinutes;
     private String status;
-    private float star;
+    private int star;
     private String customerComment;
     private Date checkTime;
     private String checkPhoto;
@@ -24,7 +24,7 @@ public class DispatchInfo {
         this.startTime = startTime;
         this.dispatchTime = dispatchTime;
         this.waitMinutes = (float) 0.0;
-        this.star = (float) 0.0;
+        this.star = 0;
         this.checkLocation = "";
         this.checkPhoto = "";
         this.customerComment = "";
@@ -98,11 +98,11 @@ public class DispatchInfo {
         this.status = status;
     }
 
-    public float getStar() {
+    public int getStar() {
         return star;
     }
 
-    public void setStar(float star) {
+    public void setStar(int star) {
         this.star = star;
     }
 
