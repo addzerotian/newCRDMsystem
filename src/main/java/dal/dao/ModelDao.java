@@ -35,6 +35,7 @@ public interface ModelDao {
     //DispatchInfo表数据库操作
     List<DispatchInfo> getAllDispatchInfos();
     DispatchInfo getDispatchInfo(String did);
+    List<DispatchInfo> searchDispatchesByCid(String cid);
     void addDispatchInfo(DispatchInfo dispatch);
     void updateDispatchInfo(DispatchInfo dispatch);
     void deleteDispatchInfo(DispatchInfo dispatch);

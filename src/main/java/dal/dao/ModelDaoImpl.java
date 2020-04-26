@@ -353,6 +353,26 @@ public class ModelDaoImpl implements ModelDao {
     }
 
     @Override
+    public List<DispatchInfo> searchDispatchesByCid(String cid) {
+        Session session = hiberSession.createSession();
+        CriteriaQuery<DispatchInfo> dispatchQuery = session.getCriteriaBuilder().createQuery(DispatchInfo.class);
+        Root<DispatchInfo> dispatchRoot =dispatchQuery.from(DispatchInfo.class);
+        dispatchQuery.where(session.getCriteriaBuilder().equal(dispatchRoot.get("cid"), cid));
+
+        List<DispatchInfo> dispatches = null;
+        try {
+            dispatches = session.createQuery(dispatchQuery).getResultList();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return dispatches;
+
+    }
+
+    @Override
     public void addDispatchInfo(DispatchInfo dispatch) {
         Session session = hiberSession.createSession();
         Transaction transaction = session.beginTransaction();
