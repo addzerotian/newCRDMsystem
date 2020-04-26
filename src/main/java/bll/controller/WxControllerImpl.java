@@ -329,4 +329,19 @@ public class WxControllerImpl implements WxController {
 
         fileRequestService.setResponse(response, jsonResponse);
     }
+
+    @Override
+    public void feedback(HttpServletResponse response, String did, int star, String comment) {
+        JSONObject jsonResponse = new JSONObject();
+
+        DispatchController dispatchController = new DispatchControllerImpl();
+
+        if(dispatchController.dispatchDone(did, star, comment) == 0) {
+            jsonResponse.append("status", 1);
+        } else {
+            jsonResponse.append("status", 0);
+        }
+
+        fileRequestService.setResponse(response, jsonResponse);
+    }
 }
