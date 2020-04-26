@@ -58,4 +58,27 @@ public class DispatchControllerImpl implements DispatchController {
         fileRequestService.setResponse(response, jsonResponse);
 
     }
+
+    @Override
+    public int dispatchDone(String did, int star, String comment) {
+        DispatchInfo dispatchInfo = daoService.searchDispatchInfo(did);
+
+        if(dispatchInfo == null) return -1;
+
+        dispatchInfo.setStar(star);
+        dispatchInfo.setCustomerComment(comment);
+        dispatchInfo.setStatus("closed");
+        dispatchInfo.setEndTime(new Date());
+
+        try {
+            daoService.getDao().updateDispatchInfo(dispatchInfo);
+            StaffController staffController = new StaffControllerImpl();
+            staffController.questDone(dispatchInfo.getSid(), dispatchInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+
+        return 0;
+    }
 }
