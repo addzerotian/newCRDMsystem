@@ -1,5 +1,7 @@
 package dal.model;
 
+import dal.dao.ModelDao;
+import dal.dao.ModelDaoImpl;
 import org.json.JSONObject;
 import org.junit.Test;
 
@@ -8,6 +10,9 @@ public class HiberSessionTest {
 
     @Test
     public void test1() {
+        ModelDao modelDao = new ModelDaoImpl();
+        modelDao.searchDispatchesByCid("o3y8h5c19Csr8TcagDzoA9tmZf7c");
+
         //设置生日
         //Calendar calendar = Calendar.getInstance();
         //calendar.set(1998, 1, 26);
@@ -48,6 +53,7 @@ public class HiberSessionTest {
         double staffLat = Math.random() * deltaLatPerKM * Math.pow(-1, (int)(Math.random() * 2)) + latitude;
         System.out.println(staffLng);
         System.out.println(staffLat);
+        System.out.println("o3y8h5c19Csr8TcagDzoA9tmZf7c".length());
         //System.out.println(map.get("longitude") + ", " + map.get("latitude"));
     }
 }
