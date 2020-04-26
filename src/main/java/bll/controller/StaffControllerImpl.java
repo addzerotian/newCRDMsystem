@@ -1,10 +1,7 @@
 package bll.controller;
 
 import bll.service.*;
-import dal.model.Customer;
-import dal.model.MultiEnvStandardFormat;
-import dal.model.Staff;
-import dal.model.StandardDateFormat;
+import dal.model.*;
 import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletResponse;
@@ -106,6 +103,30 @@ public class StaffControllerImpl implements StaffController {
         } finally {
             assert send != null;
             send.close();
+        }
+    }
+
+    @Override
+    public void questDone(String sid, DispatchInfo dispatchInfo) {
+        Staff staff = daoService.searchStaff(sid);
+
+        if(staff != null) {
+            float totalStars = staff.getDutyTotalTimes() * staff.getGradeTotal() + dispatchInfo.getStar();
+            float monthStars = staff.getDutyMonthTimes() * staff.getGradeMonth() + dispatchInfo.getStar();
+            double dutyHours = (dispatchInfo.getEndTime().getTime() - dispatchInfo.getStartTime().getTime()) / (1000.0 * 60.0 * 60.0);
+
+            staff.setDutyTotalTimes(staff.getDutyTotalTimes() + 1);
+            staff.setGradeTotal(totalStars / staff.getDutyTotalTimes());
+            staff.setDutyMonthTimes(staff.getDutyMonthTimes() + 1);
+            staff.setGradeMonth(monthStars / staff.getDutyMonthTimes());
+            staff.setDutyTotalHours(staff.getDutyTotalHours() + (float) dutyHours);
+            staff.setDutyMonthHours(staff.getDutyMonthHours() + (float) dutyHours);
+
+            try {
+                daoService.getDao().updateStaff(staff);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
