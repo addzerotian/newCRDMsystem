@@ -12,6 +12,7 @@ public class Staff extends User {
     private float gradeMonth;
     private int absenceTotal;
     private int absenceMonth;
+    private String status;
 
     public Staff(String sid, String password) {
         super(password);
@@ -97,5 +98,13 @@ public class Staff extends User {
 
     public void setAbsenceMonth(int absenceMonth) {
         this.absenceMonth = absenceMonth;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

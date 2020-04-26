@@ -39,9 +39,12 @@ public class DispatchControllerImpl implements DispatchController {
 
             //创建新的派工单
             DispatchInfo dispatchInfo = new DispatchInfo(did, sid, cid, startTime, dispatchTime);
+            //修改客服状态为已派工
+            staff.setStatus("onduty");
             //将派工单写入数据库并将单号发送给客户/客服
             try {
                 daoService.getDao().addDispatchInfo(dispatchInfo);
+                daoService.getDao().updateStaff(staff);
                 //将请求状态设定为已派工(1)，并与派工单号绑定
                 request.setStatus(1);
                 request.setDispatchID(did);

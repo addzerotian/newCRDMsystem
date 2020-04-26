@@ -40,6 +40,7 @@
             <property name="gradeMonth" column="GRADE_MONTH"/>
             <property name="absenceTotal" column="ABSENCE_TOTAL"/>
             <property name="absenceMonth" column="ABSENCE_MONTH"/>
+            <property name="status" column="STATUS"/>
         </joined-subclass>
     </class>
 

@@ -121,6 +121,7 @@ public class StaffControllerImpl implements StaffController {
             staff.setGradeMonth(monthStars / staff.getDutyMonthTimes());
             staff.setDutyTotalHours(staff.getDutyTotalHours() + (float) dutyHours);
             staff.setDutyMonthHours(staff.getDutyMonthHours() + (float) dutyHours);
+            staff.setStatus("idle");
 
             try {
                 daoService.getDao().updateStaff(staff);

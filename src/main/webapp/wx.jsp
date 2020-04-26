@@ -39,6 +39,9 @@
     else if("get-dispatch-info".equals(request.getParameter("request-type"))) {
         wxController.getDispatchInfo(response, request.getParameter("did"));
     }
+    else if("dispatch-feedback".equals(request.getParameter("request-type"))) {
+        wxController.feedback(response, request.getParameter("did"), Integer.parseInt(request.getParameter("star")), request.getParameter("comment"));
+    }
 %>
 </body>
 </html>
