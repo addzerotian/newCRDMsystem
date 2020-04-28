@@ -12,4 +12,5 @@ public interface StaffController {
     void questDone(String sid, DispatchInfo dispatchInfo);
     void modifyStaff(HttpServletResponse response, Map<String, Object> mapRequest);
     void simuAroundStaffs(HttpServletResponse response, double longitude, double latitude);
+    void flushStaff(HttpServletResponse response);
 }

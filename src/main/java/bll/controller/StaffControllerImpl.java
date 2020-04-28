@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -198,6 +199,34 @@ public class StaffControllerImpl implements StaffController {
         jsonResponse.append("longitude", longitude);
         jsonResponse.append("latitude", latitude);
         jsonResponse.append("staffNum", sids.size() + 1);
+
+        fileRequestService.setResponse(response, jsonResponse);
+    }
+
+    @Override
+    public void flushStaff(HttpServletResponse response) {
+        JSONObject jsonResponse = new JSONObject();
+
+        List<Staff> staffs = daoService.getDao().getAllStaffs();
+
+        if(staffs != null) {
+            jsonResponse.append("staffNumber", staffs.size());
+            for(Staff staff: staffs) {
+                if(jsonResponse.isNull("staffs")) {
+                    jsonResponse.append("staffs", mapModel.getMapStaff(staff));
+                } else {
+                    jsonResponse.accumulate("staffs", mapModel.getMapStaff(staff));
+                }
+            }
+
+            if(jsonResponse.isNull("staffs")) {
+                jsonResponse.append("status", -1);
+            } else {
+                jsonResponse.append("status", 0);
+            }
+        } else {
+            jsonResponse.append("status", -1);
+        }
 
         fileRequestService.setResponse(response, jsonResponse);
     }

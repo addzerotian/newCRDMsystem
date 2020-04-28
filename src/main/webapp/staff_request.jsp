@@ -44,6 +44,8 @@
                 staffController.searchStaff(response, jsonRequest.getString("sid"));
             } else if ("searchAroundStaffs".equals(jsonRequest.getString("request-type"))) {
                 staffController.simuAroundStaffs(response, jsonRequest.getDouble("longitude"), jsonRequest.getDouble("latitude"));
+            } else if ("flushStaff".equals(jsonRequest.getString("request-type"))) {
+                staffController.flushStaff(response);
             }
         } else if (Pattern.matches("multipart/form-data.*", request.getContentType())) {
             Map<String, Object> map = fileRequestService.parseRequest(request);

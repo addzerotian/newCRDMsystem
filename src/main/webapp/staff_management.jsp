@@ -66,6 +66,8 @@
                                 <li>
                                     <a data-toggle="modal" href="#search_staff">查询客服</a>
                                 </li>
+                                <li class="divider"></li>
+                                <li><a href="#" onclick="flushStaffInfo()">刷新地图</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -339,8 +341,5 @@
     </div>
 </footer>
 <%  } %>
-<script>
-
-</script>
 </body>
 </html>

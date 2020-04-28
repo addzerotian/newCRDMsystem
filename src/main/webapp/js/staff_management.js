@@ -5,6 +5,8 @@ $(function () {
     map.centerAndZoom(point, 15);
     map.enableScrollWheelZoom(true);
 
+    flushStaffInfo();
+
     $("#add_birth").datepicker({
         format: "yyyy-mm-dd",
         language: "zh-CN",
@@ -109,37 +111,7 @@ function searchStaff() {
             if(parseInt(result["status"].toString()) === 0) {
                 $("#search_staff").modal("hide");
 
-                let gender, avatarURL;
-                if(result["staff"][0]["gender"].toString() === "male") gender = "男";
-                else if(result["staff"][0]["gender"].toString() === "female") gender = "女";
-                else gender = "未知";
-                if(result["staff"][0]["avatarURL"].toString() === "") avatarURL = "";
-                else avatarURL = "img/userAvatar/" + result["staff"][0]["avatarURL"].toString();
-
-                $("#staff_table>tbody>tr:nth-child(1)>th:nth-child(2)").text(result["staff"][0]["sid"]);
-                $("#staff_table>tbody>tr:nth-child(2)>th:nth-child(2)").text(result["staff"][0]["name"]);
-                $("#staff_table>tbody>tr:nth-child(3)>th:nth-child(2)").text(result["staff"][0]["birth"]);
-                $("#staff_table>tbody>tr:nth-child(4)>th:nth-child(2)").text(gender);
-                $("#staff_table>tbody>tr:nth-child(5)>th:nth-child(2)").text(result["staff"][0]["telephone"]);
-                $("#staff_table>tbody>tr:nth-child(6)>th:nth-child(2)").text(result["staff"][0]["email"]);
-                $("#staff_table>tbody>tr:nth-child(7)>th:nth-child(2)").text(result["staff"][0]["dutyTotalTimes"]);
-                $("#staff_table>tbody>tr:nth-child(8)>th:nth-child(2)").text(result["staff"][0]["dutyTotalHours"]);
-                $("#staff_table>tbody>tr:nth-child(9)>th:nth-child(2)").text(result["staff"][0]["gradeTotal"]);
-                $("#staff_table>tbody>tr:nth-child(10)>th:nth-child(2)").text(result["staff"][0]["absenceTotal"]);
-                $("#staff_table>tbody>tr:nth-child(11)>th:nth-child(2)").text(result["staff"][0]["dutyMonthTimes"]);
-                $("#staff_table>tbody>tr:nth-child(12)>th:nth-child(2)").text(result["staff"][0]["dutyMonthHours"]);
-                $("#staff_table>tbody>tr:nth-child(13)>th:nth-child(2)").text(result["staff"][0]["gradeMonth"]);
-                $("#staff_table>tbody>tr:nth-child(14)>th:nth-child(2)").text(result["staff"][0]["absenceMonth"]);
-
-                if($("#staff_avatar").length === 0) $("#staff_info_body").append("<img class=\"avatar\" id=\"staff_avatar\" alt=\"\">");
-                $("#staff_avatar").attr("src", avatarURL);
-                if($("#staff_info_footer>button").length === 0) {
-                    var button1 = "<button class=\"btn btn-primary\">修改信息</button>";
-                    $("#staff_info_footer").append(button1);
-                    $("#staff_info_footer button").attr("style", "margin-left: 70%");
-                    $("#staff_info_footer button").attr("data-toggle", "modal");
-                    $("#staff_info_footer button").attr("data-target", "#modify_staff");
-                }
+                showInfo(result["staff"][0]);
                 var location = getStaffCurrentLocation(sid);
                 var map = new BMapGL.Map("map_canvas");
                 var point = new BMapGL.Point(location.longitude, location.latitude);
@@ -221,4 +193,69 @@ function modifyStaff() {
             }
         }
     });
+}
+
+function flushStaffInfo() {
+    $.ajax({
+        type: "post",
+        url: "staff_request.jsp",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({"request-type": "flushStaff"}),
+        success: function (result) {
+            let map;
+            if (parseInt(result["status"].toString()) === 0) {
+                map = new BMapGL.Map("map_canvas");
+                var idleIcon = new BMapGL.Icon("img/icon/marker_yellow.png", new BMapGL.Size(23, 25));
+                var busyIcon = new BMapGL.Icon("img/icon/marker_red.png", new BMapGL.Size(23, 25));
+                var new_point;
+                var marker;
+                for (var i = 0; i < result["staffNumber"]; i++) {
+                    let location = simuLocation();
+                    new_point = new BMapGL.Point(location["longitude"], location["latitude"]);
+                    if(result["staffs"][i].status.toString() === "idle")
+                        marker = new BMapGL.Marker(new_point, {icon: idleIcon});
+                    else
+                        marker = new BMapGL.Marker(new_point, {icon: busyIcon});
+                    marker.addEventListener("click", showInfo.bind(this, result["staffs"][i]));
+                    map.addOverlay(marker);
+                }
+                map.centerAndZoom(new_point, 10);
+                map.enableScrollWheelZoom(true);
+            }
+        }
+    })
+}
+
+function showInfo(staff) {
+    let gender, avatarURL;
+    if(staff["gender"].toString() === "male") gender = "男";
+    else if(staff["gender"].toString() === "female") gender = "女";
+    else gender = "未知";
+    if(staff["avatarURL"].toString() === "") avatarURL = "";
+    else avatarURL = "img/userAvatar/" + staff["avatarURL"].toString();
+
+    $("#staff_table>tbody>tr:nth-child(1)>th:nth-child(2)").text(staff["sid"]);
+    $("#staff_table>tbody>tr:nth-child(2)>th:nth-child(2)").text(staff["name"]);
+    $("#staff_table>tbody>tr:nth-child(3)>th:nth-child(2)").text(staff["birth"]);
+    $("#staff_table>tbody>tr:nth-child(4)>th:nth-child(2)").text(gender);
+    $("#staff_table>tbody>tr:nth-child(5)>th:nth-child(2)").text(staff["telephone"]);
+    $("#staff_table>tbody>tr:nth-child(6)>th:nth-child(2)").text(staff["email"]);
+    $("#staff_table>tbody>tr:nth-child(7)>th:nth-child(2)").text(staff["dutyTotalTimes"]);
+    $("#staff_table>tbody>tr:nth-child(8)>th:nth-child(2)").text(staff["dutyTotalHours"]);
+    $("#staff_table>tbody>tr:nth-child(9)>th:nth-child(2)").text(staff["gradeTotal"]);
+    $("#staff_table>tbody>tr:nth-child(10)>th:nth-child(2)").text(staff["absenceTotal"]);
+    $("#staff_table>tbody>tr:nth-child(11)>th:nth-child(2)").text(staff["dutyMonthTimes"]);
+    $("#staff_table>tbody>tr:nth-child(12)>th:nth-child(2)").text(staff["dutyMonthHours"]);
+    $("#staff_table>tbody>tr:nth-child(13)>th:nth-child(2)").text(staff["gradeMonth"]);
+    $("#staff_table>tbody>tr:nth-child(14)>th:nth-child(2)").text(staff["absenceMonth"]);
+
+    if($("#staff_avatar").length === 0) $("#staff_info_body").append("<img class=\"avatar\" id=\"staff_avatar\" alt=\"\">");
+    $("#staff_avatar").attr("src", avatarURL);
+    if($("#staff_info_footer>button").length === 0) {
+        var button1 = "<button class=\"btn btn-primary\">修改信息</button>";
+        $("#staff_info_footer").append(button1);
+        $("#staff_info_footer button").attr("style", "margin-left: 70%");
+        $("#staff_info_footer button").attr("data-toggle", "modal");
+        $("#staff_info_footer button").attr("data-target", "#modify_staff");
+    }
 }
