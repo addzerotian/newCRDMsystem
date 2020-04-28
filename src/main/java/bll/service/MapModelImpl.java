@@ -55,6 +55,7 @@ public class MapModelImpl implements MapModel {
         map.put("gradeMonth", staff.getGradeMonth());
         map.put("absenceTotal", staff.getAbsenceTotal());
         map.put("absenceMonth", staff.getAbsenceMonth());
+        map.put("status", staff.getStatus());
 
         return map;
     }

@@ -257,6 +257,25 @@ public class ModelDaoImpl implements ModelDao {
     }
 
     @Override
+    public List<Staff> getStaffsByStatus(String status) {
+        Session session = hiberSession.createSession();
+        CriteriaQuery<Staff> staffQuery = session.getCriteriaBuilder().createQuery(Staff.class);
+        Root<Staff> staffRoot =staffQuery.from(Staff.class);
+        staffQuery.where(session.getCriteriaBuilder().equal(staffRoot.get("status"), status));
+
+        List<Staff> staffs = null;
+        try {
+            staffs = session.createQuery(staffQuery).getResultList();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return staffs;
+    }
+
+    @Override
     public Staff getStaff(String sid) {
         Session session = hiberSession.createSession();
         CriteriaQuery<Staff> staffQuery = session.getCriteriaBuilder().createQuery(Staff.class);

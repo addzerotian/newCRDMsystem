@@ -134,6 +134,7 @@ public class WxControllerImpl implements WxController {
                 jsonResponse.append("email", customer.getEmail());
                 jsonResponse.append("birth", dateService.getStringFromDate(customer.getBirth(), StandardDateFormat.WEB_DF));
                 jsonResponse.append("totalRequestTimes", customer.getTotalRequestTimes());
+                jsonResponse.append("totalDispatchTimes", customer.getTotalDispatchTimes());
                 jsonResponse.append("status", 1);
             } else {
                 jsonResponse.append("status", 0);
@@ -227,6 +228,10 @@ public class WxControllerImpl implements WxController {
                 customerRequest.setCustomer(customer);
                 customerRequest.setRid(rid);
                 RequestList.getInstance().appendRequest(customerRequest);
+
+                //统计用户请求次数
+                customer.setTotalRequestTimes(customer.getTotalRequestTimes() + 1);
+                daoService.getDao().updateCustomer(customer);
 
                 jsonResponse.append("startTime", startTimeStr);
                 jsonResponse.append("location", location);
@@ -340,6 +345,37 @@ public class WxControllerImpl implements WxController {
             jsonResponse.append("status", 1);
         } else {
             jsonResponse.append("status", 0);
+        }
+
+        fileRequestService.setResponse(response, jsonResponse);
+    }
+
+    @Override
+    public void getCustomerDispatches(HttpServletResponse response, String cid) {
+        JSONObject jsonResponse = new JSONObject();
+
+        List<DispatchInfo> dispatchInfos = daoService.getDao().searchDispatchesByCid(cid);
+
+        if(dispatchInfos == null) {
+            jsonResponse.append("status", 0);
+        } else {
+            for (DispatchInfo dispatchInfo : dispatchInfos) {
+                if(!"closed".equals(dispatchInfo.getStatus())) {
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("did", dispatchInfo.getDid());
+                    map.put("dispatchTime", dateService.getStringFromDate(dispatchInfo.getDispatchTime(), StandardDateFormat.WX_DF));
+                    map.put("status", dispatchInfo.getStatus());
+                    if (jsonResponse.isNull("dispatches"))
+                        jsonResponse.append("dispatches", map);
+                    else
+                        jsonResponse.accumulate("dispatches", map);
+                }
+            }
+
+            if(jsonResponse.isNull("dispatches"))
+                jsonResponse.append("status", 0);
+            else
+                jsonResponse.append("status", 1);
         }
 
         fileRequestService.setResponse(response, jsonResponse);

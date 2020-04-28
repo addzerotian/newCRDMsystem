@@ -50,6 +50,11 @@ public class DispatchControllerImpl implements DispatchController {
                 request.setDispatchID(did);
                 RequestList.getInstance().appendRequest(request);
 
+                //统计客户派工次数
+                Customer customer = daoService.searchCustomer(request.getCustomer().getCid());
+                customer.setTotalDispatchTimes(customer.getTotalDispatchTimes() + 1);
+                daoService.getDao().updateCustomer(customer);
+
                 jsonResponse.append("status", 0);
             } catch (Exception e) {
                 jsonResponse.append("status", -1);

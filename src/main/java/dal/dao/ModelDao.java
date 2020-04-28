@@ -27,6 +27,7 @@ public interface ModelDao {
 
     //Staff表数据库操作
     List<Staff> getAllStaffs();
+    List<Staff> getStaffsByStatus(String status);
     Staff getStaff(String sid);
     void addStaff(Staff staff);
     void updateStaff(Staff staff);

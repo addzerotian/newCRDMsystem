@@ -28,6 +28,7 @@
             <key column="UID"/>
             <property name="cid" column="CID"/>
             <property name="totalRequestTimes" column="TOTAL_REQUEST_TIMES"/>
+            <property name="totalDispatchTimes" column="TOTAL_DISPATCH_TIMES"/>
         </joined-subclass>
         <joined-subclass name="dal.model.Staff" table="staff">
             <key column="UID"/>
