@@ -1,7 +1,11 @@
 <%@ page import="bll.controller.AdminController" %>
 <%@ page import="bll.controller.AdminControllerImpl" %>
 <%@ page import="dal.model.Admin" %>
-<%@ page import="dal.model.ActiveAdminList" %><%--
+<%@ page import="dal.model.ActiveAdminList" %>
+<%@ page import="bll.service.DaoService" %>
+<%@ page import="bll.service.DaoServiceImpl" %>
+<%@ page import="dal.model.RequestList" %>
+<%@ page import="java.util.Enumeration" %><%--
   Created by IntelliJ IDEA.
   User: addzero
   Date: 2020/3/14
@@ -12,6 +16,7 @@
 <%!
     AdminController adminController = new AdminControllerImpl();
     Admin thisAdmin = null;
+    DaoService daoService = new DaoServiceImpl();
 %>
 <html>
 <head>
@@ -29,6 +34,7 @@
 <body>
 <%
     response.addCookie(new Cookie("JSESSIONID", session.getId()));
+    boolean isReLogin = false;
     thisAdmin = (Admin) session.getAttribute("admin");
     if(thisAdmin == null) {
         thisAdmin = adminController.adminLogin(request.getParameter("aid"), request.getParameter("password"));
@@ -38,9 +44,16 @@
         } else { %>
 <script>alertLoginNoUser()</script>
 <%      }
-    } else { %>
-<script>alertUserLoggedin()</script>
-<%  }
+    } else {
+        Enumeration<String> paramNames = request.getParameterNames();
+        while(paramNames.hasMoreElements()) {
+            if("aid".equals(paramNames.nextElement().toString()))
+            {
+                isReLogin = true;
+                break;
+            }
+        }
+    }
     if(thisAdmin != null) { %>
 <div class="container">
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -97,95 +110,113 @@
             </h3>
             <div class="row clearfix">
                 <div class="col-md-4 column">
-                    <h4 class="text-center">
-                        管理数据
-                    </h4>
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h5 class="panel-title">
-                                Panel title
+                            <h5 class="panel-title text-center">
+                                管理员总览
                             </h5>
                         </div>
                         <div class="panel-body">
-                            Panel content
+                            <table class="table table-bordered" id="admin_overview">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">属性</th>
+                                    <th class="text-center">值</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th class="text-center">管理员总数</th>
+                                    <th class="text-center"><%out.print(daoService.getDao().getAllAdmins().size());%></th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">当前在线管理员总数</th>
+                                    <th class="text-center"><%out.print(ActiveAdminList.getInstance().getLength());%></th>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <div class="panel-footer">
-                            Panel footer
-                        </div>
-                    </div>
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h5 class="panel-title">
-                                Panel title
-                            </h5>
-                        </div>
-                        <div class="panel-body">
-                            Panel content
-                        </div>
-                        <div class="panel-footer">
-                            Panel footer
+                            <button class="btn-primary btn" onclick="window.location.href='AdminManage'">进入管理员界面</button>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 column">
-                    <h4 class="text-center">
-                        客服数据
-                    </h4>
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h5 class="panel-title">
-                                Panel title
+                            <h5 class="panel-title text-center">
+                                客服总览
                             </h5>
                         </div>
                         <div class="panel-body">
-                            Panel content
+                            <table class="table table-bordered" id="staff_overview">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">属性</th>
+                                    <th class="text-center">值</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th class="text-center">客服总数</th>
+                                    <th class="text-center"><%out.print(daoService.getDao().getAllStaffs().size());%></th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">空闲客服数</th>
+                                    <th class="text-center"><%out.print(daoService.getDao().getStaffsByStatus("idle").size());%></th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">任务中客服数</th>
+                                    <th class="text-center"><%out.print(daoService.getDao().getStaffsByStatus("onduty").size());%></th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">未知状态</th>
+                                    <th class="text-center"><%out.print(daoService.getDao().getAllStaffs().size() -
+                                            daoService.getDao().getStaffsByStatus("onduty").size() -
+                                            daoService.getDao().getStaffsByStatus("idle").size());%></th>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <div class="panel-footer">
-                            Panel footer
-                        </div>
-                    </div>
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h5 class="panel-title">
-                                Panel title
-                            </h5>
-                        </div>
-                        <div class="panel-body">
-                            Panel content
-                        </div>
-                        <div class="panel-footer">
-                            Panel footer
+                            <button class="btn-primary btn" onclick="window.location.href='StaffManage'">进入客服管理界面</button>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 column">
-                    <h4 class="text-center">
-                        客户请求数据
-                    </h4>
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h5 class="panel-title">
-                                Panel title
+                            <h5 class="panel-title text-center">
+                                请求总览
                             </h5>
                         </div>
                         <div class="panel-body">
-                            Panel content
+                            <table class="table table-bordered" id="requests_overview">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">属性</th>
+                                    <th class="text-center">值</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th class="text-center">当前请求总数</th>
+                                    <th class="text-center"><%out.print(RequestList.getInstance().getLength());%></th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">未派工请求数</th>
+                                    <th class="text-center"><%out.print(RequestList.getInstance().getWaitingRequests());%></th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">已派工请求数</th>
+                                    <th class="text-center"><%out.print(RequestList.getInstance().getLength() -
+                                            RequestList.getInstance().getWaitingRequests());%></th>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <div class="panel-footer">
-                            Panel footer
-                        </div>
-                    </div>
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h5 class="panel-title">
-                                Panel title
-                            </h5>
-                        </div>
-                        <div class="panel-body">
-                            Panel content
-                        </div>
-                        <div class="panel-footer">
-                            Panel footer
+                            <button class="btn-primary btn" onclick="window.location.href='RequestManage'">进入请求处理界面</button>
                         </div>
                     </div>
                 </div>
@@ -199,5 +230,12 @@
     </div>
 </footer>
 <%  } %>
+<%
+    if(isReLogin) {
+%>
+<script>alertUserLoggedin()</script>
+<%
+    }
+%>
 </body>
 </html>
