@@ -184,21 +184,31 @@ public class StaffControllerImpl implements StaffController {
     public void simuAroundStaffs(HttpServletResponse response, double longitude, double latitude) {
         JSONObject jsonResponse = new JSONObject();
         ArrayList<String> sids = new ArrayList<>();
+        sids.add("addzero");
         sids.add("addzero1");
         sids.add("addzero2");
 
-        System.out.println(longitude + ", " + latitude);
-        Staff staff = daoService.searchStaff("addzero");
-        jsonResponse.append("staffs", fileRequestService.calcSimuLocationOfStaff(mapModel.getMapStaff(staff), longitude, latitude));
+        Staff staff;
+        int staffNum = 0;
         for (String sid : sids) {
             staff = daoService.searchStaff(sid);
-            jsonResponse.accumulate("staffs", fileRequestService.calcSimuLocationOfStaff(mapModel.getMapStaff(staff), longitude, latitude));
+            if(staff == null || !"idle".equals(staff.getStatus())) break;
+            if(jsonResponse.isNull("staffs"))
+                jsonResponse.append("staffs", fileRequestService.calcSimuLocationOfStaff(mapModel.getMapStaff(staff), longitude, latitude));
+            else
+                jsonResponse.accumulate("staffs", fileRequestService.calcSimuLocationOfStaff(mapModel.getMapStaff(staff), longitude, latitude));
+            staffNum++;
         }
 
-        jsonResponse.append("status", 0);
-        jsonResponse.append("longitude", longitude);
-        jsonResponse.append("latitude", latitude);
-        jsonResponse.append("staffNum", sids.size() + 1);
+        if(jsonResponse.isNull("staffs")) {
+            jsonResponse.append("status", -1);
+        }
+        else {
+            jsonResponse.append("status", 0);
+            jsonResponse.append("longitude", longitude);
+            jsonResponse.append("latitude", latitude);
+            jsonResponse.append("staffNum", staffNum);
+        }
 
         fileRequestService.setResponse(response, jsonResponse);
     }
