@@ -41,7 +41,13 @@
             }
             JSONObject jsonRequest = new JSONObject(strRequest.toString());
             if ("searchStaff".equals(jsonRequest.getString("request-type"))) {
-                staffController.searchStaff(response, jsonRequest.getString("sid"));
+                if(!jsonRequest.isNull("sid"))
+                    staffController.searchStaff(response, jsonRequest.getString("sid"));
+                else if(!jsonRequest.isNull("sname"))
+                    staffController.searchStaffByName(response, jsonRequest.getString("sname"));
+                else if(!jsonRequest.isNull("totalAbscenceTimes"))
+                    staffController.searchStaffsByPropGreaterThan(response, "absenceTotal", jsonRequest.getInt("totalAbscenceTimes"));
+
             } else if ("searchAroundStaffs".equals(jsonRequest.getString("request-type"))) {
                 staffController.simuAroundStaffs(response, jsonRequest.getDouble("longitude"), jsonRequest.getDouble("latitude"));
             } else if ("flushStaff".equals(jsonRequest.getString("request-type"))) {

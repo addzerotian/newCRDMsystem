@@ -98,19 +98,30 @@ function addStaff() {
 
 function searchStaff() {
     var sid = $("#search_sid").val();
+    var sname = $("#search_sname").val();
+    var totalAbscenseTimes = $("#search_totalAbscence").val();
+    var data = {};
+
     if(sid.length === 0) {
-        sid = $("#staff_table>tbody>tr:nth-child(1)>th:nth-child(2)").text();
+        if(sname.length !== 0) {
+            data.sname = sname;
+        }
+        else if(totalAbscenseTimes.length !== 0) {
+            data.totalAbscenceTimes = totalAbscenseTimes;
+        }
+    } else {
+        data.sid = sid;
     }
 
+    data["request-type"] = "searchStaff";
     $.ajax({
         type: "post",
         url: "staff_request.jsp",
         contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({"request-type": "searchStaff", "sid": sid}),
+        data: JSON.stringify(data),
         success: function (result) {
+            $("#search_staff").modal("hide");
             if(parseInt(result["status"].toString()) === 0) {
-                $("#search_staff").modal("hide");
-
                 showInfo(result["staff"][0]);
                 var location = getStaffCurrentLocation(sid);
                 var map = new BMapGL.Map("map_canvas");
@@ -119,7 +130,27 @@ function searchStaff() {
                 map.centerAndZoom(point, 15);
                 map.enableScrollWheelZoom(true);
                 map.addOverlay(marker);
-            }else {
+            }
+            else if(parseInt(result["status"].toString()) === 1) {
+                map = new BMapGL.Map("map_canvas");
+                var idleIcon = new BMapGL.Icon("img/icon/marker_yellow.png", new BMapGL.Size(23, 25));
+                var busyIcon = new BMapGL.Icon("img/icon/marker_red.png", new BMapGL.Size(23, 25));
+                var new_point;
+                var marker;
+                for (var i = 0; i < result["staffNumber"]; i++) {
+                    let location = simuLocation();
+                    new_point = new BMapGL.Point(location["longitude"], location["latitude"]);
+                    if(result["staffs"][i].status.toString() === "idle")
+                        marker = new BMapGL.Marker(new_point, {icon: idleIcon});
+                    else
+                        marker = new BMapGL.Marker(new_point, {icon: busyIcon});
+                    marker.addEventListener("click", showInfo.bind(this, result["staffs"][i]));
+                    map.addOverlay(marker);
+                }
+                map.centerAndZoom(new_point, 10);
+                map.enableScrollWheelZoom(true);
+            }
+            else {
                 alertWarning("无此客服！");
             }
         }
@@ -227,12 +258,15 @@ function flushStaffInfo() {
 }
 
 function showInfo(staff) {
-    let gender, avatarURL;
+    let gender, avatarURL, status;
     if(staff["gender"].toString() === "male") gender = "男";
     else if(staff["gender"].toString() === "female") gender = "女";
     else gender = "未知";
     if(staff["avatarURL"].toString() === "") avatarURL = "";
     else avatarURL = "img/userAvatar/" + staff["avatarURL"].toString();
+    if(staff["status"].toString() === "idle") status = "空闲";
+    else if(staff["status"].toString() === "onduty") status = "出勤中";
+    else status = "未知";
 
     $("#staff_table>tbody>tr:nth-child(1)>th:nth-child(2)").text(staff["sid"]);
     $("#staff_table>tbody>tr:nth-child(2)>th:nth-child(2)").text(staff["name"]);
@@ -248,6 +282,7 @@ function showInfo(staff) {
     $("#staff_table>tbody>tr:nth-child(12)>th:nth-child(2)").text(staff["dutyMonthHours"]);
     $("#staff_table>tbody>tr:nth-child(13)>th:nth-child(2)").text(staff["gradeMonth"]);
     $("#staff_table>tbody>tr:nth-child(14)>th:nth-child(2)").text(staff["absenceMonth"]);
+    $("#staff_table>tbody>tr:nth-child(15)>th:nth-child(2)").text(status);
 
     if($("#staff_avatar").length === 0) $("#staff_info_body").append("<img class=\"avatar\" id=\"staff_avatar\" alt=\"\">");
     $("#staff_avatar").attr("src", avatarURL);

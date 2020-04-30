@@ -83,28 +83,18 @@ public class StaffControllerImpl implements StaffController {
 
     @Override
     public void searchStaff(HttpServletResponse response, String sid) {
+        JSONObject jsonResponse = new JSONObject();
+
         Staff staff = daoService.searchStaff(sid);
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json; charset=utf-8");
-        PrintWriter send = null;
-        JSONObject jsonObject = new JSONObject();
 
         if(staff == null) {
-            jsonObject.append("status", -1);
+            jsonResponse.append("status", -1);
         } else {
-            jsonObject.append("status", 0);
-            jsonObject.append("staff", mapModel.getMapStaff(staff));
+            jsonResponse.append("status", 0);
+            jsonResponse.append("staff", mapModel.getMapStaff(staff));
         }
 
-        try {
-            send = response.getWriter();
-            send.append(jsonObject.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            assert send != null;
-            send.close();
-        }
+        fileRequestService.setResponse(response, jsonResponse);
     }
 
     @Override
@@ -183,7 +173,7 @@ public class StaffControllerImpl implements StaffController {
     @Override
     public void simuAroundStaffs(HttpServletResponse response, double longitude, double latitude) {
         JSONObject jsonResponse = new JSONObject();
-        ArrayList<String> sids = new ArrayList<>();
+        /*ArrayList<String> sids = new ArrayList<>();
         sids.add("addzero");
         sids.add("addzero1");
         sids.add("addzero2");
@@ -198,6 +188,15 @@ public class StaffControllerImpl implements StaffController {
             else
                 jsonResponse.accumulate("staffs", fileRequestService.calcSimuLocationOfStaff(mapModel.getMapStaff(staff), longitude, latitude));
             staffNum++;
+        }*/
+        List<Staff> staffs = daoService.getDao().getStaffsByProperty("status", "idle");
+        if(staffs != null) {
+            for(Staff staff: staffs) {
+                if(jsonResponse.isNull("staffs"))
+                    jsonResponse.append("staffs", fileRequestService.calcSimuLocationOfStaff(mapModel.getMapStaff(staff), longitude, latitude));
+                else
+                    jsonResponse.accumulate("staffs", fileRequestService.calcSimuLocationOfStaff(mapModel.getMapStaff(staff), longitude, latitude));
+            }
         }
 
         if(jsonResponse.isNull("staffs")) {
@@ -207,7 +206,8 @@ public class StaffControllerImpl implements StaffController {
             jsonResponse.append("status", 0);
             jsonResponse.append("longitude", longitude);
             jsonResponse.append("latitude", latitude);
-            jsonResponse.append("staffNum", staffNum);
+            assert staffs != null;
+            jsonResponse.append("staffNum", staffs.size());
         }
 
         fileRequestService.setResponse(response, jsonResponse);
@@ -236,6 +236,60 @@ public class StaffControllerImpl implements StaffController {
             }
         } else {
             jsonResponse.append("status", -1);
+        }
+
+        fileRequestService.setResponse(response, jsonResponse);
+    }
+
+    @Override
+    public void searchStaffByName(HttpServletResponse response, String name) {
+        JSONObject jsonResponse = new JSONObject();
+
+        List<Staff> staffs = daoService.getDao().getStaffsByProperty("name", name);
+
+        if(staffs == null) {
+            jsonResponse.append("status", -1);
+        } else {
+            for(Staff staff:staffs) {
+                if(jsonResponse.isNull("staffs"))
+                    jsonResponse.append("staffs", mapModel.getMapStaff(staff));
+                else
+                    jsonResponse.accumulate("staffs", mapModel.getMapStaff(staff));
+            }
+            if(jsonResponse.isNull("staffs"))
+                jsonResponse.append("status", -1);
+            else {
+                jsonResponse.append("staffNumber", staffs.size());
+                jsonResponse.append("status", 1);
+            }
+
+        }
+
+        fileRequestService.setResponse(response, jsonResponse);
+    }
+
+    @Override
+    public void searchStaffsByPropGreaterThan(HttpServletResponse response, String propName, Object value) {
+        JSONObject jsonResponse = new JSONObject();
+
+        List<Staff> staffs = daoService.getDao().getStaffsByPropertyGreater(propName, value);
+
+        if(staffs == null) {
+            jsonResponse.append("status", -1);
+        } else {
+            for(Staff staff:staffs) {
+                if(jsonResponse.isNull("staffs"))
+                    jsonResponse.append("staffs", mapModel.getMapStaff(staff));
+                else
+                    jsonResponse.accumulate("staffs", mapModel.getMapStaff(staff));
+            }
+            if(jsonResponse.isNull("staffs"))
+                jsonResponse.append("status", -1);
+            else {
+                jsonResponse.append("staffNumber", staffs.size());
+                jsonResponse.append("status", 1);
+            }
+
         }
 
         fileRequestService.setResponse(response, jsonResponse);

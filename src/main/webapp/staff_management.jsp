@@ -176,6 +176,10 @@
                         <th class="text-center">缺勤次数(月)</th>
                         <th class="text-center"></th>
                     </tr>
+                    <tr>
+                        <th class="text-center">当前状态</th>
+                        <th class="text-center"></th>
+                    </tr>
                     </tbody>
                 </table>
                 <div class="panel-footer" id="staff_info_footer">
@@ -258,10 +262,23 @@
                         <div class="modal-body">
                             <form class="form-horizontal" role="form">
                                 <div class="form-group">
-                                    <label for="search_sid" class="col-sm-2 control-label">按账号搜索</label>
-                                    <div class="col-sm-10">
+                                    <label for="search_sid" class="col-sm-4 control-label" style="text-align: center">按账号搜索</label>
+                                    <div class="col-sm-8">
                                         <input type="text" class="form-control" id="search_sid">
                                     </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="search_sname" class="col-sm-4 control-label" style="text-align: center">按姓名搜索</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="search_sname">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="search_totalAbscence" class="col-sm-4 control-label" style="text-align: center">查询缺勤次数大于</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="search_totalAbscence">
+                                    </div>
+                                    <label for="search_totalAbscence" class="col-sm-2 control-label" style="text-align: left">次</label>
                                 </div>
                             </form>
                         </div>

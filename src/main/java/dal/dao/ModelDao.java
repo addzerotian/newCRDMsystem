@@ -28,6 +28,8 @@ public interface ModelDao {
     //Staff表数据库操作
     List<Staff> getAllStaffs();
     List<Staff> getStaffsByStatus(String status);
+    List<Staff> getStaffsByProperty(String propName, Object propValue);
+    List<Staff> getStaffsByPropertyGreater(String propName, Object propValue);
     Staff getStaff(String sid);
     void addStaff(Staff staff);
     void updateStaff(Staff staff);

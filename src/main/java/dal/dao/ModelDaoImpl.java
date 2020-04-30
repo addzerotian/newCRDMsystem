@@ -7,6 +7,7 @@ import org.hibernate.Transaction;
 
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.Date;
 import java.util.List;
 
 public class ModelDaoImpl implements ModelDao {
@@ -262,6 +263,47 @@ public class ModelDaoImpl implements ModelDao {
         CriteriaQuery<Staff> staffQuery = session.getCriteriaBuilder().createQuery(Staff.class);
         Root<Staff> staffRoot =staffQuery.from(Staff.class);
         staffQuery.where(session.getCriteriaBuilder().equal(staffRoot.get("status"), status));
+
+        List<Staff> staffs = null;
+        try {
+            staffs = session.createQuery(staffQuery).getResultList();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return staffs;
+    }
+
+    @Override
+    public List<Staff> getStaffsByProperty(String propName, Object propValue) {
+        Session session = hiberSession.createSession();
+        CriteriaQuery<Staff> staffQuery = session.getCriteriaBuilder().createQuery(Staff.class);
+        Root<Staff> staffRoot =staffQuery.from(Staff.class);
+        staffQuery.where(session.getCriteriaBuilder().equal(staffRoot.get(propName), propValue));
+
+        List<Staff> staffs = null;
+        try {
+            staffs = session.createQuery(staffQuery).getResultList();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return staffs;
+    }
+
+    @Override
+    public List<Staff> getStaffsByPropertyGreater(String propName, Object propValue) {
+        Session session = hiberSession.createSession();
+        CriteriaQuery<Staff> staffQuery = session.getCriteriaBuilder().createQuery(Staff.class);
+        Root<Staff> staffRoot =staffQuery.from(Staff.class);
+        if(propValue instanceof Integer)
+            staffQuery.where(session.getCriteriaBuilder().greaterThan(staffRoot.<Integer>get(propName), (int) propValue));
+        else if(propValue instanceof Float || propValue instanceof Double)
+            staffQuery.where(session.getCriteriaBuilder().greaterThan(staffRoot.<Double>get(propName), (double) propValue));
 
         List<Staff> staffs = null;
         try {

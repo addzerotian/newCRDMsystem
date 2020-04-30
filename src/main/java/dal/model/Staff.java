@@ -1,7 +1,5 @@
 package dal.model;
 
-import java.util.HashMap;
-
 public class Staff extends User {
     private String sid;
     private int dutyTotalTimes;

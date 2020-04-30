@@ -13,4 +13,6 @@ public interface StaffController {
     void modifyStaff(HttpServletResponse response, Map<String, Object> mapRequest);
     void simuAroundStaffs(HttpServletResponse response, double longitude, double latitude);
     void flushStaff(HttpServletResponse response);
+    void searchStaffByName(HttpServletResponse response, String name);
+    void searchStaffsByPropGreaterThan(HttpServletResponse response, String propName, Object value);
 }
