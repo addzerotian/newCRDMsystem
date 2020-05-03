@@ -301,6 +301,8 @@ public class WxControllerImpl implements WxController {
                     map.put("rid", RequestList.getInstance().getRequest(i).getRid());
                     map.put("startTime", dateService.getStringFromDate(RequestList.getInstance().getRequest(i).getStartTime(), StandardDateFormat.WX_DF));
                     map.put("status", RequestList.getInstance().getRequest(i).getStatus());
+                    if(RequestList.getInstance().getRequest(i).getStatus() == -2)
+                        map.put("reason", RequestList.getInstance().getRequest(i).getRejectReason());
                     if(jsonResponse.isNull("requests"))
                         jsonResponse.append("requests", map);
                     else
