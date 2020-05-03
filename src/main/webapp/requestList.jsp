@@ -4,6 +4,8 @@
 <%@ page import="org.json.JSONObject" %>
 <%@ page import="java.io.BufferedReader" %>
 <%@ page import="java.io.InputStreamReader" %>
+<%@ page import="java.util.regex.Pattern" %>
+<%@ page import="java.nio.charset.StandardCharsets" %>
 <%--
   Created by IntelliJ IDEA.
   User: addzero
@@ -26,16 +28,19 @@
     if(thisAdmin == null) { %>
 
 <%  }else {
-        if("application/json".equals(request.getContentType())) {
-            BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
-            String strRequest = "";
-            String line = null;
+        if(Pattern.matches("application/json; charset=(UTF|utf)-8", request.getContentType())) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream(), StandardCharsets.UTF_8));
+            StringBuilder strRequest = new StringBuilder();
+            String line;
             while ((line = br.readLine()) != null) {
-                strRequest += line;
+                strRequest.append(line);
             }
-            JSONObject jsonRequest = new JSONObject(strRequest);
+            JSONObject jsonRequest = new JSONObject(strRequest.toString());
             if ("flushMap".equals(jsonRequest.getString("request-type"))) {
                 requestController.requestFlush(response, jsonRequest.getInt("trigger"));
+            }
+            else if ("reject".equals(jsonRequest.getString("request-type"))) {
+                requestController.requestReject(response, jsonRequest.getString("rid"), jsonRequest.getString("reason"));
             }
         }
     } %>

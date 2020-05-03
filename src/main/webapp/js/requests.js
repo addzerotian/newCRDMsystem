@@ -1,9 +1,5 @@
 $(function () {
-    var map = new BMap.Map("map_canvas");
-    //地图中心设置为重庆大学
-    var point = new BMap.Point(106.475, 29.571);
-    map.centerAndZoom(point, 15);
-    map.enableScrollWheelZoom(true);
+    mapInit();
     setInterval(flashMap, 1000);
 
     $("#dispatch").on("shown.bs.modal", function () {
@@ -22,7 +18,7 @@ function flashMap(trigger) {
     $.ajax({
         type: "post",
         url: "requestList.jsp",
-        contentType: "application/json",
+        contentType: "application/json; charset=utf-8",
         data: JSON.stringify({"request-type": "flushMap", "trigger": trigger}),
         success: function (result) {
             let map;
@@ -38,6 +34,8 @@ function flashMap(trigger) {
                 }
                 map.centerAndZoom(new_point, 15);
                 map.enableScrollWheelZoom(true);
+            } else if (parseInt(result["status"].toString()) === 1) {
+                mapInit();
             }
         }
     })
@@ -58,4 +56,37 @@ function showInfo(request) {
 function goToDispatch() {
     var rid = $("#request-table tbody tr:nth-child(1) th:nth-child(2)").text();
     window.location.href = "Dispatch?rid=" + rid;
+}
+
+function rejectRequest() {
+    var rid = $("#request-table tbody tr:nth-child(1) th:nth-child(2)").text();
+    var rejectReason = $("#reject_reason").val();
+
+    $.ajax({
+        type: "post",
+        url: "requestList.jsp",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({"request-type": "reject", "rid": rid, "reason": rejectReason}),
+        success: function (result) {
+            $("#reject").modal("hide");
+            if(parseInt(result["status"].toString()) === 0) {
+                alertSuccess("请求成功");
+                $("#info_table>tbody>tr:nth-child(1)>th:nth-child(2)").text("");
+                $("#info_table>tbody>tr:nth-child(2)>th:nth-child(2)").text("");
+                $("#info_table>tbody>tr:nth-child(3)>th:nth-child(2)").text("");
+                $("#info_table>tbody>tr:nth-child(4)>th:nth-child(2)").text("");
+                $("#info_table>tbody>tr:nth-child(5)>th:nth-child(2)").text("");
+            } else {
+                alertWarning("请求失败");
+            }
+        }
+    });
+}
+
+function mapInit() {
+    var map = new BMap.Map("map_canvas");
+    //地图中心设置为重庆大学
+    var point = new BMap.Point(106.475, 29.571);
+    map.centerAndZoom(point, 15);
+    map.enableScrollWheelZoom(true);
 }

@@ -165,8 +165,31 @@
                             </table>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default">拒绝请求</button>
+                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#reject" data-dismiss="modal">拒绝请求</button>
                             <button type="button" class="btn btn-primary" onclick="goToDispatch()">派工</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="reject" aria-labelledby="modal_label_2" aria-hidden="true" tabindex="-1" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="modal_label_2">拒绝请求</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label for="reject_reason" class="col-sm-2 control-label">原因</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" id="reject_reason" rows="5"></textarea>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" onclick="rejectRequest()">发送</button>
                         </div>
                     </div>
                 </div>

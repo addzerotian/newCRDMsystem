@@ -13,6 +13,7 @@ public class Request {
     private Date startTime;
     private int status;
     private String location;
+    private String rejectReason;
 
     public Request() {
     }
@@ -96,5 +97,13 @@ public class Request {
 
     public void setDispatchID(String dispatchID) {
         this.dispatchID = dispatchID;
+    }
+
+    public String getRejectReason() {
+        return rejectReason;
+    }
+
+    public void setRejectReason(String rejectReason) {
+        this.rejectReason = rejectReason;
     }
 }

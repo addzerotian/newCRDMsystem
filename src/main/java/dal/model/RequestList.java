@@ -43,11 +43,12 @@ public class RequestList {
                 this.removeRequest(request);
                 waitingRequests--;
             }
-            else if(request.getStatus() == 1) { //1对应状态：该请求已派工
+            else if(request.getStatus() == 1 || request.getStatus() == -2) { //1对应状态：该请求已派工
+                requests.set(requests.indexOf(request), request);                                       //-2对应状态：该请求被管理员拒绝
                 waitingRequests--;
             }
             else if(this.getRequest(request).getStatus() != request.getStatus())
-                this.getRequest(request).setStatus(request.getStatus());
+                requests.add(request);
         }
         if(!isListChanged) isListChanged = true;
     }

@@ -72,6 +72,7 @@ public class MapModelImpl implements MapModel {
         map.put("cid", request.getCustomer().getCid());
         map.put("name", request.getCustomer().getName());
         map.put("dispatch", request.getDispatchID());
+        map.put("reason", request.getRejectReason());
 
         return map;
     }

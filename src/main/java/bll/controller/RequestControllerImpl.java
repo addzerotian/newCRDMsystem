@@ -69,4 +69,22 @@ public class RequestControllerImpl implements RequestController {
 
         fileRequestService.setResponse(response, jsonResponse);
     }
+
+    @Override
+    public void requestReject(HttpServletResponse response, String rid, String reason) {
+        JSONObject jsonResponse = new JSONObject();
+
+        Request request = RequestList.getInstance().getRequest(rid);
+
+        if(request == null) {
+            jsonResponse.append("status", -1);
+        } else {
+            request.setRejectReason(reason);
+            request.setStatus(-2);
+            RequestList.getInstance().appendRequest(request);
+            jsonResponse.append("status", 0);
+        }
+
+        fileRequestService.setResponse(response, jsonResponse);
+    }
 }
