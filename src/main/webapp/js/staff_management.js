@@ -120,13 +120,14 @@ function searchStaff() {
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(data),
         success: function (result) {
+            var marker;
             $("#search_staff").modal("hide");
-            if(parseInt(result["status"].toString()) === 0) {
+            if (parseInt(result["status"].toString()) === 0) {
                 showInfo(result["staff"][0]);
                 var location = getStaffCurrentLocation(sid);
                 var map = new BMapGL.Map("map_canvas");
                 var point = new BMapGL.Point(location.longitude, location.latitude);
-                var marker = new BMapGL.Marker(point, {title: location.sid});
+                marker = new BMapGL.Marker(point, {title: location.sid});
                 map.centerAndZoom(point, 15);
                 map.enableScrollWheelZoom(true);
                 map.addOverlay(marker);
@@ -136,14 +137,13 @@ function searchStaff() {
                 var idleIcon = new BMapGL.Icon("img/icon/marker_yellow.png", new BMapGL.Size(23, 25));
                 var busyIcon = new BMapGL.Icon("img/icon/marker_red.png", new BMapGL.Size(23, 25));
                 var new_point;
-                var marker;
                 for (var i = 0; i < result["staffNumber"]; i++) {
                     let location = simuLocation();
                     new_point = new BMapGL.Point(location["longitude"], location["latitude"]);
                     if(result["staffs"][i].status.toString() === "idle")
-                        marker = new BMapGL.Marker(new_point, {icon: idleIcon});
+                        marker = new BMapGL.Marker(new_point, {icon: idleIcon, title: result["staffs"][i].name.toString()});
                     else
-                        marker = new BMapGL.Marker(new_point, {icon: busyIcon});
+                        marker = new BMapGL.Marker(new_point, {icon: busyIcon, title: result["staffs"][i].name.toString()});
                     marker.addEventListener("click", showInfo.bind(this, result["staffs"][i]));
                     map.addOverlay(marker);
                 }
