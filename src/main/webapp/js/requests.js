@@ -1,5 +1,12 @@
+var map;
+
 $(function () {
-    mapInit();
+    map = new BMap.Map("map_canvas");
+    //地图中心设置为重庆大学
+    let point = new BMap.Point(106.475, 29.571);
+    map.centerAndZoom(point, 15);
+    map.enableScrollWheelZoom(true);
+
     setInterval(flashMap, 1000);
 
     $("#dispatch").on("shown.bs.modal", function () {
@@ -21,21 +28,25 @@ function flashMap(trigger) {
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify({"request-type": "flushMap", "trigger": trigger}),
         success: function (result) {
-            let map;
             if (parseInt(result["status"].toString()) === 0) {
-                map = new BMap.Map("map_canvas");
-                var new_point;
-                var marker;
+                map.clearOverlays();
+                let new_point;
+                let marker;
                 for (var i = 0; i < result["requestNumber"]; i++) {
                     new_point = new BMap.Point(result["request"][i]["longitude"], result["request"][i]["latitude"]);
-                    marker = new BMap.Marker(new_point);
+                    marker = new BMap.Marker(new_point, {title: result.request[i].name});
                     marker.addEventListener("click", showInfo.bind(this, result["request"][i]));
                     map.addOverlay(marker);
                 }
                 map.centerAndZoom(new_point, 15);
-                map.enableScrollWheelZoom(true);
             } else if (parseInt(result["status"].toString()) === 1) {
-                mapInit();
+                map.clearOverlays();
+                //地图中心设置为重庆大学
+                let point = new BMap.Point(106.475, 29.571);
+                map.centerAndZoom(point, 15);
+            } else if (parseInt(result["status"].toString()) === -1) {}
+            else {
+                alertWarning("地图刷新失败！");
             }
         }
     })
@@ -81,12 +92,4 @@ function rejectRequest() {
             }
         }
     });
-}
-
-function mapInit() {
-    var map = new BMap.Map("map_canvas");
-    //地图中心设置为重庆大学
-    var point = new BMap.Point(106.475, 29.571);
-    map.centerAndZoom(point, 15);
-    map.enableScrollWheelZoom(true);
 }

@@ -1,19 +1,20 @@
+var map;
+
 $(function () {
-    let map = new BMap.Map("map_canvas");
+    map = new BMap.Map("map_canvas");
     //地图中心设置为重庆大学
-    var point = new BMap.Point(106.475, 29.571);
+    let point = new BMap.Point(106.475, 29.571);
     map.centerAndZoom(point, 15);
     map.enableScrollWheelZoom(true);
 })
 
 function getStaffsAroundCustomer(cusLng, cusLat) {
-    var point = new BMap.Point(cusLng, cusLat);
-    var marker = new BMap.Marker(point);
+    let point = new BMap.Point(cusLng, cusLat);
+    let marker = new BMap.Marker(point, {title: "客户"});
 
-    let map = new BMap.Map("map_canvas");
+    map.clearOverlays();
     map.addOverlay(marker);
     map.centerAndZoom(point, 15);
-    map.enableScrollWheelZoom(true);
 
     simuAroundStaffs(cusLng, cusLat);
 }
@@ -26,20 +27,14 @@ function simuAroundStaffs(cusLng, cusLat) {
         data: JSON.stringify({"request-type": "searchAroundStaffs", "longitude": cusLng, "latitude": cusLat}),
         success: function (result) {
             if(parseInt(result.status) === 0) {
-                var map = new BMap.Map("map_canvas");
-                var new_point = new BMap.Point(result.longitude, result.latitude);
-                var myIcon = new BMap.Icon("img/icon/marker_yellow.png", new BMap.Size(23, 25));
-                var marker = new BMap.Marker(new_point);
-                map.addOverlay(marker);
+                let myIcon = new BMap.Icon("img/icon/marker_yellow.png", new BMap.Size(23, 25));
 
                 for(let i = 0; i < parseInt(result.staffNum); i++) {
                     new_point = new BMap.Point(result.staffs[i].longitude, result.staffs[i].latitude);
-                    marker = new BMap.Marker(new_point, {icon: myIcon});
+                    marker = new BMap.Marker(new_point, {icon: myIcon, title: result.staffs[i].name});
                     marker.addEventListener("click", showStaffInfo.bind(this, result.staffs[i]));
                     map.addOverlay(marker);
                 }
-                map.centerAndZoom(new_point, 15);
-                map.enableScrollWheelZoom(true);
             } else {
                 alertWarning("无客服！");
             }
