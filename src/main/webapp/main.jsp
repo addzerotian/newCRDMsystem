@@ -47,7 +47,7 @@
     } else {
         Enumeration<String> paramNames = request.getParameterNames();
         while(paramNames.hasMoreElements()) {
-            if("aid".equals(paramNames.nextElement().toString()))
+            if("aid".equals(paramNames.nextElement()))
             {
                 isReLogin = true;
                 break;
@@ -72,19 +72,13 @@
                     <a href="MainPage">主页</a>
                 </li>
                 <li>
-                    <a href="RequestManage">客户请求</a>
+                    <a href="RequestManage">请求派工</a>
                 </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">其他操作<strong class="caret"></strong></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="StaffManage">客服管理</a>
-                        </li>
-                        <li class="divider" ></li>
-                        <li>
-                            <a href="AdminManage">管理员操作</a>
-                        </li>
-                    </ul>
+                <li>
+                    <a href="StaffManage">客服管理</a>
+                </li>
+                <li>
+                    <a href="AdminManage">管理员操作</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -109,7 +103,10 @@
                 管理员：<% out.print(thisAdmin.getName()); %>，你好！
             </h3>
             <div class="row clearfix">
-                <div class="col-md-4 column">
+                <div class="col-md-6 column">
+                    <div id="map_canvas"></div>
+                </div>
+                <div class="col-md-2 column">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h5 class="panel-title text-center">
@@ -141,7 +138,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 column">
+                <div class="col-md-2 column">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h5 class="panel-title text-center">
@@ -183,7 +180,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 column">
+                <div class="col-md-2 column">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h5 class="panel-title text-center">

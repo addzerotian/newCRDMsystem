@@ -41,6 +41,8 @@
             }
             else if ("reject".equals(jsonRequest.getString("request-type"))) {
                 requestController.requestReject(response, jsonRequest.getString("rid"), jsonRequest.getString("reason"));
+            } else if ("getRequests".equals(jsonRequest.getString("request-type"))) {
+                requestController.requestFlush(response, 1);
             }
         }
     } %>

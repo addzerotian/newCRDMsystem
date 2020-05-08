@@ -23,7 +23,7 @@
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://api.map.baidu.com/api?v=1.0&&type=webgl&ak=Lm1k2R6SybtdXGL0bFhbdQM8rG6DQDvs"></script>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=Lm1k2R6SybtdXGL0bFhbdQM8rG6DQDvs"></script>
     <script src="https://cdn.staticfile.org/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdn.staticfile.org/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
     <script src="js/alertBox.js"></script>
@@ -56,6 +56,9 @@
                         <li>
                             <a href="MainPage">主页</a>
                         </li>
+                        <li>
+                            <a href="RequestManage">请求派工</a>
+                        </li>
                         <li class="dropdown active">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">客服管理<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
@@ -66,21 +69,10 @@
                                 <li>
                                     <a data-toggle="modal" href="#search_staff">查询客服</a>
                                 </li>
-                                <li class="divider"></li>
-                                <li><a href="#" onclick="flushStaffInfo()">刷新地图</a></li>
                             </ul>
                         </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">其他操作<strong class="caret"></strong></a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="RequestManage">客户请求</a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="AdminManage">管理员操作</a>
-                                </li>
-                            </ul>
+                        <li>
+                            <a href="AdminManage">管理员操作</a>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
@@ -187,7 +179,14 @@
             </div>
         </div>
         <div class="col-md-8 column">
-            <button type="button" class="btn btn-block" data-toggle="collapse" data-target="#map_canvas">折叠地图</button>
+            <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#map_canvas">折叠地图</button>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" onclick="flushStaffInfo()">刷新地图</button>
+                </div>
+            </div>
             <div class="collapse in" id="map_canvas"></div>
         </div>
     </div>

@@ -1,11 +1,11 @@
 var map;
-const idleIcon = new BMapGL.Icon("img/icon/marker_yellow.png", new BMapGL.Size(23, 25));
-const busyIcon = new BMapGL.Icon("img/icon/marker_red.png", new BMapGL.Size(23, 25));
+const idleIcon = new BMap.Icon("img/icon/marker_yellow.png", new BMap.Size(23, 25));
+const busyIcon = new BMap.Icon("img/icon/marker_red.png", new BMap.Size(23, 25));
 
 $(function () {
-    map = new BMapGL.Map("map_canvas");
+    map = new BMap.Map("map_canvas");
     //地图中心设置为重庆大学
-    let point = new BMapGL.Point(106.475, 29.571);
+    let point = new BMap.Point(106.475, 29.571);
     map.centerAndZoom(point, 10);
     map.enableScrollWheelZoom(true);
 
@@ -130,8 +130,8 @@ function searchStaff() {
                 showInfo(result["staff"][0]);
                 map.clearOverlays();
                 let location = getStaffCurrentLocation(sid);
-                let point = new BMapGL.Point(location.longitude, location.latitude);
-                marker = new BMapGL.Marker(point, {title: result["staff"][0].name});
+                let point = new BMap.Point(location.longitude, location.latitude);
+                marker = new BMap.Marker(point, {title: result["staff"][0].name});
                 map.addOverlay(marker);
                 map.centerAndZoom(point, 15);
             }
@@ -140,11 +140,11 @@ function searchStaff() {
                 let new_point;
                 for (var i = 0; i < result["staffNumber"]; i++) {
                     let location = simuLocation();
-                    new_point = new BMapGL.Point(location["longitude"], location["latitude"]);
+                    new_point = new BMap.Point(location["longitude"], location["latitude"]);
                     if(result["staffs"][i].status.toString() === "idle")
-                        marker = new BMapGL.Marker(new_point, {icon: idleIcon, title: result["staffs"][i].name});
+                        marker = new BMap.Marker(new_point, {icon: idleIcon, title: result["staffs"][i].name});
                     else
-                        marker = new BMapGL.Marker(new_point, {icon: busyIcon, title: result["staffs"][i].name});
+                        marker = new BMap.Marker(new_point, {icon: busyIcon, title: result["staffs"][i].name});
                     marker.addEventListener("click", showInfo.bind(this, result["staffs"][i]));
                     map.addOverlay(marker);
                 }
@@ -240,16 +240,22 @@ function flushStaffInfo() {
                 let marker;
                 for (var i = 0; i < result["staffNumber"]; i++) {
                     let location = simuLocation();
-                    new_point = new BMapGL.Point(location["longitude"], location["latitude"]);
+                    new_point = new BMap.Point(location["longitude"], location["latitude"]);
                     if(result["staffs"][i].status.toString() === "idle")
-                        marker = new BMapGL.Marker(new_point, {icon: idleIcon, title: result["staffs"][i].name});
+                        marker = new BMap.Marker(new_point, {icon: idleIcon, title: result["staffs"][i].name});
                     else
-                        marker = new BMapGL.Marker(new_point, {icon: busyIcon, title: result["staffs"][i].name});
+                        marker = new BMap.Marker(new_point, {icon: busyIcon, title: result["staffs"][i].name});
                     marker.addEventListener("click", showInfo.bind(this, result["staffs"][i]));
                     map.addOverlay(marker);
+                    setMarkerAnimation(marker);
                 }
                 map.centerAndZoom(new_point, 10);
+            } else {
+                alertWarning("地图刷新失败");
             }
+        },
+        fail: function () {
+            alertWarning("服务器连接失败");
         }
     })
 }

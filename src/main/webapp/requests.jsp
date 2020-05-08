@@ -53,20 +53,19 @@
                         <li>
                             <a href="MainPage">主页</a>
                         </li>
-                        <li class="active">
-                            <a href="RequestManage">客户请求</a>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">其他操作<strong class="caret"></strong></a>
+                        <li class="dropdown active">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">请求派工<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="StaffManage">客服管理</a>
-                                </li>
-                                <li class="divider" ></li>
-                                <li>
-                                    <a href="AdminManage">管理员操作</a>
+                                    <a href="#requests-list" data-toggle="modal">请求列表</a>
                                 </li>
                             </ul>
+                        </li>
+                        <li>
+                            <a href="StaffManage">客服管理</a>
+                        </li>
+                        <li>
+                            <a href="AdminManage">管理员操作</a>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
@@ -190,6 +189,20 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                             <button type="button" class="btn btn-primary" onclick="rejectRequest()">发送</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="requests-list" aria-labelledby="modal_label_3" aria-hidden="true" tabindex="-1" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="modal_label_3">请求列表</h4>
+                        </div>
+                        <div class="modal-body">
+                            <ol class="list-group" id="ordered-list-requests"></ol>
+                        </div>
+                        <div class="modal-footer">
                         </div>
                     </div>
                 </div>

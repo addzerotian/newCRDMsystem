@@ -52,6 +52,12 @@
                         <li>
                             <a href="MainPage">主页</a>
                         </li>
+                        <li>
+                            <a href="RequestManage">请求派工</a>
+                        </li>
+                        <li>
+                            <a href="StaffManage">客服管理</a>
+                        </li>
                         <li class="dropdown active">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">管理员操作<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
@@ -61,18 +67,6 @@
                                 <li class="divider"></li>
                                 <li>
                                     <a href="#search_admin" data-toggle="modal">查询管理员</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">其他操作<strong class="caret"></strong></a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="RequestManage">客户请求</a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="StaffManage">客服管理</a>
                                 </li>
                             </ul>
                         </li>

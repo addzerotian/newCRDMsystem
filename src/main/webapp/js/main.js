@@ -85,3 +85,13 @@ function test() {
         }
     });
 }
+
+function setMarkerAnimation(marker) {
+    marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+    marker.addEventListener("mouseover", function (e) {
+        e.target.setAnimation(null);
+    });
+    marker.addEventListener("mouseout", function (e) {
+        e.target.setAnimation(BMAP_ANIMATION_BOUNCE);
+    });
+}
