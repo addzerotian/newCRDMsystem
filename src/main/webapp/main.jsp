@@ -103,10 +103,7 @@
                 管理员：<% out.print(thisAdmin.getName()); %>，你好！
             </h3>
             <div class="row clearfix">
-                <div class="col-md-6 column">
-                    <div id="map_canvas"></div>
-                </div>
-                <div class="col-md-2 column">
+                <div class="col-md-4 column">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h5 class="panel-title text-center">
@@ -138,7 +135,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2 column">
+                <div class="col-md-4 column">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h5 class="panel-title text-center">
@@ -180,7 +177,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2 column">
+                <div class="col-md-4 column">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h5 class="panel-title text-center">
