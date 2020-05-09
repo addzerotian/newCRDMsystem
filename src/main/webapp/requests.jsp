@@ -16,12 +16,15 @@
     <title>客户响应及派工管理系统-客户请求</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/bootstrap-table/1.16.0/bootstrap-table.min.css" rel="stylesheet">
     <link href="css/bmap.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdn.staticfile.org/bootstrap-table/1.16.0/bootstrap-table.min.js"></script>
+    <script src="https://cdn.staticfile.org/bootstrap-table/1.16.0/locale/bootstrap-table-zh-CN.min.js"></script>
     <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=Lm1k2R6SybtdXGL0bFhbdQM8rG6DQDvs"></script>
     <script src="js/alertBox.js"></script>
     <script src="js/main.js"></script>
@@ -88,7 +91,7 @@
         </div>
     </div>
     <div class="row clearfix" id="content">
-        <div class="col-md-4 column">
+        <div class="col-md-6 column">
             <div class="panel panel-info" id="requests">
                 <div class="panel-heading" id="requests_heading">
                     <h5 class="panel-title text-center">
@@ -96,13 +99,23 @@
                     </h5>
                 </div>
                 <div class="panel-body" id="requests_body">
-                    <ul class="list-group" id="ordered-list-requests"></ul>
+                    <table class="table table-bordered" id="ordered-list-requests">
+                        <thead>
+                        <tr>
+                            <th class="text-center" data-field="name" data-sortable="true">客户</th>
+                            <th class="text-center" data-field="time" data-sortable="true">申请时间</th>
+                            <th class="text-center" data-field="status">状态</th>
+                            <th class="text-center" data-field="action">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
                 </div>
                 <div class="panel-footer" id="requests_footer">
                 </div>
             </div>
         </div>
-        <div class="col-md-8 column">
+        <div class="col-md-6 column">
             <button type="button" class="btn btn-block" data-toggle="collapse" data-target="#map_canvas">折叠地图</button>
             <div class="collapse in" id="map_canvas"></div>
         </div>
@@ -120,8 +133,8 @@
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>属性</th>
-                                        <th>值</th>
+                                        <th class="text-center">属性</th>
+                                        <th class="text-center">值</th>
                                     </tr>
                                     </thead>
                                     <tbody>

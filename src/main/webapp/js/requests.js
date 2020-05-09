@@ -13,6 +13,16 @@ $(function () {
 
     $("#reject").on("hidden.bs.modal", function () {
         $("#reject_reason").val("");
+    });
+
+    $("#ordered-list-requests").bootstrapTable({
+        pagination: true,
+        pageSize:10,
+        sortName: "time",
+        onClickCell: function (field, value) {
+            if(field === "action")
+                initRequestInfo($(value).attr("id").substring(3));
+        }
     })
     flashMap(1);
 })
@@ -29,7 +39,7 @@ function flashMap(trigger) {
                 requests = result.request;
                 //清空地图和列表里的过时数据
                 map.clearOverlays();
-                $("#ordered-list-requests").empty();
+                $("#ordered-list-requests tbody").empty();
                 let new_point;
                 let marker;
                 for (let i = 0; i < result["requestNumber"]; i++) {
@@ -39,16 +49,13 @@ function flashMap(trigger) {
                     map.addOverlay(marker);
                     setMarkerAnimation(marker);
                     let listItem = genListItem(result.request[i]);
-                    $("#ordered-list-requests").append(listItem);
+                    $("#ordered-list-requests").bootstrapTable('append', listItem);
                 }
                 map.centerAndZoom(new_point, 15);
-                $("#ordered-list-requests li").click(function () {
-                    initRequestInfo($(this).attr("id").substring(3));
-                })
             } else if (parseInt(result["status"].toString()) === 1) {
                 requests = [];
                 map.clearOverlays();
-                $("#ordered-list-requests").empty();
+                $("#ordered-list-requests tbody").empty();
                 //地图中心设置为重庆大学
                 let point = new BMap.Point(106.475, 29.571);
                 map.centerAndZoom(point, 15);
@@ -92,9 +99,9 @@ function rejectRequest() {
 
 function genListItem(request) {
     let item;
-
-    item = "<li class='list-group-item' id='li-"+ request.rid.toString() + "'> <a data-toggle='modal' href='#dispatch'>时间: " + request.startTime
-        + "<span style='margin-left: 10%'>状态: " + requestStatusCode[request.status.toString()] + "</span></a>";
+    let button = "<button class='btn btn-group' data-toggle='modal' data-target='#dispatch' id='bt-" + request.rid.toString() +
+        "'>查看</button>";
+    item = {name: request.name, time: request.startTime, status: requestStatusCode[request.status.toString()], action: button};
 
     return item;
 }
