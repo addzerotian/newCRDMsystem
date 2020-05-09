@@ -13,12 +13,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class RequestControllerImpl implements RequestController {
-    private RequestList requestList;
     private FileRequestService fileRequestService;
     private static MapModel mapModel;
 
     public RequestControllerImpl() {
-        requestList = RequestList.getInstance();
         fileRequestService = new FileRequestServiceImpl();
         mapModel = new MapModelImpl();
     }
@@ -28,14 +26,20 @@ public class RequestControllerImpl implements RequestController {
         JSONObject jsonResponse = new JSONObject();
 
         if(trigger == 0) {
-            if(requestList.isListChanged()) {
-                int requestNumber = requestList.getWaitingRequests();
+            if(RequestList.getInstance().isListChanged()) {
+                int requestNumber = RequestList.getInstance().getWaitingRequests();
 
                 if(requestNumber > 0) {
-                    jsonResponse.append("request", mapModel.getMapRequest(requestList.getRequest(0)));
-                    for(int i = 1; i < requestNumber; i++) {
-                        Request customerRequest = requestList.getRequest(i);
-                        jsonResponse.accumulate("request", mapModel.getMapRequest(customerRequest));
+                    for(int i = 0; i < RequestList.getInstance().getLength(); i++) {
+                        Request request = RequestList.getInstance().getRequest(i);
+                        if(request.getStatus() == 0) {
+                            if(jsonResponse.isNull("request")) {
+                                jsonResponse.append("request", mapModel.getMapRequest(request));
+                            }
+                            else {
+                                jsonResponse.accumulate("request", mapModel.getMapRequest(request));
+                            }
+                        }
                     }
                     jsonResponse.append("requestNumber", requestNumber);
                     jsonResponse.append("status", 0);
@@ -43,24 +47,30 @@ public class RequestControllerImpl implements RequestController {
                     jsonResponse.append("status", 1);
                 }
 
-                requestList.setListChanged(false);
+                RequestList.getInstance().setListChanged(false);
             }
             else {
                 jsonResponse.append("status", -1);
             }
         } else if (trigger == 1) {
-            int requestNumber = requestList.getWaitingRequests();
+            int requestNumber = RequestList.getInstance().getWaitingRequests();
 
             if(requestNumber > 0) {
-                jsonResponse.append("request", mapModel.getMapRequest(requestList.getRequest(0)));
-                for(int i = 1; i < requestNumber; i++) {
-                    Request customerRequest = requestList.getRequest(i);
-                    jsonResponse.accumulate("request", mapModel.getMapRequest(customerRequest));
+                for(int i = 0; i < RequestList.getInstance().getLength(); i++) {
+                    Request request = RequestList.getInstance().getRequest(i);
+                    if(request.getStatus() == 0) {
+                        if(jsonResponse.isNull("request")) {
+                            jsonResponse.append("request", mapModel.getMapRequest(request));
+                        }
+                        else {
+                            jsonResponse.accumulate("request", mapModel.getMapRequest(request));
+                        }
+                    }
                 }
                 jsonResponse.append("requestNumber", requestNumber);
                 jsonResponse.append("status", 0);
             } else {
-                jsonResponse.append("status", -1);
+                jsonResponse.append("status", 1);
             }
 
         }
