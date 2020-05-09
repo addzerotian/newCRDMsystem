@@ -89,37 +89,17 @@
     </div>
     <div class="row clearfix" id="content">
         <div class="col-md-4 column">
-            <div id="request_info">
-                <table class="table table-bordered" id="info_table">
-                    <thead>
-                    <tr>
-                        <th>属性</th>
-                        <th>值</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th class="text-center">请求ID</th>
-                        <th class="text-center"></th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">客户</th>
-                        <th class="text-center"></th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">请求时间</th>
-                        <th class="text-center"></th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">请求状态</th>
-                        <th class="text-center"></th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">请求地点</th>
-                        <th class="text-center"></th>
-                    </tr>
-                    </tbody>
-                </table>
+            <div class="panel panel-info" id="requests">
+                <div class="panel-heading" id="requests_heading">
+                    <h5 class="panel-title text-center">
+                        请求列表
+                    </h5>
+                </div>
+                <div class="panel-body" id="requests_body">
+                    <ul class="list-group" id="ordered-list-requests"></ul>
+                </div>
+                <div class="panel-footer" id="requests_footer">
+                </div>
             </div>
         </div>
         <div class="col-md-8 column">
@@ -136,32 +116,34 @@
                             <h4 class="modal-title" id="modal_label_1">请求处理</h4>
                         </div>
                         <div class="modal-body">
-                            <table class="table table-bordered" id="request-table">
-                                <thead>
-                                <tr>
-                                    <th class="text-center">属性</th>
-                                    <th class="text-center">值</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <th class="text-center">请求ID</th>
-                                    <th class="text-center"></th>
-                                </tr>
-                                <tr>
-                                    <th class="text-center">客户</th>
-                                    <th class="text-center"></th>
-                                </tr>
-                                <tr>
-                                    <th class="text-center">地点</th>
-                                    <th class="text-center"></th>
-                                </tr>
-                                <tr>
-                                    <th class="text-center">时间</th>
-                                    <th class="text-center"></th>
-                                </tr>
-                                </tbody>
-                            </table>
+                            <div id="request_info">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>属性</th>
+                                        <th>值</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <th class="text-center">客户</th>
+                                        <th class="text-center"></th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center">请求时间</th>
+                                        <th class="text-center"></th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center">请求状态</th>
+                                        <th class="text-center"></th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center">请求地点</th>
+                                        <th class="text-center"></th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#reject" data-dismiss="modal">拒绝请求</button>
@@ -189,20 +171,6 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                             <button type="button" class="btn btn-primary" onclick="rejectRequest()">发送</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal fade" id="requests-list" aria-labelledby="modal_label_3" aria-hidden="true" tabindex="-1" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="modal_label_3">请求列表</h4>
-                        </div>
-                        <div class="modal-body">
-                            <ol class="list-group" id="ordered-list-requests"></ol>
-                        </div>
-                        <div class="modal-footer">
                         </div>
                     </div>
                 </div>

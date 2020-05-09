@@ -1,4 +1,6 @@
 var map;
+var requests;
+const requestStatusCode = {"0": "初次申请", "1": "已派工", "-1": "用户已取消", "-2": "已拒绝" };
 
 $(function () {
     map = new BMap.Map("map_canvas");
@@ -9,19 +11,9 @@ $(function () {
 
     setInterval(flashMap, 1000);
 
-    $("#dispatch").on("shown.bs.modal", function () {
-       $("#request-table tbody tr:nth-child(1) th:nth-child(2)").text($("#info_table>tbody>tr:nth-child(1)>th:nth-child(2)").text());
-       $("#request-table tbody tr:nth-child(2) th:nth-child(2)").text($("#info_table>tbody>tr:nth-child(2)>th:nth-child(2)").text());
-       $("#request-table tbody tr:nth-child(3) th:nth-child(2)").text($("#info_table>tbody>tr:nth-child(5)>th:nth-child(2)").text());
-       $("#request-table tbody tr:nth-child(4) th:nth-child(2)").text($("#info_table>tbody>tr:nth-child(3)>th:nth-child(2)").text());
-
-    });
-
-    $("#requests-list").on("show.bs.modal", getRequestsList);
-    $("#requests-list").on("hidden.bs.modal", function () {
-        $("#requests-list li").remove();
+    $("#reject").on("hidden.bs.modal", function () {
+        $("#reject_reason").val("");
     })
-
     flashMap(1);
 })
 
@@ -34,19 +26,29 @@ function flashMap(trigger) {
         data: JSON.stringify({"request-type": "flushMap", "trigger": trigger}),
         success: function (result) {
             if (parseInt(result["status"].toString()) === 0) {
+                requests = result.request;
+                //清空地图和列表里的过时数据
                 map.clearOverlays();
+                $("#ordered-list-requests").empty();
                 let new_point;
                 let marker;
-                for (var i = 0; i < result["requestNumber"]; i++) {
+                for (let i = 0; i < result["requestNumber"]; i++) {
                     new_point = new BMap.Point(result["request"][i]["longitude"], result["request"][i]["latitude"]);
                     marker = new BMap.Marker(new_point, {title: result.request[i].name});
                     marker.addEventListener("click", showInfo.bind(this, result["request"][i]));
                     map.addOverlay(marker);
                     setMarkerAnimation(marker);
+                    let listItem = genListItem(result.request[i]);
+                    $("#ordered-list-requests").append(listItem);
                 }
                 map.centerAndZoom(new_point, 15);
+                $("#ordered-list-requests li").click(function () {
+                    initRequestInfo($(this).attr("id").substring(3));
+                })
             } else if (parseInt(result["status"].toString()) === 1) {
+                requests = [];
                 map.clearOverlays();
+                $("#ordered-list-requests").empty();
                 //地图中心设置为重庆大学
                 let point = new BMap.Point(106.475, 29.571);
                 map.centerAndZoom(point, 15);
@@ -59,25 +61,18 @@ function flashMap(trigger) {
 }
 
 function showInfo(request) {
-    $("#info_table>tbody>tr:nth-child(1)>th:nth-child(2)").text(request["rid"]);
-    $("#info_table>tbody>tr:nth-child(2)>th:nth-child(2)").text(request["name"]);
-    $("#info_table>tbody>tr:nth-child(3)>th:nth-child(2)").text(request["startTime"]);
-    $("#info_table>tbody>tr:nth-child(4)>th:nth-child(2)").text(request["status"]);
-    $("#info_table>tbody>tr:nth-child(5)>th:nth-child(2)").text(request["location"]);
-    if($("#request_info>button").length === 0) {
-        var button1 = "<button class=\"btn btn-primary\" data-toggle='modal' data-target='#dispatch'>确认</button>";
-        $("#request_info").append(button1);
-    }
+    initRequestInfo(request.rid.toString());
+    $("#dispatch").modal("show");
 }
 
 function goToDispatch() {
-    var rid = $("#request-table tbody tr:nth-child(1) th:nth-child(2)").text();
+    let rid = $("#request_info table").attr("id").substring(3);
     window.location.href = "Dispatch?rid=" + rid;
 }
 
 function rejectRequest() {
-    var rid = $("#request-table tbody tr:nth-child(1) th:nth-child(2)").text();
-    var rejectReason = $("#reject_reason").val();
+    let rid = $("#request_info table").attr("id").substring(3);
+    let rejectReason = $("#reject_reason").val();
 
     $.ajax({
         type: "post",
@@ -88,11 +83,6 @@ function rejectRequest() {
             $("#reject").modal("hide");
             if(parseInt(result["status"].toString()) === 0) {
                 alertSuccess("请求成功");
-                $("#info_table>tbody>tr:nth-child(1)>th:nth-child(2)").text("");
-                $("#info_table>tbody>tr:nth-child(2)>th:nth-child(2)").text("");
-                $("#info_table>tbody>tr:nth-child(3)>th:nth-child(2)").text("");
-                $("#info_table>tbody>tr:nth-child(4)>th:nth-child(2)").text("");
-                $("#info_table>tbody>tr:nth-child(5)>th:nth-child(2)").text("");
             } else {
                 alertWarning("请求失败");
             }
@@ -100,54 +90,26 @@ function rejectRequest() {
     });
 }
 
-function getRequestsList() {
-    $.ajax({
-        type: "post",
-        url: "requestList.jsp",
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({"request-type": "getRequests"}),
-        success: function (result) {
-            if (parseInt(result["status"].toString()) === 0) {
-                for(let i = 0; i < result.request.length; i++) {
-                    let listItem = genListItem(result.request[i]);
-                    $("#ordered-list-requests").append(listItem);
-                }
-                $("#ordered-list-requests li>a").click(function () {
-                    $("#info_table>tbody>tr:nth-child(1)>th:nth-child(2)").text($(this).next().attr("id"));
-                    $("#info_table>tbody>tr:nth-child(2)>th:nth-child(2)").text($(this).next().find("tr:nth-child(1)").find("th:nth-child(2)").text());
-                    $("#info_table>tbody>tr:nth-child(5)>th:nth-child(2)").text($(this).next().find("tr:nth-child(2)").find("th:nth-child(2)").text());
-                    $("#info_table>tbody>tr:nth-child(3)>th:nth-child(2)").text($(this).next().find("tr:nth-child(3)").find("th:nth-child(2)").text());
-                    $("#info_table>tbody>tr:nth-child(4)>th:nth-child(2)").text($(this).next().find("tr:nth-child(4)").find("th:nth-child(2)").text());
-                })
-            }
-            else {
-                alertWarning("地图刷新失败！");
-            }
-        }
-    });
-}
-
 function genListItem(request) {
     let item;
-    let collapseID = request.rid;
-    let collapseItem;
 
-    item = "<li class='list-group-item'> <a data-toggle='collapse' href='#" + collapseID + "' aria-expanded='false'" +
-        " aria-controls='" + collapseID + "'>时间: " + request.startTime
-        + "<span style='margin-left: 50%'>状态: " + request.status + "</span></a>";
-    collapseItem = "<div id='" + collapseID + "' class='collapse'>" +
-        "<table class='table-bordered table-condensed'><tbody>" + "<tr><th>客户</th><th>" + request.name +"</th></tr>" +
-        "<tr><th>位置</th><th>" + request.location +"</th></tr>" +
-        "<tr><th>时间</th><th>" + request.startTime +"</th></tr>" +
-        "<tr><th>状态</th><th>" + request.status +"</th></tr>" +
-        "</tbody></table>" +
-        "<button class='btn btn-primary' onclick='hideList()' data-toggle='modal' data-target='#dispatch'>处理</button></div>" ;
-
-    item = item + collapseItem;
+    item = "<li class='list-group-item' id='li-"+ request.rid.toString() + "'> <a data-toggle='modal' href='#dispatch'>时间: " + request.startTime
+        + "<span style='margin-left: 10%'>状态: " + requestStatusCode[request.status.toString()] + "</span></a>";
 
     return item;
 }
 
-function hideList() {
-    $("#requests-list").modal("hide");
+function initRequestInfo(rid) {
+    let i;
+    for(i = 0; i < requests.length; i++){
+        if(rid === requests[i].rid.toString()) break;
+    }
+
+    let request = requests[i];
+
+    $("#request_info table").attr("id", "tb-" + rid);
+    $("#request_info tbody>tr:nth-child(1)>th:nth-child(2)").text(request["name"]);
+    $("#request_info tbody>tr:nth-child(2)>th:nth-child(2)").text(request["startTime"]);
+    $("#request_info tbody>tr:nth-child(3)>th:nth-child(2)").text(requestStatusCode[request["status"].toString()]);
+    $("#request_info tbody>tr:nth-child(4)>th:nth-child(2)").text(request["location"]);
 }
