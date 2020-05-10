@@ -6,6 +6,8 @@ import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 public class DispatchControllerImpl implements DispatchController {
     private static DaoService daoService;
@@ -88,5 +90,32 @@ public class DispatchControllerImpl implements DispatchController {
         }
 
         return 0;
+    }
+
+    @Override
+    public void getDispatches(HttpServletResponse response) {
+        JSONObject jsonResponse = new JSONObject();
+
+        List<DispatchInfo> dispatchInfos = daoService.getDao().getAllDispatchInfos();
+
+        if(dispatchInfos == null) {
+            jsonResponse.append("status", -1);
+        } else {
+            for(DispatchInfo dispatchInfo: dispatchInfos) {
+                HashMap<String, Object> map = mapModel.getMapDispatchInfo(dispatchInfo);
+                Customer customer = daoService.searchCustomer(dispatchInfo.getCid());
+                Staff staff = daoService.searchStaff(dispatchInfo.getSid());
+                if(customer != null) map.put("cname", customer.getName());
+                if(staff != null) map.put("sname", staff.getName());
+                if(jsonResponse.isNull("dispatches")) {
+                    jsonResponse.append("dispatches", map);
+                } else {
+                    jsonResponse.accumulate("dispatches", map);
+                }
+                jsonResponse.append("status", 0);
+            }
+        }
+
+        fileRequestService.setResponse(response, jsonResponse);
     }
 }

@@ -74,6 +74,25 @@ public class RequestControllerImpl implements RequestController {
             }
 
         }
+        else if(trigger == 2) {
+            int requestNumber = RequestList.getInstance().getLength();
+
+            if(requestNumber > 0) {
+                for(int i = 0; i < requestNumber; i++) {
+                    Request request = RequestList.getInstance().getRequest(i);
+
+                    if(jsonResponse.isNull("request")) {
+                        jsonResponse.append("request", mapModel.getMapRequest(request));
+                    }
+                    else {
+                        jsonResponse.accumulate("request", mapModel.getMapRequest(request));
+                    }
+                }
+                jsonResponse.append("status", 0);
+            } else {
+                jsonResponse.append("status", 1);
+            }
+        }
 
 
 

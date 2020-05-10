@@ -37,6 +37,8 @@
         JSONObject jsonRequest = new JSONObject(strRequest.toString());
         if ("dispatch".equals(jsonRequest.getString("request-type"))) {
             dispatchController.doDispatch(response, jsonRequest.getString("rid"), jsonRequest.getString("sid"));
+        } else if ("getDispatches".equals(jsonRequest.getString("request-type"))) {
+            dispatchController.getDispatches(response);
         }
     }
 } %>

@@ -1,6 +1,5 @@
 var map;
 var requests;
-const requestStatusCode = {"0": "初次申请", "1": "已派工", "-1": "用户已取消", "-2": "已拒绝" };
 
 $(function () {
     map = new BMap.Map("map_canvas");
@@ -19,11 +18,17 @@ $(function () {
         pagination: true,
         pageSize:10,
         sortName: "time",
+        height: 650,
+        paginationHAlign: "left",
+        search: true,
+        showSearchButton: true,
+        showSearchClearButton: true,
         onClickCell: function (field, value) {
             if(field === "action")
                 initRequestInfo($(value).attr("id").substring(3));
         }
-    })
+    });
+
     flashMap(1);
 })
 
@@ -39,7 +44,8 @@ function flashMap(trigger) {
                 requests = result.request;
                 //清空地图和列表里的过时数据
                 map.clearOverlays();
-                $("#ordered-list-requests tbody").empty();
+                $("#ordered-list-requests").bootstrapTable("removeAll");
+
                 let new_point;
                 let marker;
                 for (let i = 0; i < result["requestNumber"]; i++) {
@@ -49,13 +55,13 @@ function flashMap(trigger) {
                     map.addOverlay(marker);
                     setMarkerAnimation(marker);
                     let listItem = genListItem(result.request[i]);
-                    $("#ordered-list-requests").bootstrapTable('append', listItem);
+                    $("#ordered-list-requests").bootstrapTable('insertRow', {index: i+1, row: listItem});
                 }
                 map.centerAndZoom(new_point, 15);
             } else if (parseInt(result["status"].toString()) === 1) {
                 requests = [];
                 map.clearOverlays();
-                $("#ordered-list-requests tbody").empty();
+                $("#ordered-list-requests tbody").bootstrapTable("removeAll");
                 //地图中心设置为重庆大学
                 let point = new BMap.Point(106.475, 29.571);
                 map.centerAndZoom(point, 15);

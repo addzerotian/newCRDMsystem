@@ -62,22 +62,16 @@
                             <a href="MainPage">主页</a>
                         </li>
                         <li class="active">
-                            <a href="#">派工</a>
-                        </li>
-                        <li>
                             <a href="RequestManage">客户请求</a>
                         </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">其他操作<strong class="caret"></strong></a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="StaffManage">客服管理</a>
-                                </li>
-                                <li class="divider" ></li>
-                                <li>
-                                    <a href="AdminManage">管理员操作</a>
-                                </li>
-                            </ul>
+                        <li>
+                            <a href="StaffManage">客服管理</a>
+                        </li>
+                        <li>
+                            <a href="AdminManage">管理员操作</a>
+                        </li>
+                        <li>
+                            <a href="Stat">统计数据</a>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">

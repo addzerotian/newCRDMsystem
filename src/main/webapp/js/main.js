@@ -1,3 +1,5 @@
+const requestStatusCode = {"0": "初次申请", "1": "已派工", "-1": "用户已取消", "-2": "已拒绝" };
+
 function alertLoginNoUser() {
     window.alert("用户账号名/密码错误！");
     window.location.href = "index.jsp";

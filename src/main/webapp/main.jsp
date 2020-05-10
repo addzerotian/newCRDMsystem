@@ -54,7 +54,8 @@
             }
         }
     }
-    if(thisAdmin != null) { %>
+    if(thisAdmin != null) {
+%>
 <div class="container">
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="navbar-header">
@@ -79,6 +80,9 @@
                 </li>
                 <li>
                     <a href="AdminManage">管理员操作</a>
+                </li>
+                <li>
+                    <a href="Stat">统计数据</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

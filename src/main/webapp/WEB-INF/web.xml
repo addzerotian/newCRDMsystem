@@ -34,6 +34,10 @@
     <servlet-name>dispatch</servlet-name>
     <jsp-file>/dispatch.jsp</jsp-file>
   </servlet>
+  <servlet>
+    <servlet-name>statics</servlet-name>
+    <jsp-file>/statics.jsp</jsp-file>
+  </servlet>
   
   <!--servlet mapping-->
   <servlet-mapping>
@@ -63,6 +67,10 @@
   <servlet-mapping>
     <servlet-name>dispatch</servlet-name>
     <url-pattern>/Dispatch</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>statics</servlet-name>
+    <url-pattern>/Stat</url-pattern>
   </servlet-mapping>
 
   <!--security constraint -->
