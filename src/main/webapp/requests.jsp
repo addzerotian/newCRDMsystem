@@ -13,7 +13,7 @@
 %>
 <html>
 <head>
-    <title>客户响应及派工管理系统-客户请求</title>
+    <title>客户响应及派工管理系统-请求派工</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.staticfile.org/bootstrap-table/1.16.0/bootstrap-table.min.css" rel="stylesheet">
@@ -57,7 +57,7 @@
                             <a href="MainPage">主页</a>
                         </li>
                         <li class="active">
-                            <a href="RequestManage">客户请求</a>
+                            <a href="RequestManage">请求派工</a>
                         </li>
                         <li>
                             <a href="StaffManage">客服管理</a>
@@ -67,6 +67,9 @@
                         </li>
                         <li>
                             <a href="Stat">统计数据</a>
+                        </li>
+                        <li>
+                            <a href="CustomerManage">客户管理</a>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">

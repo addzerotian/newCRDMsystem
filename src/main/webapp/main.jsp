@@ -84,6 +84,9 @@
                 <li>
                     <a href="Stat">统计数据</a>
                 </li>
+                <li>
+                    <a href="CustomerManage">客户管理</a>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">

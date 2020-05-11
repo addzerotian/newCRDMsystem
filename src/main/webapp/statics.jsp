@@ -67,6 +67,9 @@
                         <li class="active">
                             <a href="Stat">统计数据</a>
                         </li>
+                        <li>
+                            <a href="CustomerManage">客户管理</a>
+                        </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
@@ -89,7 +92,14 @@
     </div>
     <div class="row clearfix" id="content">
         <div class="col-md-12 column">
-            <button type="button" class="btn btn-block" data-toggle="collapse" data-target="#requests-panel">折叠请求</button>
+            <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#requests-panel">折叠请求</button>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" onclick="flashRequests()">刷新</button>
+                </div>
+            </div>
             <div class="panel panel-info collapse in" id="requests-panel">
                 <div class="panel-heading">
                     <h5 class="panel-title text-center">
@@ -117,7 +127,14 @@
     </div>
     <div class="row clearfix">
         <div class="col-md-12 column">
-            <button type="button" class="btn btn-block" data-toggle="collapse" data-target="#dispatches-panel">折叠派工</button>
+            <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#dispatches-panel">折叠派工</button>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" onclick="flashDispatches()">刷新</button>
+                </div>
+            </div>
             <div class="panel panel-info collapse in" id="dispatches-panel">
                 <div class="panel-heading">
                     <h5 class="panel-title text-center">
@@ -150,7 +167,14 @@
     </div>
     <div class="row clearfix">
         <div class="col-md-12 column">
-            <button type="button" class="btn btn-block" data-toggle="collapse" data-target="#staffs-panel">折叠客服</button>
+            <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#staffs-panel">折叠客服</button>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" onclick="flashStaffs()">刷新</button>
+                </div>
+            </div>
             <div class="panel panel-info collapse in" id="staffs-panel">
                 <div class="panel-heading">
                     <h5 class="panel-title text-center">
