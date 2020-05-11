@@ -61,6 +61,17 @@ public class MapModelImpl implements MapModel {
     }
 
     @Override
+    public HashMap<String, Object> getMapCustomer(Customer customer) {
+        HashMap<String, Object> map = this.getMapUser(customer);
+
+        map.put("cid", customer.getCid());
+        map.put("totalRequestTimes", customer.getTotalRequestTimes());
+        map.put("totalDispatchTimes", customer.getTotalDispatchTimes());
+
+        return map;
+    }
+
+    @Override
     public HashMap<String, Object> getMapRequest(Request request) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("longitude", request.getLongitude());
