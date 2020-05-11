@@ -38,7 +38,11 @@
     <servlet-name>statics</servlet-name>
     <jsp-file>/statics.jsp</jsp-file>
   </servlet>
-  
+  <servlet>
+    <servlet-name>customer_management</servlet-name>
+    <jsp-file>/customer_management.jsp</jsp-file>
+  </servlet>
+
   <!--servlet mapping-->
   <servlet-mapping>
     <servlet-name>test</servlet-name>
@@ -71,6 +75,10 @@
   <servlet-mapping>
     <servlet-name>statics</servlet-name>
     <url-pattern>/Stat</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>customer_management</servlet-name>
+    <url-pattern>/CustomerManage</url-pattern>
   </servlet-mapping>
 
   <!--security constraint -->
