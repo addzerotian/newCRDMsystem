@@ -132,7 +132,9 @@ public class WxControllerImpl implements WxController {
             if(customer != null) {
                 jsonResponse.append("telephone", customer.getTelephone());
                 jsonResponse.append("email", customer.getEmail());
-                jsonResponse.append("birth", dateService.getStringFromDate(customer.getBirth(), StandardDateFormat.WEB_DF));
+                jsonResponse.append("name", customer.getName());
+                jsonResponse.append("gender", customer.getGender());
+                jsonResponse.append("birthday", dateService.getStringFromDate(customer.getBirth(), StandardDateFormat.WEB_DF));
                 jsonResponse.append("totalRequestTimes", customer.getTotalRequestTimes());
                 jsonResponse.append("totalDispatchTimes", customer.getTotalDispatchTimes());
                 jsonResponse.append("status", 1);
@@ -330,7 +332,12 @@ public class WxControllerImpl implements WxController {
         if(dispatchInfo == null) {
             jsonResponse.append("status", 0);
         } else {
-            jsonResponse.append("dispatch", mapModel.getMapDispatchInfo(dispatchInfo));
+            HashMap<String, Object> map = mapModel.getMapDispatchInfo(dispatchInfo);
+            Customer customer = daoService.searchCustomer(dispatchInfo.getCid());
+            Staff staff = daoService.searchStaff(dispatchInfo.getSid());
+            if(customer != null) map.put("cname", customer.getName());
+            if(staff != null) map.put("sname", staff.getName());
+            jsonResponse.append("dispatch", map);
             jsonResponse.append("status", 1);
         }
 
@@ -378,6 +385,29 @@ public class WxControllerImpl implements WxController {
                 jsonResponse.append("status", 0);
             else
                 jsonResponse.append("status", 1);
+        }
+
+        fileRequestService.setResponse(response, jsonResponse);
+    }
+
+    @Override
+    public void getAllCustomers(HttpServletResponse response) {
+        JSONObject jsonResponse = new JSONObject();
+
+        List<Customer> customers = daoService.getDao().getAllCustomers();
+
+        if(customers == null) {
+            jsonResponse.append("status", -1);
+        } else {
+            for(Customer customer: customers) {
+                if(jsonResponse.isNull("customers")) {
+                    jsonResponse.append("customers", mapModel.getMapCustomer(customer));
+                }
+                else {
+                    jsonResponse.accumulate("customers", mapModel.getMapCustomer(customer));
+                }
+            }
+            jsonResponse.append("status", 0);
         }
 
         fileRequestService.setResponse(response, jsonResponse);
