@@ -48,7 +48,7 @@ function flashRequests() {
         data: JSON.stringify({"request-type": "flushMap", "trigger": 2}),
         success: function (result) {
             //清空列表里的过时数据
-            $("#requests-table tbody").bootstrapTable("removeAll");
+            $("#requests-table").bootstrapTable("removeAll");
             if (parseInt(result["status"].toString()) === 0) {
                 for(let i = 0; i < result.request.length; i++) {
                     let row = {Rindex: i+1, Rname: result.request[i].name, Rtime: result.request[i].startTime,
@@ -76,7 +76,7 @@ function flashDispatches() {
         data: JSON.stringify({"request-type": "getDispatches"}),
         success: function (result) {
             //清空列表里的过时数据
-            $("#dispatches-table tbody").bootstrapTable("removeAll");
+            $("#dispatches-table").bootstrapTable("removeAll");
             if (parseInt(result["status"].toString()) === 0) {
                 for(let i = 0; i < result.dispatches.length; i++) {
                     let row = {Dindex: i+1, Dcname: result.dispatches[i].cname, Dsname: result.dispatches[i].sname,
@@ -106,7 +106,7 @@ function flashStaffs() {
         data: JSON.stringify({"request-type": "flushStaff"}),
         success: function (result) {
             //清空列表里的过时数据
-            $("#staffs-table tbody").bootstrapTable("removeAll");
+            $("#staffs-table").bootstrapTable("removeAll");
             if (parseInt(result["status"].toString()) === 0) {
                 for(let i = 0; i < result.staffs.length; i++) {
                     let row = {Sindex: i+1, Sid: result.staffs[i].sid, Sname: result.staffs[i].name,
