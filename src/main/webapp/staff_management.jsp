@@ -17,6 +17,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.staticfile.org/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/bootstrap-table/1.16.0/bootstrap-table.min.css" rel="stylesheet">
     <link href="css/bmap.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
@@ -26,6 +27,8 @@
     <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=Lm1k2R6SybtdXGL0bFhbdQM8rG6DQDvs"></script>
     <script src="https://cdn.staticfile.org/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdn.staticfile.org/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script src="https://cdn.staticfile.org/bootstrap-table/1.16.0/bootstrap-table.min.js"></script>
+    <script src="https://cdn.staticfile.org/bootstrap-table/1.16.0/locale/bootstrap-table-zh-CN.min.js"></script>
     <script src="js/alertBox.js"></script>
     <script src="js/main.js"></script>
     <script src="js/staff_management.js"></script>
@@ -101,96 +104,38 @@
         </div>
     </div>
     <div class="row clearfix" id="content">
-        <div class="col-md-4 column">
-            <div class="panel panel-info" id="staff_info">
-                <div class="panel-heading" id="staff_info_heading">
+        <div class="col-md-6 column">
+            <div class="panel panel-info" id="staffs_panel">
+                <div class="panel-heading">
                     <h5 class="panel-title text-center">
-                        客服信息
+                        客服列表
                     </h5>
                 </div>
-                <div class="panel-body" id="staff_info_body">
+                <div class="panel-body">
                 </div>
-                <table class="table table-bordered table-condensed" id="staff_table">
+                <table class="table table-bordered table-condensed" id="staffs-table">
                     <thead>
                     <tr>
-                        <th class="text-center">属性</th>
-                        <th class="text-center">值</th>
+                        <th class="text-center" data-field="name" data-sortable="true">客服</th>
+                        <th class="text-center" data-field="gender" data-sortable="true">性别</th>
+                        <th class="text-center" data-field="telephone" data-sortable="true">电话</th>
+                        <th class="text-center" data-field="status" data-sortable="true">状态</th>
+                        <th class="text-center" data-field="action">操作</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr>
-                        <th class="text-center">客服ID</th>
-                        <th class="text-center"></th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">姓名</th>
-                        <th class="text-center"></th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">生日</th>
-                        <th class="text-center"></th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">性别</th>
-                        <th class="text-center"></th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">电话</th>
-                        <th class="text-center"></th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">邮箱</th>
-                        <th class="text-center"></th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">出勤次数(总)</th>
-                        <th class="text-center"></th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">出勤时长(总)</th>
-                        <th class="text-center"></th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">出勤评价(总)</th>
-                        <th class="text-center"></th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">缺勤次数(总)</th>
-                        <th class="text-center"></th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">出勤次数(月)</th>
-                        <th class="text-center"></th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">出勤时长(月)</th>
-                        <th class="text-center"></th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">出勤评价(月)</th>
-                        <th class="text-center"></th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">缺勤次数(月)</th>
-                        <th class="text-center"></th>
-                    </tr>
-                    <tr>
-                        <th class="text-center">当前状态</th>
-                        <th class="text-center"></th>
-                    </tr>
-                    </tbody>
+                    <tbody></tbody>
                 </table>
-                <div class="panel-footer" id="staff_info_footer">
+                <div class="panel-footer">
                 </div>
             </div>
         </div>
-        <div class="col-md-8 column">
+        <div class="col-md-6 column">
             <div class="btn-group btn-group-justified">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#map_canvas">折叠地图</button>
                 </div>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary" onclick="flushStaffInfo()">刷新地图</button>
+                    <button type="button" class="btn btn-primary" onclick="flushStaffInfo()">刷新</button>
                 </div>
             </div>
             <div class="collapse in" id="map_canvas"></div>
@@ -350,6 +295,91 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                             <button type="button" class="btn btn-primary" onclick="modifyStaff()">提交</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="staff_info" aria-labelledby="modal_label_4" aria-hidden="true" tabindex="-1" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="modal_label_4">客服信息</h4>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table table-bordered" id="staff_table">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">属性</th>
+                                    <th class="text-center">值</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th class="text-center">客服ID</th>
+                                    <th class="text-center"></th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">姓名</th>
+                                    <th class="text-center"></th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">生日</th>
+                                    <th class="text-center"></th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">性别</th>
+                                    <th class="text-center"></th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">电话</th>
+                                    <th class="text-center"></th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">邮箱</th>
+                                    <th class="text-center"></th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">出勤次数(总)</th>
+                                    <th class="text-center"></th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">出勤时长(总)</th>
+                                    <th class="text-center"></th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">出勤评价(总)</th>
+                                    <th class="text-center"></th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">缺勤次数(总)</th>
+                                    <th class="text-center"></th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">出勤次数(月)</th>
+                                    <th class="text-center"></th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">出勤时长(月)</th>
+                                    <th class="text-center"></th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">出勤评价(月)</th>
+                                    <th class="text-center"></th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">缺勤次数(月)</th>
+                                    <th class="text-center"></th>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">当前状态</th>
+                                    <th class="text-center"></th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#modify_staff">修改信息</button>
                         </div>
                     </div>
                 </div>

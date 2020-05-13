@@ -1,4 +1,5 @@
 var map;
+var staffs;
 const idleIcon = new BMap.Icon("img/icon/marker_yellow.png", new BMap.Size(23, 25));
 const busyIcon = new BMap.Icon("img/icon/marker_red.png", new BMap.Size(23, 25));
 
@@ -25,12 +26,34 @@ $(function () {
         clearBtn: true
     });
 
+    $("#staffs-table").bootstrapTable({
+        pagination: true,
+        pageSize:10,
+        sortName: "name",
+        height: 650,
+        paginationHAlign: "left",
+        search: true,
+        showSearchButton: true,
+        showSearchClearButton: true,
+        undefinedText: "未知",
+        onClickCell: function (field, value) {
+            if(field === "action")
+                initStaffInfo($(value).attr("id").substring(3));
+        }
+    });
+
     $("#modify_staff").on("shown.bs.modal", function () {
         $("#modify_sid").val($("#staff_table>tbody>tr:nth-child(1)>th:nth-child(2)").text());
         $("#modify_sname").val($("#staff_table>tbody>tr:nth-child(2)>th:nth-child(2)").text());
-        $("#modify_birth").val($("#staff_table>tbody>tr:nth-child(3)>th:nth-child(2)").text());
-        $("#modify_telephone").val($("#staff_table>tbody>tr:nth-child(5)>th:nth-child(2)").text());
-        $("#modify_email").val($("#staff_table>tbody>tr:nth-child(6)>th:nth-child(2)").text());
+        if($("#staff_table>tbody>tr:nth-child(3)>th:nth-child(2)").text() !== "未知")
+            $("#modify_birth").val($("#staff_table>tbody>tr:nth-child(3)>th:nth-child(2)").text());
+        else $("#modify_birth").val("");
+        if($("#staff_table>tbody>tr:nth-child(5)>th:nth-child(2)").text() !== "未知")
+            $("#modify_telephone").val($("#staff_table>tbody>tr:nth-child(5)>th:nth-child(2)").text());
+        else $("#modify_telephone").val("");
+        if($("#staff_table>tbody>tr:nth-child(6)>th:nth-child(2)").text() !== "未知")
+            $("#modify_email").val($("#staff_table>tbody>tr:nth-child(6)>th:nth-child(2)").text());
+        else $("#modify_email").val("");
 
         const gender = $("#staff_table>tbody>tr:nth-child(4)>th:nth-child(2)").text();
         if(gender === "男") $("#modify_sex_male").prop("checked", true);
@@ -127,15 +150,23 @@ function searchStaff() {
             let marker;
             $("#search_staff").modal("hide");
             if (parseInt(result["status"].toString()) === 0) {
-                showInfo(result["staff"][0]);
+                staffs = result.staff;
+                $("#staffs-table").bootstrapTable("removeAll");
                 map.clearOverlays();
                 let location = getStaffCurrentLocation(sid);
                 let point = new BMap.Point(location.longitude, location.latitude);
                 marker = new BMap.Marker(point, {title: result["staff"][0].name});
+                marker.addEventListener("click", showInfo.bind(this, result.staff[0]));
                 map.addOverlay(marker);
+                setMarkerAnimation(marker);
                 map.centerAndZoom(point, 15);
+
+                let row = genlistItem(result.staff[0]);
+                $("#staffs-table").bootstrapTable("append", row);
             }
             else if(parseInt(result["status"].toString()) === 1) {
+                staffs = result.staffs;
+                $("#staffs-table").bootstrapTable("removeAll");
                 map.clearOverlays();
                 let new_point;
                 for (var i = 0; i < result["staffNumber"]; i++) {
@@ -147,6 +178,9 @@ function searchStaff() {
                         marker = new BMap.Marker(new_point, {icon: busyIcon, title: result["staffs"][i].name});
                     marker.addEventListener("click", showInfo.bind(this, result["staffs"][i]));
                     map.addOverlay(marker);
+                    setMarkerAnimation(marker);
+                    let row = genlistItem(result.staffs[i]);
+                    $("#staffs-table").bootstrapTable("append", row);
                 }
                 map.panTo(new_point);
                 map.centerAndZoom(new_point, 15);
@@ -235,7 +269,9 @@ function flushStaffInfo() {
         data: JSON.stringify({"request-type": "flushStaff"}),
         success: function (result) {
             if (parseInt(result["status"].toString()) === 0) {
+                staffs = result.staffs;
                 map.clearOverlays();
+                $("#staffs-table").bootstrapTable("removeAll");
                 let new_point;
                 let marker;
                 for (var i = 0; i < result["staffNumber"]; i++) {
@@ -248,6 +284,9 @@ function flushStaffInfo() {
                     marker.addEventListener("click", showInfo.bind(this, result["staffs"][i]));
                     map.addOverlay(marker);
                     setMarkerAnimation(marker);
+
+                    let row = genlistItem(result.staffs[i]);
+                    $("#staffs-table").bootstrapTable("append", row);
                 }
                 map.centerAndZoom(new_point, 10);
             } else {
@@ -261,6 +300,23 @@ function flushStaffInfo() {
 }
 
 function showInfo(staff) {
+    initStaffInfo(staff.sid);
+    $("#staff_info").modal("show");
+}
+
+function initStaffInfo(sid) {
+    let i;
+    for(i = 0; i < staffs.length; i++){
+        if(sid === staffs[i].sid.toString()) break;
+    }
+
+    let staff = staffs[i];
+
+    let names = Object.keys(staff);
+    for(let j in names) {
+        if(staff[names[j]] === "") staff[names[j]] = "未知";
+    }
+
     let gender, avatarURL, status;
     if(staff["gender"].toString() === "male") gender = "男";
     else if(staff["gender"].toString() === "female") gender = "女";
@@ -287,13 +343,16 @@ function showInfo(staff) {
     $("#staff_table>tbody>tr:nth-child(14)>th:nth-child(2)").text(staff["absenceMonth"]);
     $("#staff_table>tbody>tr:nth-child(15)>th:nth-child(2)").text(status);
 
-    if($("#staff_avatar").length === 0) $("#staff_info_body").append("<img class=\"avatar\" id=\"staff_avatar\" alt=\"\">");
+    if($("#staff_avatar").length === 0) $("#staff_info .modal-body").prepend("<img class=\"avatar\" id=\"staff_avatar\" alt=\"\">");
     $("#staff_avatar").attr("src", avatarURL);
-    if($("#staff_info_footer>button").length === 0) {
-        var button1 = "<button class=\"btn btn-primary\">修改信息</button>";
-        $("#staff_info_footer").append(button1);
-        $("#staff_info_footer button").attr("style", "margin-left: 70%");
-        $("#staff_info_footer button").attr("data-toggle", "modal");
-        $("#staff_info_footer button").attr("data-target", "#modify_staff");
-    }
+}
+
+function genlistItem(staff) {
+    let item;
+    let button = "<button class='btn btn-group' data-toggle='modal' data-target='#staff_info' id='bt-" + staff.sid.toString() +
+        "'>查看</button>";
+    item = {name: staff.name === ""?"未知":staff.name, status: staff.status === ""?"未知":staff.status,
+        gender: staff.gender === ""?"未知":staff.gender, telephone: staff.telephone === ""?"未知":staff.telephone, action: button};
+
+    return item;
 }
