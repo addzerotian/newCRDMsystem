@@ -101,7 +101,7 @@
             <div class="panel panel-info collapse in" id="customers-panel">
                 <div class="panel-heading">
                     <h5 class="panel-title text-center">
-                        所有客服
+                        所有客户
                     </h5>
                 </div>
                 <div class="panel-body">
